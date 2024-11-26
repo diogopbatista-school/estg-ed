@@ -1,0 +1,78 @@
+package Game.Entities;
+
+import Game.Enumerations.ItemType;
+import Interfaces.Item;
+
+/**
+ * Represents an item in the game
+ */
+public class ItemImp implements Item {
+    /**
+     * The name of the room the item is in
+     */
+    private String roomName;
+
+    /**
+     * The points the item gives
+     */
+    private int points;
+
+    /**
+     * The type of the item
+     */
+    private ItemType type;
+
+    /**
+     * Constructor for the ItemImp class
+     * @param roomName The name of the room the item is in
+     * @param points The points the item gives
+     * @param type The type of the item
+     */
+    public ItemImp(String roomName, int points, String type) {
+        this.roomName = roomName;
+        this.points = points;
+        if(type == "kit de vida"){
+            this.type = ItemType.POTION;
+        } else if(type == "colete"){
+            this.type = ItemType.ARMOR;
+        }else{
+            this.type = ItemType.UNKNOWN;
+        }
+    }
+
+    /**
+     * Getter for the name of the item
+     * @return The name of the item
+     */
+    @Override
+    public String getNameItem() {
+        return this.type.toString();
+    }
+
+    /**
+     * Getter for the room name the item is in
+     * @return The name of the room the item is in
+     */
+    @Override
+    public String getRoomName() {
+        return roomName;
+    }
+
+    /**
+     * Getter for the points the item gives
+     * @return The points the item gives
+     */
+    @Override
+    public int getPoints() {
+        return points;
+    }
+
+    /**
+     * Getter for the type of the item
+     * @return The type of the item
+     */
+    @Override
+    public ItemType getType() {
+        return type;
+    }
+}

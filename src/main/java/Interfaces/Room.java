@@ -1,0 +1,67 @@
+package Interfaces;
+
+import Game.Exceptions.*;
+
+/**
+ * Represents a room in the game
+ */
+public interface Room {
+    /**
+     * Adds an enemy to the room
+     * @param enemy the enemy to add
+     * @throws EnemyException if the enemy is invalid or null
+     */
+    public void addEnemy(Enemy enemy) throws EnemyException;
+
+    /**
+     * Adds a hero to the room
+     * @param hero the hero to add
+     * @throws HeroException if the hero is invalid or null
+     */
+    public void addHero(Hero hero) throws HeroException;
+
+    /**
+     * Removes a hero from the room
+     */
+    public void removeHero();
+
+    /**
+     * Adds a target to the room
+     * @param target the target to add
+     * @throws TargetException if the target is invalid or null
+     */
+    public void addTarget(Target target) throws TargetException;
+
+    /**
+     * Removes a target from the room
+     * @param target the target to remove
+     * @throws TargetException if the target is invalid or null
+     */
+    public void removeTarget(Target target) throws TargetException;
+
+    /**
+     * Adds an item to the room
+     * @param item the item to add
+     * @throws ItemException if the item is invalid or null
+     */
+    public void addItem(Item item) throws ItemException;
+
+    /**
+     * Removes an item from the room
+     * @param item the item to remove
+     * @throws ItemException if the item is invalid or null
+     */
+    public void removeItem(Item item) throws ItemException;
+
+    /**
+     * Simulation of the fight between the hero and the enemies in the room
+     */
+    public void fight();
+
+    /**
+     * Returns the name of the room
+     * @return the name of the room
+     */
+    public String getRoomName();
+
+}
