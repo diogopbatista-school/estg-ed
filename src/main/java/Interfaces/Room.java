@@ -66,4 +66,8 @@ public interface Room {
      */
     public String getRoomName();
 
+    public void setInAndOut(Boolean isInAndOut);
+
+    public boolean isIsAndOut();
+
 }

@@ -16,6 +16,7 @@ public class RoomImp implements Room {
     private String roomName;
     private Boolean heroHasAttackPriority;
     private int totalRoomPower;
+    private Boolean isInAndOut;
 
     public RoomImp(String roomName) {
         this.enemies = new LinkedQueue<>();
@@ -25,6 +26,7 @@ public class RoomImp implements Room {
         this.roomName = roomName;
         this.heroHasAttackPriority = true;
         this.totalRoomPower = 0;
+        this.isInAndOut = false;
     }
 
     /**
@@ -51,6 +53,8 @@ public class RoomImp implements Room {
     public void removeEnemy(Enemy enemy) throws EmptyCollectionException {
 
     }
+
+
 
     @Override
     public void addHero(Hero hero) throws HeroException {
@@ -102,5 +106,24 @@ public class RoomImp implements Room {
     @Override
     public String getRoomName() {
         return this.roomName;
+    }
+
+    
+    /**
+     * Sets the boolean flag indicating if the room is an in and out room.
+     * @param isInAndOut Boolean value to set the room as in and out (true) or not (false)
+     */
+    @Override
+    public void setInAndOut(Boolean isInAndOut) {
+        this.isInAndOut = isInAndOut;
+    }
+
+    /**
+     * Checks if the room is an in and out room.
+     * @return true if the room is an in and out, false otherwise.
+     */
+    @Override
+    public boolean isIsAndOut() {
+        return isInAndOut;
     }
 }
