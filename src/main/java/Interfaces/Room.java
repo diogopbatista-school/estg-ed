@@ -1,11 +1,13 @@
 package Interfaces;
 
+import Game.Enumerations.ItemType;
 import Game.Exceptions.*;
 
 /**
  * Represents a room in the game
  */
 public interface Room {
+
 
 
     /**
@@ -50,10 +52,12 @@ public interface Room {
 
     /**
      * Removes an item from the room
-     * @param item the item to remove
+     * @param itemToRemove the item to remove
+     * @param it the type of the item
+     * @param hero the hero to add the item to
      * @throws ItemException if the item is invalid or null
      */
-    public void removeItem(Item item) throws ItemException;
+    public void removeItem(Item itemToRemove, ItemType it, Hero hero) throws ItemException;
 
     /**
      * Simulation of the fight between the hero and the enemies in the room

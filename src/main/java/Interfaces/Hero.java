@@ -8,11 +8,17 @@ import Game.Exceptions.ItemException;
 public interface Hero extends Character{
 
     /**
+     * Method that verifies if the hero's backpack is full
+     * @return true if the backpack is full, false otherwise
+     */
+    public boolean isBackPackFull();
+
+    /**
      * Method adds a new item to the hero's backpack with the FILO principle
      * @param item the item to add
      * @throws ItemException if the item is invalid or null
      */
-    public void addItem(Item item) throws ItemException;
+    public void addToBackPack(Item item) throws ItemException;
 
     /**
      * Method uses an item from the hero's backpack

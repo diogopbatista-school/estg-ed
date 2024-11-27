@@ -28,15 +28,17 @@ public class EnemyImp implements Enemy {
      */
     private String roomName;
 
+
+
     /**
      * Constructor for EnemyImp
      * @param name The name of the enemy
      * @param attackPower The attack power of the enemy
      * @param RoomName The name of the room the enemy is in
      */
-    public EnemyImp(String name,int attackPower, String RoomName){
+    public EnemyImp(String name,int attackPower, String RoomName,int health ){
         this.name = name;
-        this.health = 100;
+        this.health = health;
         this.attackPower = attackPower;
         this.roomName = RoomName;
     }
@@ -112,7 +114,7 @@ public class EnemyImp implements Enemy {
         if(character == null || character instanceof Enemy){
             throw new IllegalArgumentException("Character must be valid");
         }
-        this.setHealth(this.getHealth() - character.getAttackPower());
+        character.setHealth(character.getHealth() - this.getAttackPower());
     }
 
     /**

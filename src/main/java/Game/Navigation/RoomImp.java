@@ -2,24 +2,28 @@ package Game.Navigation;
 
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Lists.ArrayUnorderedList;
+import Collections.Lists.UnorderedListADT;
 import Collections.Queues.LinkedQueue;
 import Collections.Queues.QueueADT;
+import Game.Enumerations.ItemType;
 import Game.Exceptions.*;
 import Interfaces.*;
 
+import java.util.Iterator;
+
 public class RoomImp implements Room {
 
-    private QueueADT<Enemy> enemies;
+    private UnorderedListADT<Enemy> enemies;
     private Hero hero;
     private Target target;
-    private ArrayUnorderedList<Item> items;
+    private UnorderedListADT<Item> items;
     private String roomName;
     private Boolean heroHasAttackPriority;
     private int totalRoomPower;
     private Boolean isInAndOut;
 
     public RoomImp(String roomName) {
-        this.enemies = new LinkedQueue<>();
+        this.enemies = new ArrayUnorderedList<>();
         this.target = null;
         this.items = new ArrayUnorderedList<>();
         this.hero = null;
@@ -46,12 +50,13 @@ public class RoomImp implements Room {
 
         this.totalRoomPower += enemy.getAttackPower();
 
-        this.enemies.enqueue(enemy);
+        this.enemies.addToFront(enemy); // sempre adicionar na frente pois os primeiros ataques o inicio tem mais probabilidade
+        // de falecer primeiro , entao a remoçao no meio da lista é mais eficiente
 
     }
 
     public void removeEnemy(Enemy enemy) throws EmptyCollectionException {
-
+        // logica para adicionar os inimigos derrotados a uma coleçao da network
     }
 
 
@@ -88,8 +93,33 @@ public class RoomImp implements Room {
     }
 
     @Override
-    public void removeItem(Item item) throws ItemException {
-        this.items.remove(item);
+    public void removeItem(Item itemToRemove, Hero hero) throws ItemException { // iterar todos os items da sala
+        if (itemToRemove == null || itemToRemove.getType() == ItemType.UNKNOWN) {
+            throw new ItemException("Item cannot be null/unknown");
+        }
+
+        if (hero.isBackPackFull()) {
+            throw new ItemException("Backpack is full");
+        }
+
+        Item removedItem = removeItemByType(it);
+        if (removedItem == null) {
+            throw new ItemException("No item of type " + it + " found in the room");
+        }
+
+        hero.addToBackPack(removedItem);
+    }
+
+    private Item removeItemByType(ItemType it) {
+        Iterator<Item> iterator = items.iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getType().equals(it)) {
+                iterator.remove();
+                return item;
+            }
+        }
+        return null;
     }
 
     @Override

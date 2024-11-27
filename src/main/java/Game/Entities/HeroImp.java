@@ -40,17 +40,28 @@ public class HeroImp implements Hero {
 
     private ArrayStack<Item> backPack;
 
+    private boolean isBackPackFull;
+
 
     /**
      * Constructor for the HeroImp class
      */
-    public HeroImp(int attackPower, String roomName) {
+    public HeroImp(int attackPower, String roomName, int sizeBackPack) {
         this.name = "Tó Cruz"; // Em memoria ao grande Tom Cruise
         this.health = 100;
         this.armor = 100;
         this.attackPower = attackPower;
         this.roomName = roomName;
-        this.backPack = new ArrayStack<>();
+        this.backPack = new ArrayStack<>(sizeBackPack);
+        this.isBackPackFull = false;
+    }
+
+    /**
+     * Method that verifies if the hero's backpack is full
+     * @return true if the backpack is full, false otherwise
+     */
+    public boolean isBackPackFull() {
+        return this.isBackPackFull;
     }
 
     /**
@@ -59,7 +70,7 @@ public class HeroImp implements Hero {
      * @throws ItemException if the item is invalid or null
      */
     @Override
-    public void addItem(Item item) throws ItemException {
+    public void addToBackPack(Item item) throws ItemException {
         if(item == null){
             throw new IllegalArgumentException("Item must be valid");
         }
@@ -210,7 +221,7 @@ public class HeroImp implements Hero {
         if(character == null || character instanceof Hero){
             throw new IllegalArgumentException("Character must be valid");
         }
-        this.setHealth(this.getHealth() - character.getAttackPower());
+        character.setHealth(character.getHealth() - this.getAttackPower());
     }
 
     /**
