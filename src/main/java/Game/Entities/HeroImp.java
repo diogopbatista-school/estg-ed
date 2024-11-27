@@ -71,7 +71,7 @@ public class HeroImp implements Hero {
      * @return the item removed
      * @throws ItemException if the item is invalid or null
      */
-    public Item RemoveItem() throws ItemException {
+    private Item RemoveItem() throws ItemException {
         if(this.backPack.isEmpty()){
             throw new ItemException("Backpack is empty");
         }

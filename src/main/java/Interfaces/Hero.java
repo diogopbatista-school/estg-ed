@@ -15,13 +15,6 @@ public interface Hero extends Character{
     public void addItem(Item item) throws ItemException;
 
     /**
-     * Method removes an item from the hero's backpack
-     * @return the item removed
-     * @throws ItemException if the item is invalid or null
-     */
-    public Item RemoveItem() throws ItemException;
-
-    /**
      * Method uses an item from the hero's backpack
      */
     public void UseItem();

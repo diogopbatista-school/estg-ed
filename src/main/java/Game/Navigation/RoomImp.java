@@ -1,36 +1,55 @@
 package Game.Navigation;
 
+import Collections.Exceptions.EmptyCollectionException;
 import Collections.Lists.ArrayUnorderedList;
+import Collections.Queues.LinkedQueue;
+import Collections.Queues.QueueADT;
 import Game.Exceptions.*;
 import Interfaces.*;
 
 public class RoomImp implements Room {
 
-    private ArrayUnorderedList<Enemy> enemies;
+    private QueueADT<Enemy> enemies;
     private Hero hero;
-    private ArrayUnorderedList<Target> targets;
+    private Target target;
     private ArrayUnorderedList<Item> items;
     private String roomName;
+    private Boolean heroHasAttackPriority;
+    private int totalRoomPower;
 
     public RoomImp(String roomName) {
-        this.enemies = new ArrayUnorderedList<>();
-        this.targets = new ArrayUnorderedList<>();
+        this.enemies = new LinkedQueue<>();
+        this.target = null;
         this.items = new ArrayUnorderedList<>();
         this.hero = null;
         this.roomName = roomName;
+        this.heroHasAttackPriority = true;
+        this.totalRoomPower = 0;
+    }
+
+    /**
+     * Adds a target to the room
+     * @param target the target to add
+     */
+    public void addTargetToRoom(Target target) throws TargetException {
+        this.target = target;
     }
 
     @Override
     public void addEnemy(Enemy enemy) throws EnemyException {
+
         if(enemy == null){
             throw new EnemyException("Enemy cannot be null");
         }
 
-        if(this.enemies.contains(enemy)) {
-            throw new EnemyException("Enemy already exists in the room");
-        }
+        this.totalRoomPower += enemy.getAttackPower();
 
-        this.enemies.addToFront(enemy);
+        this.enemies.enqueue(enemy);
+
+    }
+
+    public void removeEnemy(Enemy enemy) throws EmptyCollectionException {
+
     }
 
     @Override
@@ -46,24 +65,14 @@ public class RoomImp implements Room {
         this.hero = null;
     }
 
-    @Override
-    public void addTarget(Target target) throws TargetException {
-        if(target == null){
-            throw new TargetException("Target cannot be null");
-        }
-
-        if(this.targets.contains(target)) {
-            throw new TargetException("Target already exists in the room");
-        }
-        this.targets.addToFront(target);
-    }
 
     @Override
     public void removeTarget(Target target) throws TargetException {
         if(target == null){
             throw new TargetException("Target cannot be null");
         }
-        this.targets.remove(target);
+
+        this.target = null;
     }
 
     @Override
@@ -82,6 +91,12 @@ public class RoomImp implements Room {
     @Override
     public void fight() {
 
+
+
+    }
+
+    public int getTotalRoomPower(){
+        return this.totalRoomPower;
     }
 
     @Override

@@ -6,6 +6,8 @@ import Game.Exceptions.*;
  * Represents a room in the game
  */
 public interface Room {
+
+
     /**
      * Adds an enemy to the room
      * @param enemy the enemy to add
@@ -30,7 +32,7 @@ public interface Room {
      * @param target the target to add
      * @throws TargetException if the target is invalid or null
      */
-    public void addTarget(Target target) throws TargetException;
+    public void addTargetToRoom(Target target) throws TargetException;
 
     /**
      * Removes a target from the room
