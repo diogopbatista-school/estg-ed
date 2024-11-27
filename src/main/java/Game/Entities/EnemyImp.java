@@ -23,44 +23,20 @@ public class EnemyImp implements Enemy {
      */
     private int attackPower;
 
-    /**
-     * The name of the room the enemy is in
-     */
-    private String roomName;
-
-
 
     /**
      * Constructor for EnemyImp
      * @param name The name of the enemy
      * @param attackPower The attack power of the enemy
-     * @param RoomName The name of the room the enemy is in
      */
-    public EnemyImp(String name,int attackPower, String RoomName,int health ){
+    public EnemyImp(String name,int attackPower,int health ){
         this.name = name;
         this.health = health;
         this.attackPower = attackPower;
-        this.roomName = RoomName;
     }
 
-    /**
-     * Getter for the name of the room the enemy is in
-     * @return The name of the room the enemy is in
-     */
-    public String getRoomName() {
-        return roomName;
-    }
-
-    /**
-     * Setter for the room name the character is going to be in
-     * @param roomName The name of the room the character is going to be in
-     * @throws IllegalArgumentException if the room name is invalid
-     */
-    public void setRoomName(String roomName) throws IllegalArgumentException {
-        if(roomName == null || roomName == ""){
-            throw new IllegalArgumentException("Room name must be valid");
-        }
-        this.roomName = roomName;
+    public boolean isDead(){
+        return this.health <= 0;
     }
 
     /**

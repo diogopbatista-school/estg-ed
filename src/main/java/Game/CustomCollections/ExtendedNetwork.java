@@ -1,0 +1,88 @@
+package Game.CustomCollections;
+
+import Collections.Exceptions.NoSuchElementException;
+import Collections.Graphs.Network;
+import Game.Navigation.RoomImp;
+import Interfaces.Room;
+
+public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT<T> {
+
+    public ExtendedNetwork() {
+        super();
+    }
+
+    @Override
+    public void addEdge(T vertex1, T vertex2) throws NoSuchElementException, IllegalArgumentException {
+        if (vertex1 == null || vertex2 == null) {
+            throw new IllegalArgumentException("The vertex cannot be null.");
+        }
+        Room local1 = (Room) vertex1;
+        Room local2 = (Room) vertex2;
+        int index1 = getIndex(vertex1);
+        int index2 = getIndex(vertex2);
+        if (index1 == -1 || index2 == -1) {
+            throw new NoSuchElementException("The vertex is not in the network.");
+        }
+        addEdge(index1, index2, ((RoomImp) vertex2).getTotalRoomPower());
+    }
+
+    @Override
+    public void addEdge(T room1, T room2, double weight) throws NoSuchElementException, IllegalArgumentException {
+        if (room1 == null || room2 == null) {
+            throw new IllegalArgumentException("The vertex cannot be null.");
+        }
+        int index1 = getIndex(room1);
+        int index2 = getIndex(room2);
+        if (index1 == -1 || index2 == -1) {
+            throw new NoSuchElementException("The vertex is not in the network.");
+        }
+        addEdge(index1, index2, weight);
+    }
+
+    @Override
+    public void updateWeight(T vertex1, T vertex2, double newWeight) {
+        if (areNeighbors(vertex1, vertex2)) {
+            int index1 = getIndex(vertex1);
+            int index2 = getIndex(vertex2);
+            adjMatrix[index1][index2] = newWeight;
+        } else {
+            throw new IllegalArgumentException("Vertices are not neighbors");
+        }
+    }
+
+    private boolean areNeighbors(T vertex1, T vertex2) {
+        int index1 = getIndex(vertex1);
+        int index2 = getIndex(vertex2);
+
+        if (indexIsValid(index1) && indexIsValid(index2)) {
+            return adjMatrix[index1][index2] < Double.POSITIVE_INFINITY;
+        } else {
+            throw new IllegalArgumentException("Invalid vertex index");
+        }
+    }
+
+    @Override
+    public boolean containsVertex(T vertex) throws IllegalArgumentException {
+        if (vertex == null) {
+            throw new IllegalArgumentException("The vertex cannot be null.");
+        }
+        return getIndex(vertex) != -1;
+    }
+
+    @Override
+    public Room getRoomByName(String name) {
+        for (int i = 0; i < numVertices; i++) {
+            Room room = (Room) vertices[i];
+            if (room.getRoomName().equals(name)) {
+                return room;
+            }
+        }
+        return null;
+    }
+
+
+    @Override
+    public Iterable<T> shortestPath(T vertex1, T vertex2) {
+        return null;
+    }
+}

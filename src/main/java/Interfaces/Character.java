@@ -38,16 +38,4 @@ public interface Character {
      */
     public void setAttackPower(int attackPower) throws IllegalArgumentException;
 
-    /**
-     * Setter for the room name the character is going to be in
-     * @param roomName The name of the room the character is going to be in
-     * @throws IllegalArgumentException if the room name is invalid
-     */
-    public void setRoomName(String roomName) throws IllegalArgumentException;
-
-    /**
-     * Getter for the room name the character is in
-     * @return The name of the room the character is in
-     */
-    public String getRoomName();
 }

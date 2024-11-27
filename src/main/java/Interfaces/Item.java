@@ -13,12 +13,6 @@ public interface Item {
     public String getNameItem();
 
     /**
-     * Getter of the room name the item is in
-     * @return The name of the room the item is in
-     */
-    public String getRoomName();
-
-    /**
      * Getter of the points the item gives
      * @return The points the item gives
      */

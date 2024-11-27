@@ -8,7 +8,13 @@ import Game.Exceptions.*;
  */
 public interface Room {
 
+    public void setEntryAndExit();
 
+    /**
+     * Getter for the room's power
+     * @return the room's power
+     */
+    public int getRoomPower();
 
     /**
      * Adds an enemy to the room
@@ -53,11 +59,10 @@ public interface Room {
     /**
      * Removes an item from the room
      * @param itemToRemove the item to remove
-     * @param it the type of the item
-     * @param hero the hero to add the item to
+     * @param hero the hero to add the item to ( backPack or add to armor bar)
      * @throws ItemException if the item is invalid or null
      */
-    public void removeItem(Item itemToRemove, ItemType it, Hero hero) throws ItemException;
+    public void removeItem(Item itemToRemove, Hero hero) throws ItemException;
 
     /**
      * Simulation of the fight between the hero and the enemies in the room

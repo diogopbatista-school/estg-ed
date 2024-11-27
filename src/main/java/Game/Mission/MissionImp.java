@@ -2,22 +2,22 @@ package Game.Mission;
 
 import Collections.Lists.ArrayUnorderedList;
 
+import Collections.Lists.LinkedUnorderedList;
+import Collections.Lists.UnorderedListADT;
 import Collections.Queues.LinkedQueue;
 import Collections.Queues.QueueADT;
 import Game.Exceptions.*;
+import Game.Navigation.MapImp;
 import Interfaces.*;
 
 public class MissionImp implements Mission {
 
-    /**
-     * adicionar depois uma variavel p dar storage aos rooms
-     */
 
     private String code;
     private int version;
-    private QueueADT<Enemy> enemies;
-    private Target target;
-    private ArrayUnorderedList<Item> items;
+    private Map map;
+
+
 
     /**
      * Constructor for the MissionImp class.
@@ -30,9 +30,15 @@ public class MissionImp implements Mission {
     public MissionImp(String cod_mission,int vers_mission) {
         this.code = cod_mission;
         this.version = vers_mission;
-        this.enemies = new LinkedQueue<>();
-        this.items = new ArrayUnorderedList<>();
-        this.target = null;
+        this.map = new MapImp();
+    }
+
+    /**
+     * Adds a room to the map
+     * @param map the map to add
+     */
+    public void addMap(Map map) {
+        this.map = map;
     }
 
     /**
@@ -55,54 +61,6 @@ public class MissionImp implements Mission {
         return version;
     }
 
-    /**
-     *
-     * FALTA FAZER O METODO P ADICIONAR ROOMS E AS SUAS LIGACOES
-     *
-     *
-     */
+    /** fazer depois com map */
 
-    /**
-     * Sets whether a room is an entrance/exit
-     * @param room the room to update
-     * @param isInAndOut boolean value indicating if the room is an entrance/exit
-     * @throws RoomException if the room is null
-     */
-    public void setRoomInAndOut(Room room, Boolean isInAndOut) throws RoomException {
-        if (room != null) {
-            room.setInAndOut(isInAndOut);
-        } else {
-            throw new RoomException("Room cannot be null");
-        }
-    }
-
-    @Override
-    public void addEnemy(Room room, Enemy enemy) throws EnemyException {
-        if (room != null && enemy != null) {
-            room.addEnemy(enemy);
-            enemies.enqueue(enemy);
-        } else {
-            throw new EnemyException("Room or enemy cannot be null");
-        }
-    }
-
-    @Override
-    public void addTarget(Room room, Target target) throws TargetException {
-        if (room != null && target != null) {
-            room.addTargetToRoom(target);
-            this.target = target;
-        } else {
-            throw new TargetException("Room or target cannot be null");
-        }
-    }
-
-    @Override
-    public void addItem(Room room, Item item) throws ItemException {
-        if (room != null && item != null) {
-            room.addItem(item);
-            items.addToFront(item);
-        } else {
-            throw new ItemException("Room or item cannot be null");
-        }
-    }
 }

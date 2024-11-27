@@ -2,6 +2,7 @@ package Game.Navigation;
 
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Lists.ArrayUnorderedList;
+import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
 import Collections.Queues.LinkedQueue;
 import Collections.Queues.QueueADT;
@@ -23,7 +24,7 @@ public class RoomImp implements Room {
     private Boolean isInAndOut;
 
     public RoomImp(String roomName) {
-        this.enemies = new ArrayUnorderedList<>();
+        this.enemies = new LinkedUnorderedList<>();
         this.target = null;
         this.items = new ArrayUnorderedList<>();
         this.hero = null;
@@ -31,6 +32,21 @@ public class RoomImp implements Room {
         this.heroHasAttackPriority = true;
         this.totalRoomPower = 0;
         this.isInAndOut = false;
+    }
+
+    /**
+     * Sets the boolean flag indicating if the room is an in and out room
+     */
+    public void setEntryAndExit(){
+        this.isInAndOut = true;
+    }
+
+    /**
+     * Getter for the room's power
+     * @return the room's power
+     */
+    public int getRoomPower(){
+        return this.totalRoomPower;
     }
 
     /**
@@ -50,15 +66,13 @@ public class RoomImp implements Room {
 
         this.totalRoomPower += enemy.getAttackPower();
 
-        this.enemies.addToFront(enemy); // sempre adicionar na frente pois os primeiros ataques o inicio tem mais probabilidade
-        // de falecer primeiro , entao a remoçao no meio da lista é mais eficiente
+        if(this.enemies.isEmpty()){
+            this.enemies.addToFront(enemy);
+            return;
+        }
 
+        this.enemies.addAfter(enemy, this.enemies.last());
     }
-
-    public void removeEnemy(Enemy enemy) throws EmptyCollectionException {
-        // logica para adicionar os inimigos derrotados a uma coleçao da network
-    }
-
 
 
     @Override
@@ -94,27 +108,30 @@ public class RoomImp implements Room {
 
     @Override
     public void removeItem(Item itemToRemove, Hero hero) throws ItemException { // iterar todos os items da sala
+
         if (itemToRemove == null || itemToRemove.getType() == ItemType.UNKNOWN) {
             throw new ItemException("Item cannot be null/unknown");
         }
 
-        if (hero.isBackPackFull()) {
-            throw new ItemException("Backpack is full");
+        if (hero.isBackPackFull() && itemToRemove.getType().equals(ItemType.POTION)) {
+            return;
+        }else{
+            Item removedItem = removeItemByType(itemToRemove);
+            hero.addToBackPack(removedItem);
         }
 
-        Item removedItem = removeItemByType(it);
-        if (removedItem == null) {
-            throw new ItemException("No item of type " + it + " found in the room");
+        if(itemToRemove.getType().equals(ItemType.ARMOR)){
+            hero.healArmor(itemToRemove.getPoints());
+            return;
         }
 
-        hero.addToBackPack(removedItem);
     }
 
-    private Item removeItemByType(ItemType it) {
+    private Item removeItemByType(Item itemToRemove) {
         Iterator<Item> iterator = items.iterator();
         while (iterator.hasNext()) {
             Item item = iterator.next();
-            if (item.getType().equals(it)) {
+            if (item.getType().equals(itemToRemove.getType())) {
                 iterator.remove();
                 return item;
             }
