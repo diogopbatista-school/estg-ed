@@ -5,7 +5,6 @@ import Game.Entities.ItemImp;
 import Game.Entities.TargetImp;
 import Game.Exceptions.MapException;
 import Game.Exceptions.RoomException;
-import Game.Navigation.MapImp;
 import Game.Navigation.RoomImp;
 import Interfaces.*;
 import org.json.simple.JSONArray;
@@ -47,7 +46,7 @@ public class Importer {
         }
 
 
-        
+
         this.mission = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(PATH))));
         this.rooms = (JSONArray) mission.get("edificio");
         this.enemies = (JSONArray) mission.get("inimigos");
@@ -112,8 +111,7 @@ public class Importer {
                 String division = (String) jsonItem.get("divisao");
 
                 if (room.getRoomName().equals(division)) {
-                    Item item = new ItemImp(power, name);
-                    room.addItem(item);
+                    room.addItem(new ItemImp(power, name));
                 }
             }
         } catch (Exception e) {
