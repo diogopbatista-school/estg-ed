@@ -159,8 +159,7 @@ public class RoomImp implements Room {
             System.out.println("No Enemies in the room to fight.");
             return;
         }
-
-        // Prioridade de ataque: Hero ataca primeiro
+        
         if (heroHasAttackPriority) {
             heroPhase();
             if (!allEnemiesDead()) {
