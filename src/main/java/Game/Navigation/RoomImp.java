@@ -20,7 +20,6 @@ public class RoomImp implements Room {
     private UnorderedListADT<Item> items;
     private String roomName;
     private Boolean heroHasAttackPriority;
-    private int totalRoomPower;
     private Boolean isInAndOut;
 
     public RoomImp(String roomName) {
@@ -30,7 +29,6 @@ public class RoomImp implements Room {
         this.hero = null;
         this.roomName = roomName;
         this.heroHasAttackPriority = true;
-        this.totalRoomPower = 0;
         this.isInAndOut = false;
     }
 
@@ -46,7 +44,17 @@ public class RoomImp implements Room {
      * @return the room's power
      */
     public int getRoomPower(){
-        return this.totalRoomPower;
+        int calculatedRoomPower = 0;
+
+        Iterator<Enemy> iterator = enemies.iterator();
+        while (iterator.hasNext()) {
+            Enemy enemy = iterator.next();
+            if (enemy.getHealth() > 0) {
+                calculatedRoomPower += enemy.getAttackPower();
+            }
+        }
+
+        return calculatedRoomPower;
     }
 
     /**
@@ -63,8 +71,6 @@ public class RoomImp implements Room {
         if(enemy == null){
             throw new EnemyException("Enemy cannot be null");
         }
-
-        this.totalRoomPower += enemy.getAttackPower();
 
         if(this.enemies.isEmpty()){
             this.enemies.addToFront(enemy);
@@ -159,7 +165,7 @@ public class RoomImp implements Room {
             System.out.println("No Enemies in the room to fight.");
             return;
         }
-        
+
         if (heroHasAttackPriority) {
             heroPhase();
             if (!allEnemiesDead()) {
@@ -250,10 +256,6 @@ public class RoomImp implements Room {
         }
 
         return true;
-    }
-
-    public int getTotalRoomPower(){
-        return this.totalRoomPower;
     }
 
     @Override
