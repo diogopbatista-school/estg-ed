@@ -140,15 +140,18 @@ public class RoomImp implements Room {
     }
 
     /**
-     * Simulates a fight between the hero and the enemies in the room. The fight follows
-     * a turn-based mechanism where either the hero or enemies have the attack priority.
-     * If no enemies are present or if all enemies are dead, a message is printed and the
-     * method returns. The method handles the following steps:
-     * - The hero attacks first if they have the attack priority.
-     * - The enemies attack if the hero does not have the attack priority.
-     * - Checks if the hero is dead after each attack phase.
-     * - Continues the fight recursively until all enemies are dead or the hero dies.
-     * - If there is at least one enemy alive after the Hero's attack, then calls method shuffle();
+     * Executes a turn-based fight sequence in the room.
+     * The method handles the logic for battling enemies within the room. It checks if there are enemies to fight or
+     * if the room is empty, printing a message if there are none. The fight sequence is divided into phases,
+     * with either the hero or the enemies attacking first based on attack priority. If the hero has priority,
+     * the hero attacks the enemies, and if any enemies are still alive, they counter-attack. Conversely, if the
+     * enemies have priority, they attack first, followed by a counter-attack from the hero if the hero is still
+     * alive.
+     *
+     * After each phase, the method checks if the hero has been defeated, printing a game over message if so.
+     * If all enemies are dead, a victory message is printed. If there are still enemies alive, then we call the method shuffle() and the fight sequence
+     * repeats recursively until all enemies are defeated.
+     *
      */
     @Override
     public void fight() {
@@ -160,8 +163,14 @@ public class RoomImp implements Room {
         // Prioridade de ataque: Hero ataca primeiro
         if (heroHasAttackPriority) {
             heroPhase();
+            if (!allEnemiesDead()) {
+                enemiesPhase(); // inimigos atacam se ainda estiverem vivos
+            }
         } else {
             enemiesPhase();
+            if (hero.getHealth() > 0) {
+                heroPhase(); // hero ataca se ainda estiver vivo
+            }
         }
 
         // Verificação se o herói está morto
