@@ -1,14 +1,11 @@
 package Game.Navigation;
 
-import Collections.Exceptions.EmptyCollectionException;
 import Collections.Lists.ArrayUnorderedList;
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
-import Collections.Queues.LinkedQueue;
-import Collections.Queues.QueueADT;
 import Game.Enumerations.ItemType;
 import Game.Exceptions.*;
-import Interfaces.*;
+import Game.Interfaces.*;
 
 import java.util.Iterator;
 
@@ -30,6 +27,10 @@ public class RoomImp implements Room {
         this.roomName = roomName;
         this.heroHasAttackPriority = true;
         this.isInAndOut = false;
+    }
+
+    public Iterator<Enemy> getEnemiesIterator() {
+        return enemies.iterator();
     }
 
     /**
@@ -92,6 +93,7 @@ public class RoomImp implements Room {
         }
 
         this.enemies.addAfter(enemy, this.enemies.last());
+        enemy.setCurrentRoom(this);
     }
 
 

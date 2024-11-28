@@ -1,10 +1,25 @@
-package Interfaces;
+package Game.Interfaces;
 
 
 /**
  * Represents a character in the game
  */
 public interface Character {
+
+    public void setInFight(boolean inFight);
+
+    /**
+     * Method verifies if the character is in fight
+     * @return true if the character is in fight, false otherwise
+     */
+    public boolean isInFight();
+
+    /**
+     * Returns the name of the character
+     * @return the name of the character
+     */
+    public String getName();
+
     /**
      * Returns the health of the character
      * @return the health of the character

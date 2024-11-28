@@ -1,9 +1,13 @@
-package Interfaces;
+package Game.Interfaces;
 
 /**
  * Represents an enemy in the game
  */
-public interface Enemy extends Character{
+public interface Enemy extends Character {
+
+    public void setCurrentRoom(Room currentRoom);
+
+    public Room getCurrentRoom();
 
     /**
      * Method that verifies if the enemy is dead

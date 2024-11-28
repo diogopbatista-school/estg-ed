@@ -1,4 +1,4 @@
-package Interfaces;
+package Game.Interfaces;
 
 import Game.Exceptions.ItemException;
 

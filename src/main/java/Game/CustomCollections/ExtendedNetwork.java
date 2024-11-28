@@ -3,12 +3,21 @@ package Game.CustomCollections;
 import Collections.Exceptions.NoSuchElementException;
 import Collections.Graphs.Network;
 import Game.Navigation.RoomImp;
-import Interfaces.Room;
+import Game.Interfaces.Room;
 
 public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT<T> {
 
     public ExtendedNetwork() {
         super();
+    }
+
+
+    public Room[] getRooms() {
+        Room[] rooms = new Room[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            rooms[i] = (Room) vertices[i];
+        }
+        return rooms;
     }
 
     @Override
@@ -41,7 +50,7 @@ public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT
 
     @Override
     public void updateWeight(T vertex1, T vertex2, double newWeight) {
-        if (areNeighbors(vertex1, vertex2)) {
+        if (areConnected(vertex1, vertex2)) {
             int index1 = getIndex(vertex1);
             int index2 = getIndex(vertex2);
             adjMatrix[index1][index2] = newWeight;
@@ -50,7 +59,7 @@ public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT
         }
     }
 
-    private boolean areNeighbors(T vertex1, T vertex2) {
+    public boolean areConnected(T vertex1, T vertex2) {
         int index1 = getIndex(vertex1);
         int index2 = getIndex(vertex2);
 

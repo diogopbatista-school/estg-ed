@@ -1,57 +1,29 @@
+// src/main/java/Game/Entities/HeroImp.java
 package Game.Entities;
 
 import Collections.Stacks.ArrayStack;
 import Game.Enumerations.ItemType;
 import Game.Exceptions.ItemException;
-import Interfaces.Character;
-import Interfaces.Hero;
-import Interfaces.Item;
-
+import Game.Interfaces.Character;
+import Game.Interfaces.Hero;
+import Game.Interfaces.Item;
 
 /**
  * Represents a hero in the game
  */
-public class HeroImp implements Hero {
+public class HeroImp extends CharacterImp implements Hero {
 
-    /**
-     * Hero's name
-     */
-    private String name;
-
-    /**
-     * Hero's health
-     */
-    private int health;
-
-    /**
-     * Hero's armor
-     */
     private int armor;
-
-    /**
-     *The hero's attack power
-     */
-    private int attackPower;
-
-    /**
-     * The name of the room the hero is in
-     */
     private String roomName;
-
     private ArrayStack<Item> backPack;
-
     private boolean isBackPackFull;
-
 
     /**
      * Constructor for the HeroImp class
      */
-    public HeroImp(int attackPower, String roomName, int sizeBackPack) {
-        this.name = "Tó Cruz"; // Em memoria ao grande Tom Cruise
-        this.health = 100;
+    public HeroImp(int attackPower, int sizeBackPack) {
+        super("Tó Cruz", 100, attackPower); // Em memória ao grande Tom Cruise
         this.armor = 100;
-        this.attackPower = attackPower;
-        this.roomName = roomName;
         this.backPack = new ArrayStack<>(sizeBackPack);
         this.isBackPackFull = false;
     }
@@ -60,6 +32,7 @@ public class HeroImp implements Hero {
      * Method that verifies if the hero's backpack is full
      * @return true if the backpack is full, false otherwise
      */
+    @Override
     public boolean isBackPackFull() {
         return this.isBackPackFull;
     }
@@ -71,7 +44,7 @@ public class HeroImp implements Hero {
      */
     @Override
     public void addToBackPack(Item item) throws ItemException {
-        if(item == null){
+        if (item == null) {
             throw new IllegalArgumentException("Item must be valid");
         }
         this.backPack.push(item);
@@ -83,7 +56,7 @@ public class HeroImp implements Hero {
      * @throws ItemException if the item is invalid or null
      */
     private Item RemoveItem() throws ItemException {
-        if(this.backPack.isEmpty()){
+        if (this.backPack.isEmpty()) {
             throw new ItemException("Backpack is empty");
         }
         return this.backPack.pop();
@@ -106,29 +79,10 @@ public class HeroImp implements Hero {
     }
 
     /**
-     * Setter for the room name the character is going to be in
-     * @param roomName The name of the room the character is going to be in
-     * @throws IllegalArgumentException if the room name is invalid
-     */
-    public void setRoomName(String roomName) throws IllegalArgumentException {
-        if(roomName == null || roomName == ""){
-            throw new IllegalArgumentException("Room name must be valid");
-        }
-        this.roomName = roomName;
-    }
-
-    /**
-     * Getter for the room name the character is in
-     * @return The name of the room the character is in
-     */
-    public String getRoomName() {
-        return this.roomName;
-    }
-
-    /**
      * Getter for the hero's name
-     * @return
+     * @return the hero's name
      */
+    @Override
     public String getName() {
         return this.name;
     }
@@ -140,12 +94,11 @@ public class HeroImp implements Hero {
      */
     @Override
     public void heal(int amount) throws IllegalArgumentException {
-        if(amount < 0){
+        if (amount < 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
-
         this.health += amount;
-        if(this.health > 100){
+        if (this.health > 100) {
             this.health = 100;
         }
     }
@@ -166,7 +119,7 @@ public class HeroImp implements Hero {
      */
     @Override
     public void setArmorHealth(int armorHealth) throws IllegalArgumentException {
-        if(armorHealth < 0){
+        if (armorHealth < 0) {
             throw new IllegalArgumentException("Armor health must be positive");
         }
         this.armor = armorHealth;
@@ -177,21 +130,20 @@ public class HeroImp implements Hero {
      * @param amount the amount of armor health to be healed
      * @throws IllegalArgumentException if the amount is negative
      */
-
     @Override
-    public void healArmor(int amount) throws IllegalArgumentException{
-        if(amount < 0){
+    public void healArmor(int amount) throws IllegalArgumentException {
+        if (amount < 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
         this.armor += amount;
-        if(this.armor > 100){
+        if (this.armor > 100) {
             this.armor = 100;
         }
     }
 
     /**
      * Method that returns the hero's health
-     * @return The hero's health
+     * @return the hero's health
      */
     @Override
     public int getHealth() {
@@ -200,12 +152,12 @@ public class HeroImp implements Hero {
 
     /**
      * Setter for the hero's health
-     * @param health The hero's health
+     * @param health the hero's health
      * @throws IllegalArgumentException if the health is negative
      */
     @Override
     public void setHealth(int health) throws IllegalArgumentException {
-        if(health < 0){
+        if (health < 0) {
             throw new IllegalArgumentException("Health must be positive");
         }
         this.health = health;
@@ -217,8 +169,8 @@ public class HeroImp implements Hero {
      * @throws IllegalArgumentException if the character is invalid
      */
     @Override
-    public void attack(Character character) throws IllegalArgumentException{
-        if(character == null || character instanceof Hero){
+    public void attack(Character character) throws IllegalArgumentException {
+        if (character == null || character instanceof Hero) {
             throw new IllegalArgumentException("Character must be valid");
         }
         character.setHealth(character.getHealth() - this.getAttackPower());
@@ -226,7 +178,7 @@ public class HeroImp implements Hero {
 
     /**
      * Getter for the hero's attack power
-     * @return The hero's attack power
+     * @return the hero's attack power
      */
     @Override
     public int getAttackPower() {
@@ -235,12 +187,12 @@ public class HeroImp implements Hero {
 
     /**
      * Setter for the hero's attack power
-     * @param attackPower The hero's attack power
+     * @param attackPower the hero's attack power
      * @throws IllegalArgumentException if the attack power is negative
      */
     @Override
     public void setAttackPower(int attackPower) throws IllegalArgumentException {
-        if(attackPower < 0){
+        if (attackPower < 0) {
             throw new IllegalArgumentException("Attack power must be positive");
         }
         this.attackPower = attackPower;

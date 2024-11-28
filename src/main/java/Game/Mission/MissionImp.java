@@ -1,12 +1,7 @@
 package Game.Mission;
 
-import Collections.Lists.ArrayUnorderedList;
-
-import Collections.Lists.LinkedUnorderedList;
-import Collections.Lists.UnorderedListADT;
-import Collections.Queues.LinkedQueue;
-import Collections.Queues.QueueADT;
-import Game.Exceptions.*;
+import Game.Interfaces.Map;
+import Game.Interfaces.Mission;
 import Game.Navigation.MapImp;
 import Interfaces.*;
 

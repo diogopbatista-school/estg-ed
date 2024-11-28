@@ -1,9 +1,13 @@
 package Game.CustomCollections;
 
 import Collections.Graphs.NetworkADT;
-import Interfaces.Room;
+import Game.Interfaces.Room;
 
 public interface ExtendedNetworkADT<T> extends NetworkADT<T> {
+
+        public boolean areConnected(T vertex1, T vertex2) throws IllegalArgumentException;
+
+        public Room[] getRooms();
 
         public void updateWeight(T vertex1, T vertex2, double newWeight);
 

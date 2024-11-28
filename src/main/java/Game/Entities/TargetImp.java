@@ -1,7 +1,7 @@
 package Game.Entities;
 
 import Game.Exceptions.TargetException;
-import Interfaces.Target;
+import Game.Interfaces.Target;
 
 /**
  * Represents a target in the game

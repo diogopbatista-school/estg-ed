@@ -1,7 +1,7 @@
 package Game.Entities;
 
 import Game.Enumerations.ItemType;
-import Interfaces.Item;
+import Game.Interfaces.Item;
 
 /**
  * Represents an item in the game

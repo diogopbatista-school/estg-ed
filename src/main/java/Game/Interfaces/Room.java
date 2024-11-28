@@ -1,6 +1,5 @@
-package Interfaces;
+package Game.Interfaces;
 
-import Game.Enumerations.ItemType;
 import Game.Exceptions.*;
 
 /**
