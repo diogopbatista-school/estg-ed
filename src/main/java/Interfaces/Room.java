@@ -11,6 +11,13 @@ public interface Room {
     public void setEntryAndExit();
 
     /**
+     * Sets whether the hero has attack priority in the room.
+     * This determines if the hero will attack first during a turn-based fight sequence.
+     *
+     * @param heroHasAttackPriority Boolean value indicating if the hero has attack priority.
+     */
+    public void setHeroHasAttackPriority(Boolean heroHasAttackPriority);
+    /**
      * Calculates the total attack power of all enemies in the room that are still alive.
      *
      * Iterates through the list of enemies in the room and sums up the attack power
