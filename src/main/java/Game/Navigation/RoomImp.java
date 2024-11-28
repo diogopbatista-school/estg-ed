@@ -139,11 +139,109 @@ public class RoomImp implements Room {
         return null;
     }
 
+    /**
+     * Simulates a fight between the hero and the enemies in the room. The fight follows
+     * a turn-based mechanism where either the hero or enemies have the attack priority.
+     * If no enemies are present or if all enemies are dead, a message is printed and the
+     * method returns. The method handles the following steps:
+     * - The hero attacks first if they have the attack priority.
+     * - The enemies attack if the hero does not have the attack priority.
+     * - Checks if the hero is dead after each attack phase.
+     * - Continues the fight recursively until all enemies are dead or the hero dies.
+     * - If there is at least one enemy alive after the Hero's attack, then calls method shuffle();
+     */
     @Override
     public void fight() {
+        if (enemies == null || allEnemiesDead()) {
+            System.out.println("No Enemies in the room to fight.");
+            return;
+        }
 
+        // Prioridade de ataque: Hero ataca primeiro
+        if (heroHasAttackPriority) {
+            heroPhase();
+        } else {
+            enemiesPhase();
+        }
 
+        // Verificação se o herói está morto
+        if (hero.getHealth() <= 0) {
+            System.out.println("Tó Cruz has died. Game Over.");
+            return;
+        }
 
+        // Se ainda houver inimigos vivos, continuar a lutar
+        if (!allEnemiesDead()) {
+            /**
+             * meter o shuffle() aqui /
+             * IMPORTANTE METER REGRA NO SHUFFLE!: se um inimigo entrar num room onde o hero esteja
+             * entao definir o heroHasAttackPriority do respetivo room para false
+             */
+            fight(); // chamada recursiva até que todos os inimigos estejam mortos
+        } else {
+            System.out.println("All enemies defeated in the room.");
+        }
+    }
+
+    /**
+     * Executes the hero's phase during a turn-based fight.
+     * The method handles the hero's attack on all enemies in the room.
+     * If all enemies are defeated after the attack, it prints a victory message.
+     * Otherwise, it sets the attack priority to the enemies for the next phase.
+     */
+    private void heroPhase() {
+        System.out.println("Hero's turn to attack.");
+        Iterator<Enemy> iterator = enemies.iterator();
+
+        while (iterator.hasNext()) {
+            Enemy enemy = iterator.next();
+            enemy.setHealth(enemy.getHealth() - hero.getAttackPower());
+        }
+
+        if (allEnemiesDead()) {
+            System.out.println("All enemies have been defeated by Tó Cruz.");
+        } else {
+            heroHasAttackPriority = false;
+        }
+    }
+
+    /**
+     * Executes the enemies' phase during a turn-based fight.
+     * This method handles the enemies' attack on the hero. Each enemy in the room
+     * attacks the hero by reducing the hero's health based on the enemy's attack power.
+     * If there are still enemies alive after the attack, the attack priority is set
+     * to the hero for the next phase.
+     */
+    private void enemiesPhase() {
+        System.out.println("Enemies' turn to attack.");
+        Iterator<Enemy> iterator = enemies.iterator();
+
+        while (iterator.hasNext()) {
+            Enemy enemy = iterator.next();
+            hero.setHealth(hero.getHealth() - enemy.getAttackPower());
+        }
+
+        heroHasAttackPriority = true;
+
+        System.out.println("Tó Cruz's current health: " + hero.getHealth());
+    }
+
+    /**
+     * Checks if all enemies in the room are dead.
+     *
+     * @return true if all enemies are dead, false otherwise
+     */
+    private boolean allEnemiesDead() {
+        Iterator<Enemy> iterator = enemies.iterator();
+
+        while (iterator.hasNext()) {
+            Enemy enemy = iterator.next();
+            if (!enemy.isDead()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public int getTotalRoomPower(){
