@@ -32,11 +32,11 @@ public class MapImp implements Map{
 
     @Override
     public void addConnection(Room room1, Room room2, double weight) {
-        network.addEdge(room1, room2, room2.getRoomPower());
+        network.addEdge(room1, room2, room2.getTotalRoomPower());
     }
 
     public void updateWeight(Room vertex1, Room vertex2, double newWeight){
-        network.updateWeight(vertex1, vertex2, vertex2.getRoomPower());
+        network.updateWeight(vertex1, vertex2, vertex2.getTotalRoomPower());
     }
 
     public double shortestPathWeight(Room vertex1, Room vertex2){

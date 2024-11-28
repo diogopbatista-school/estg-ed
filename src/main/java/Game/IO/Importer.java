@@ -145,7 +145,7 @@ public class Importer {
             Room room2 = map.getRoomByName(room2Name);
 
             if (room1 != null && room2 != null) {
-                map.addConnection(room1, room2, room2.getRoomPower());
+                map.addConnection(room1, room2, room2.getTotalRoomPower());
             }
         }
     }

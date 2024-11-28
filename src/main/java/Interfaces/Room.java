@@ -11,10 +11,14 @@ public interface Room {
     public void setEntryAndExit();
 
     /**
-     * Getter for the room's power
-     * @return the room's power
+     * Calculates the total attack power of all enemies in the room that are still alive.
+     *
+     * Iterates through the list of enemies in the room and sums up the attack power
+     * of each enemy whose health is greater than zero.
+     *
+     * @return the total attack power of all living enemies in the room.
      */
-    public int getRoomPower();
+    public int getTotalRoomPower();
 
     /**
      * Adds an enemy to the room
