@@ -3,7 +3,15 @@ package Game.CustomCollections;
 import Collections.Graphs.NetworkADT;
 import Game.Interfaces.Room;
 
+import java.util.Iterator;
+
 public interface ExtendedNetworkADT<T> extends NetworkADT<T> {
+
+
+
+        public Iterator<T> iteratorRoutes();
+
+        public Iterator<T> iteratorVertexes();
 
         public boolean areConnected(T vertex1, T vertex2) throws IllegalArgumentException;
 

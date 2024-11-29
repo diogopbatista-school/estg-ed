@@ -1,9 +1,11 @@
 package Game.CustomCollections;
 
+import Collections.Lists.LinkedUnorderedList;
 import Collections.Exceptions.NoSuchElementException;
 import Collections.Graphs.Network;
 import Game.Navigation.RoomImp;
 import Game.Interfaces.Room;
+import java.util.Iterator;
 
 public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT<T> {
 
@@ -11,6 +13,29 @@ public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT
         super();
     }
 
+
+    @Override
+    public Iterator<T> iteratorRoutes() {
+        LinkedUnorderedList<T> templist = new LinkedUnorderedList<>();
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = i + 1; j < numVertices; j++) {
+                if (adjMatrix[i][j] != Double.POSITIVE_INFINITY && i != j) {
+                    templist.addToRear(vertices[i]);
+                    templist.addToRear(vertices[j]);
+                }
+            }
+        }
+        return templist.iterator();
+    }
+
+    @Override
+    public Iterator<T> iteratorVertexes() {
+        LinkedUnorderedList<T> templist = new LinkedUnorderedList<>();
+        for (int i = 0; i < numVertices; i++) {
+            templist.addToRear(vertices[i]);
+        }
+        return templist.iterator();
+    }
 
     public Room[] getRooms() {
         Room[] rooms = new Room[numVertices];

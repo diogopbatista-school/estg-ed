@@ -22,6 +22,14 @@ public class MapImp implements Map{
         this.network = new ExtendedNetwork<>();
     }
 
+    public Iterator<Room> iteratorVertexes(){
+        return network.iteratorVertexes();
+    }
+
+    public Iterator<Room> iteratorRoutes(){
+        return network.iteratorRoutes();
+    }
+
     public boolean isConnected(Room room1, Room room2){
         return network.areConnected(room1, room2);
     }
@@ -53,17 +61,9 @@ public class MapImp implements Map{
         network.updateWeight(vertex1, vertex2, vertex2.getTotalRoomPower());
     }
 
-    public double shortestPathWeight(Room vertex1, Room vertex2){
-        return network.shortestPathWeight(vertex1, vertex2);
-    }
 
-    public Iterator<Room> iteratorBFS(Room start){
-        return network.iteratorBFS(start);
-    }
 
-    public Iterator<Room> iteratorDFS(Room start){
-        return network.iteratorDFS(start);
-    }
+
 
     /*public void shuffleEnemiesInConnectedRooms() throws RoomException, EnemyException {
         UnorderedListADT<Room> rooms = new LinkedUnorderedList<>();

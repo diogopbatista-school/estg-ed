@@ -4,6 +4,8 @@ import Game.Exceptions.RoomException;
 
 public interface Map {
 
+
+
     public boolean isConnected(Room room1, Room room2);
 
     public Room[] getRooms();
