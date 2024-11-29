@@ -4,6 +4,8 @@ import Collections.Lists.ArrayList;
 import Collections.Lists.ArrayUnorderedList;
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
+import Game.CustomCollections.ExtendedNetwork;
+import Game.CustomCollections.ExtendedNetworkADT;
 import Game.Exceptions.EnemyException;
 import Game.Exceptions.RoomException;
 import Game.Interfaces.Enemy;
