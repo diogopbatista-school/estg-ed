@@ -1,11 +1,30 @@
 package Game.Interfaces;
 
+import Collections.Lists.LinkedUnorderedList;
 import Game.Exceptions.*;
+
+import java.util.List;
 
 /**
  * Represents a room in the game
  */
 public interface Room {
+
+    /**
+     * Returns a list of all enemies in the room.
+     * @return a LinkedUnorderedList of all enemies
+     */
+    public LinkedUnorderedList<Enemy> getEnemies();
+
+
+    /**
+     * Removes an enemy from the room.
+     * @param enemy the enemy to remove
+     * @throws EnemyException if the enemy is not found in the room
+     */
+    public void removeEnemy(Enemy enemy) throws EnemyException;
+
+    public Hero getHero();
 
     public void setEntryAndExit();
 

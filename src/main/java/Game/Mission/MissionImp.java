@@ -3,7 +3,7 @@ package Game.Mission;
 import Game.Interfaces.Map;
 import Game.Interfaces.Mission;
 import Game.Navigation.MapImp;
-import Interfaces.*;
+import Game.Interfaces.*;
 
 public class MissionImp implements Mission {
 
@@ -11,7 +11,6 @@ public class MissionImp implements Mission {
     private String code;
     private int version;
     private Map map;
-
 
 
     /**

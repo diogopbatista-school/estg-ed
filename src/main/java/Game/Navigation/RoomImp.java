@@ -7,7 +7,9 @@ import Game.Enumerations.ItemType;
 import Game.Exceptions.*;
 import Game.Interfaces.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class RoomImp implements Room {
 
@@ -27,6 +29,33 @@ public class RoomImp implements Room {
         this.roomName = roomName;
         this.heroHasAttackPriority = true;
         this.isInAndOut = false;
+    }
+
+    @Override
+    public void removeEnemy(Enemy enemy) throws EnemyException {
+        if (enemy == null || !this.enemies.contains(enemy)) {
+            throw new EnemyException("Enemy not found in the room.");
+        }
+
+        Iterator<Enemy> iterator = enemies.iterator();
+        while (iterator.hasNext()) {
+            Enemy currentEnemy = iterator.next();
+            if (currentEnemy.equals(enemy)) {
+                iterator.remove();
+                enemy.setCurrentRoom(null); // Optionally clear the enemy's current room reference
+                return;
+            }
+        }
+    }
+
+    @Override
+    public LinkedUnorderedList<Enemy> getEnemies() {
+        return (LinkedUnorderedList<Enemy>) enemies;
+    }
+
+    @Override
+    public Hero getHero(){
+        return this.hero;
     }
 
     public Iterator<Enemy> getEnemiesIterator() {

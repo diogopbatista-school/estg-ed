@@ -28,6 +28,11 @@ public class EnemyImp extends CharacterImp implements Enemy {
     }
 
     @Override
+    public boolean isInFight() {
+        return currentRoom.getHero() != null;
+    }
+
+    @Override
     public void setName(String name) throws IllegalArgumentException {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name must be valid");
