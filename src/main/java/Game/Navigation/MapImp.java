@@ -3,9 +3,6 @@ package Game.Navigation;
 import Collections.Lists.ArrayUnorderedList;
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
-import Collections.Queues.LinkedQueue;
-import Game.CustomCollections.ExtendedNetwork;
-import Game.CustomCollections.ExtendedNetworkADT;
 import Game.Exceptions.EnemyException;
 import Game.Exceptions.RoomException;
 import Game.Interfaces.Enemy;
@@ -61,6 +58,9 @@ public class MapImp implements Map{
         network.updateWeight(vertex1, vertex2, vertex2.getTotalRoomPower());
     }
 
+    public void moveAllEnemies(){
+
+    }
 
 
 
