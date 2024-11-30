@@ -154,7 +154,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
     @Override
     public Iterator<T> iteratorBFS(T startVertex) {
-
         return iteratorBFS(getIndex(startVertex));
     }
 
@@ -191,86 +190,103 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return resultList.iterator();
     }
 
-    @Override
     protected Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) {
         int index;
         double weight;
+        // Array para armazenar o predecessor de cada vértice no caminho mais curto
         int[] predecessor = new int[numVertices];
+        // Min-heap para selecionar o vértice com a menor distância a cada iteração
         LinkedHeap<Double> traversalMinHeap = new LinkedHeap<>();
+        // Lista para armazenar o caminho mais curto (em índices dos vértices)
         ArrayUnorderedList<Integer> resultList = new ArrayUnorderedList<>();
+        // Pilha para reconstruir o caminho após encontrar o caminho mais curto
         LinkedStack<Integer> stack = new LinkedStack<>();
 
+        // Arrays para armazenar os índices dos vértices e as distâncias dos vértices
         int[] pathIndex = new int[numVertices];
         double[] pathWeight = new double[numVertices];
+
+        // Inicializa todas as distâncias como infinito
         for (int i = 0; i < numVertices; i++) {
             pathWeight[i] = Double.POSITIVE_INFINITY;
         }
 
+        // Inicializa o array de visitados como falso para todos os vértices
         boolean[] visited = new boolean[numVertices];
         for (int i = 0; i < numVertices; i++) {
             visited[i] = false;
         }
 
+        // Verifica se os índices fornecidos são válidos e se o grafo não está vazio
         if (!indexIsValid(startIndex) || !indexIsValid(targetIndex)
                 || (startIndex == targetIndex) || isEmpty()) {
-            return resultList.iterator();
+            return resultList.iterator(); // Retorna uma lista vazia se algo for inválido
         }
 
+        // Define a distância do vértice de origem como 0 e o predecessor como -1 (nenhum)
         pathWeight[startIndex] = 0;
         predecessor[startIndex] = -1;
-        visited[startIndex] = true;
-        weight = 0;
+        visited[startIndex] = true; // Marca o vértice de origem como visitado
 
-        //Update the pathWeight for each vertex except the startVertex. Notice
-        //that all vertices not adjacent to the startVertex will have a
-        //pathWeight of infinity for now
+        // Adiciona as distâncias dos vizinhos imediatos do vértice de origem ao heap
         for (int i = 0; i < numVertices; i++) {
             if (!visited[i]) {
+                // Se houver uma aresta entre o vértice de origem e o vizinho
                 pathWeight[i] = pathWeight[startIndex] + adjMatrix[startIndex][i];
                 predecessor[i] = startIndex;
-                traversalMinHeap.addElement(pathWeight[i]);
+                traversalMinHeap.addElement(pathWeight[i]); // Adiciona a distância ao heap
             }
         }
 
+        // Loop principal: enquanto houver vértices a serem processados e o destino não for visitado
         do {
+            // Remove o vértice com a menor distância (menor peso) do heap
             weight = traversalMinHeap.removeMin();
-            traversalMinHeap.removeAllElements();
-            if (weight == Double.POSITIVE_INFINITY) // no possible path
-            {
+            traversalMinHeap.removeAllElements(); // Limpa o heap após remover o mínimo
+
+            // Se não houver mais caminhos possíveis (todas as distâncias são infinitas), retorna lista vazia
+            if (weight == Double.POSITIVE_INFINITY) {
                 return resultList.iterator();
             } else {
+                // Encontra o índice do vértice adjacente com a menor distância e o marca como visitado
                 index = getIndexOfAdjVertexWithWeightOf(visited, pathWeight, weight);
                 visited[index] = true;
             }
 
-            //Update the pathWeight for each vertex that has not been
-            //visited and is adjacent to the last vertex that was visited.
-            //Also, add each unvisited vertex to the heap
+            // Atualiza as distâncias dos vizinhos do vértice atual se um caminho mais curto for encontrado
             for (int i = 0; i < numVertices; i++) {
                 if (!visited[i]) {
+                    // Verifica se existe uma aresta entre o vértice atual e o vizinho
+                    // e se a distância atual é menor do que a registrada
                     if ((adjMatrix[index][i] < Double.POSITIVE_INFINITY)
                             && (pathWeight[index] + adjMatrix[index][i]) < pathWeight[i]) {
+                        // Atualiza a distância do vértice i
                         pathWeight[i] = pathWeight[index] + adjMatrix[index][i];
-                        predecessor[i] = index;
+                        predecessor[i] = index; // Atualiza o predecessor de i
                     }
+                    // Adiciona o vértice i no heap para ser processado em etapas seguintes
                     traversalMinHeap.addElement(pathWeight[i]);
                 }
             }
-        } while (!traversalMinHeap.isEmpty() && !visited[targetIndex]);
+        } while (!traversalMinHeap.isEmpty() && !visited[targetIndex]); // Loop até processar todos os vértices ou chegar ao destino
 
+        // Reconstrução do caminho: começa do destino e vai até a origem
         index = targetIndex;
-        stack.push(index);
+        stack.push(index); // Empilha o destino
         do {
-            index = predecessor[index];
-            stack.push(index);
-        } while (index != startIndex);
+            index = predecessor[index]; // Move para o predecessor
+            stack.push(index); // Empilha o predecessor
+        } while (index != startIndex); // Continua até chegar ao vértice de origem
 
+        // Desempilha os vértices do caminho e os adiciona à lista resultante
         while (!stack.isEmpty()) {
-            resultList.addToRear((stack.pop()));
+            resultList.addToRear(stack.pop()); // Adiciona o vértice ao caminho final
         }
 
+        // Retorna o iterador da lista contendo os índices do caminho mais curto
         return resultList.iterator();
     }
+
 
     @Override
     public Iterator<T> iteratorShortestPath(int startIndex, int targetIndex) {
@@ -308,82 +324,71 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
     //OTHERS METHODS
     public Network<T> mstNetwork() {
-        int x, y;
-        int index;
-        double weight;
-        int[] edge = new int[2];
-        LinkedHeap<Double> minHeap = new LinkedHeap<Double>();
-        Network<T> resultGraph = new Network<T>();
+    int x, y;
+    int index;
+    double weight;
+    int[] edge = new int[2];
+    LinkedHeap<Double> minHeap = new LinkedHeap<Double>();
+    Network<T> resultGraph = new Network<T>();
 
-        if (isEmpty() || !isConnected()) {
-            return resultGraph;
-        }
-        resultGraph.adjMatrix = new double[numVertices][numVertices];
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; i++) {
-                resultGraph.adjMatrix[i][j] = Double.POSITIVE_INFINITY;
-            }
-            resultGraph.vertices = (T[]) (new Object[numVertices]);
-        }
-        boolean[] visited = new boolean[numVertices];
-        for (int i = 0; i < numVertices; i++) {
-            visited[i] = false;
-        }
-        edge[0] = 0;
-        resultGraph.vertices[0] = this.vertices[0];
-        resultGraph.numVertices++;
-        visited[0] = true;
-
-        /**
-         * Add all edges, which are adjacent to the starting vertex, to the heap
-         */
-        for (int i = 0; i < numVertices; i++) {
-            minHeap.addElement(adjMatrix[0][i]);
-        }
-
-        while ((resultGraph.size() < this.size()) && !minHeap.isEmpty()) {
-            /**
-             * Get the edge with the smallest weight that has exactly one vertex
-             * already in the resultGraph
-             */
-            do {
-                weight = minHeap.removeMin();
-                edge = getEdgeWithWeightOf(weight, visited);
-            } while (!indexIsValid(edge[0]) || !indexIsValid(edge[1]));
-
-            x = edge[0];
-            y = edge[1];
-            if (!visited[x]) {
-                index = x;
-            } else {
-                index = y;
-            }
-
-            /**
-             * Add the new edge and vertex to the resultGraph
-             */
-            resultGraph.vertices[index] = this.vertices[index];
-            visited[index] = true;
-            resultGraph.numVertices++;
-
-            resultGraph.adjMatrix[x][y] = this.adjMatrix[x][y];
-            resultGraph.adjMatrix[y][x] = this.adjMatrix[y][x];
-
-            /**
-             * Add all edges, that are adjacent to the newly added vertex, to
-             * the heap
-             */
-            for (int i = 0; i < numVertices; i++) {
-                if (!visited[i] && (this.adjMatrix[i][index]
-                        < Double.POSITIVE_INFINITY)) {
-                    edge[0] = index;
-                    edge[1] = i;
-                    minHeap.addElement(adjMatrix[index][i]);
-                }
-            }
-        }
+    if (isEmpty() || !isConnected()) {
         return resultGraph;
     }
+    resultGraph.adjMatrix = new double[numVertices][numVertices];
+    for (int i = 0; i < numVertices; i++) {
+        for (int j = 0; j < numVertices; j++) { // Corrected loop condition
+            resultGraph.adjMatrix[i][j] = Double.POSITIVE_INFINITY;
+        }
+    }
+    resultGraph.vertices = (T[]) (new Object[numVertices]);
+    boolean[] visited = new boolean[numVertices];
+    for (int i = 0; i < numVertices; i++) {
+        visited[i] = false;
+    }
+    edge[0] = 0;
+    resultGraph.vertices[0] = this.vertices[0];
+    resultGraph.numVertices++;
+    visited[0] = true;
+
+    // Add all edges, which are adjacent to the starting vertex, to the heap
+    for (int i = 0; i < numVertices; i++) {
+        minHeap.addElement(adjMatrix[0][i]);
+    }
+
+    while ((resultGraph.size() < this.size()) && !minHeap.isEmpty()) {
+        // Get the edge with the smallest weight that has exactly one vertex already in the resultGraph
+        do {
+            weight = minHeap.removeMin();
+            edge = getEdgeWithWeightOf(weight, visited);
+        } while (!indexIsValid(edge[0]) || !indexIsValid(edge[1]));
+
+        x = edge[0];
+        y = edge[1];
+        if (!visited[x]) {
+            index = x;
+        } else {
+            index = y;
+        }
+
+        // Add the new edge and vertex to the resultGraph
+        resultGraph.vertices[index] = this.vertices[index];
+        visited[index] = true;
+        resultGraph.numVertices++;
+
+        resultGraph.adjMatrix[x][y] = this.adjMatrix[x][y];
+        resultGraph.adjMatrix[y][x] = this.adjMatrix[y][x];
+
+        // Add all edges, that are adjacent to the newly added vertex, to the heap
+        for (int i = 0; i < numVertices; i++) {
+            if (!visited[i] && (this.adjMatrix[i][index] < Double.POSITIVE_INFINITY)) {
+                edge[0] = index;
+                edge[1] = i;
+                minHeap.addElement(adjMatrix[index][i]);
+            }
+        }
+    }
+    return resultGraph;
+}
 
     protected int[] getEdgeWithWeightOf(double weight, boolean[] visited) {
         int[] edge = new int[2];
@@ -465,7 +470,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
         for (int i = 0; i < numVertices; i++) {
             result += "" + i;
-            if (i < 10) {
+            if (i < numVertices) {
                 result += " ";
             }
         }

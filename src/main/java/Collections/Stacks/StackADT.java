@@ -2,6 +2,8 @@ package Collections.Stacks;
 
 import Collections.Exceptions.EmptyCollectionException;
 
+import java.util.Iterator;
+
 /**
  *
  * @author diogo
@@ -53,5 +55,7 @@ public interface StackADT<T> {
      */
     @Override
     public String toString();
+
+    public Iterator<T> iterator();
 }
 

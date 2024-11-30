@@ -7,9 +7,8 @@ import Game.Enumerations.ItemType;
 import Game.Exceptions.*;
 import Game.Interfaces.*;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+
 
 public class RoomImp implements Room {
 
@@ -20,6 +19,9 @@ public class RoomImp implements Room {
     private String roomName;
     private Boolean heroHasAttackPriority;
     private Boolean isInAndOut;
+    private int totalRoomPower;
+    private int enemyAliveCounter;
+    private int enemyDeadCounter;
 
     public RoomImp(String roomName) {
         this.enemies = new LinkedUnorderedList<>();
@@ -29,6 +31,43 @@ public class RoomImp implements Room {
         this.roomName = roomName;
         this.heroHasAttackPriority = true;
         this.isInAndOut = false;
+        this.totalRoomPower = 0;
+        this.enemyAliveCounter = 0;
+        this.enemyDeadCounter = 0;
+    }
+
+    public Target getTarget(){
+        return this.target;
+    }
+
+    public boolean isThereAnEnemyAlive(){
+        return this.enemyAliveCounter > 0;
+    }
+
+    public void addEnemyDeadCounter(){
+        this.enemyDeadCounter++;
+    }
+
+    public int getEnemyAliveCounter(){
+        return this.enemyAliveCounter;
+    }
+
+
+    @Override
+    public Iterator<Item> getItems() {
+        return items.iterator();
+    }
+
+    public boolean hasItems(){
+        return !this.items.isEmpty();
+    }
+
+    public boolean isTargetInRoom(){
+        return this.target != null;
+    }
+
+    public boolean getIsInAndOut(){
+        return this.isInAndOut;
     }
 
     @Override
@@ -41,16 +80,18 @@ public class RoomImp implements Room {
         while (iterator.hasNext()) {
             Enemy currentEnemy = iterator.next();
             if (currentEnemy.equals(enemy)) {
+                totalRoomPower -= enemy.getAttackPower();
                 iterator.remove();
                 enemy.setCurrentRoom(null); // Optionally clear the enemy's current room reference
+                enemyAliveCounter--;
                 return;
             }
         }
     }
 
     @Override
-    public LinkedUnorderedList<Enemy> getEnemies() {
-        return (LinkedUnorderedList<Enemy>) enemies;
+    public UnorderedListADT<Enemy> getEnemies() {
+        return this.enemies;
     }
 
     @Override
@@ -79,26 +120,9 @@ public class RoomImp implements Room {
         this.heroHasAttackPriority = heroHasAttackPriority;
     }
 
-    /**
-     * Calculates the total attack power of all enemies in the room that are still alive.
-     *
-     * Iterates through the list of enemies in the room and sums up the attack power
-     * of each enemy whose health is greater than zero.
-     *
-     * @return the total attack power of all living enemies in the room.
-     */
+
     public int getTotalRoomPower(){
-        int calculatedRoomPower = 0;
-
-        Iterator<Enemy> iterator = enemies.iterator();
-        while (iterator.hasNext()) {
-            Enemy enemy = iterator.next();
-            if (enemy.getHealth() > 0) {
-                calculatedRoomPower += enemy.getAttackPower();
-            }
-        }
-
-        return calculatedRoomPower;
+        return this.totalRoomPower;
     }
 
     /**
@@ -118,11 +142,14 @@ public class RoomImp implements Room {
 
         if(this.enemies.isEmpty()){
             this.enemies.addToFront(enemy);
+            totalRoomPower += enemy.getAttackPower();
             return;
         }
 
         this.enemies.addAfter(enemy, this.enemies.last());
+        totalRoomPower += enemy.getAttackPower();
         enemy.setCurrentRoom(this);
+        this.enemyAliveCounter++;
     }
 
 
@@ -132,6 +159,7 @@ public class RoomImp implements Room {
             throw new HeroException("Hero cannot be null");
         }
         this.hero = hero;
+        this.hero.setCurrentRoom(this);
     }
 
     @Override
@@ -158,25 +186,31 @@ public class RoomImp implements Room {
     }
 
     @Override
-    public void removeItem(Item itemToRemove, Hero hero) throws ItemException { // iterar todos os items da sala
+    public Item removeItem(Item itemToRemove, Hero hero) throws ItemException { // iterar todos os items da sala
 
         if (itemToRemove == null || itemToRemove.getType() == ItemType.UNKNOWN) {
             throw new ItemException("Item cannot be null/unknown");
         }
 
         if (hero.isBackPackFull() && itemToRemove.getType().equals(ItemType.POTION)) {
-            return;
-        }else{
-            Item removedItem = removeItemByType(itemToRemove);
-            hero.addToBackPack(removedItem);
+            throw new ItemException("Hero's backpack is full.");
         }
 
-        if(itemToRemove.getType().equals(ItemType.ARMOR)){
+        Item removedItem = removeItemByType(itemToRemove);
+        if (removedItem == null) {
+            throw new ItemException("Item not found in the room.");
+        }
+
+        if (itemToRemove.getType().equals(ItemType.ARMOR)) {
             hero.healArmor(itemToRemove.getPoints());
-            return;
+            return itemToRemove;
         }
 
-    }
+        hero.addToBackPack(removedItem);
+
+
+    return removedItem;
+}
 
     private Item removeItemByType(Item itemToRemove) {
         Iterator<Item> iterator = items.iterator();
@@ -212,14 +246,14 @@ public class RoomImp implements Room {
         }
 
         if (heroHasAttackPriority) {
-            heroPhase();
+            heroPhase(this.hero);
             if (!allEnemiesDead()) {
                 enemiesPhase(); // inimigos atacam se ainda estiverem vivos
             }
         } else {
             enemiesPhase();
             if (hero.getHealth() > 0) {
-                heroPhase(); // hero ataca se ainda estiver vivo
+                heroPhase(this.hero); // hero ataca se ainda estiver vivo
             }
         }
 
@@ -248,13 +282,13 @@ public class RoomImp implements Room {
      * If all enemies are defeated after the attack, it prints a victory message.
      * Otherwise, it sets the attack priority to the enemies for the next phase.
      */
-    private void heroPhase() {
+    private void heroPhase(Hero hero) {
         System.out.println("Hero's turn to attack.");
         Iterator<Enemy> iterator = enemies.iterator();
 
         while (iterator.hasNext()) {
             Enemy enemy = iterator.next();
-            enemy.setHealth(enemy.getHealth() - hero.getAttackPower());
+            hero.attack(enemy);
         }
 
         if (allEnemiesDead()) {
@@ -273,11 +307,13 @@ public class RoomImp implements Room {
      */
     private void enemiesPhase() {
         System.out.println("Enemies' turn to attack.");
+
+
         Iterator<Enemy> iterator = enemies.iterator();
 
         while (iterator.hasNext()) {
             Enemy enemy = iterator.next();
-            hero.setHealth(hero.getHealth() - enemy.getAttackPower());
+            enemy.attack(this.hero);
         }
 
         heroHasAttackPriority = true;
@@ -325,5 +361,9 @@ public class RoomImp implements Room {
     @Override
     public boolean isIsAndOut() {
         return isInAndOut;
+    }
+
+    public String toString() {
+        return "Room: " + this.roomName;
     }
 }

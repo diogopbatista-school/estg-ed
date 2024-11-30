@@ -1,8 +1,10 @@
 package Game.CustomCollections;
 
+import Collections.Lists.ArrayUnorderedList;
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Exceptions.NoSuchElementException;
 import Collections.Graphs.Network;
+import Collections.Lists.UnorderedListADT;
 import Game.Navigation.RoomImp;
 import Game.Interfaces.Room;
 import java.util.Iterator;
@@ -13,6 +15,10 @@ public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT
         super();
     }
 
+
+    public Iterator<T> iteratorShortestPath(T vertex1, T vertex2) {
+        return super.iteratorShortestPath(getIndex(vertex1), getIndex(vertex2));
+    }
 
     @Override
     public Iterator<T> iteratorRoutes() {
@@ -37,10 +43,10 @@ public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT
         return templist.iterator();
     }
 
-    public Room[] getRooms() {
-        Room[] rooms = new Room[numVertices];
+    public UnorderedListADT<T> getRooms() {
+        UnorderedListADT<T> rooms = new ArrayUnorderedList<>();
         for (int i = 0; i < numVertices; i++) {
-            rooms[i] = (Room) vertices[i];
+            rooms.addToRear(vertices[i]);
         }
         return rooms;
     }
@@ -115,8 +121,10 @@ public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT
     }
 
 
+
+
     @Override
-    public Iterable<T> shortestPath(T vertex1, T vertex2) {
-        return null;
+    public String toString(){
+        return super.toString();
     }
 }

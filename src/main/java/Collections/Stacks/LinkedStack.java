@@ -3,6 +3,9 @@ package Collections.Stacks;
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Nodes.Node;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * A generic class that implements a stack using a linked list as the underlying
  * data structure. This stack follows the last-in-first-out (LIFO)
@@ -112,6 +115,30 @@ public class LinkedStack<T> implements StackADT<T> {
             } while ((current = current.getNext()) != null);
         }
         return result + "}";
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedStackIterator();
+    }
+
+    private class LinkedStackIterator implements Iterator<T> {
+        private Node<T> current = top;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            T element = current.getElement();
+            current = current.getNext();
+            return element;
+        }
     }
 
 }

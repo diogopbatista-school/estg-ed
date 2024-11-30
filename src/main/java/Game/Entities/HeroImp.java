@@ -2,11 +2,13 @@
 package Game.Entities;
 
 import Collections.Stacks.ArrayStack;
+import Collections.Stacks.StackADT;
 import Game.Enumerations.ItemType;
 import Game.Exceptions.ItemException;
+import Game.Interfaces.*;
 import Game.Interfaces.Character;
-import Game.Interfaces.Hero;
-import Game.Interfaces.Item;
+
+import java.util.Iterator;
 
 /**
  * Represents a hero in the game
@@ -14,9 +16,10 @@ import Game.Interfaces.Item;
 public class HeroImp extends CharacterImp implements Hero {
 
     private int armor;
-    private String roomName;
-    private ArrayStack<Item> backPack;
+    private StackADT<Item> backPack;
     private boolean isBackPackFull;
+    private Room currentRoom;
+    private Target target;
 
     /**
      * Constructor for the HeroImp class
@@ -26,6 +29,32 @@ public class HeroImp extends CharacterImp implements Hero {
         this.armor = 100;
         this.backPack = new ArrayStack<>(sizeBackPack);
         this.isBackPackFull = false;
+        this.currentRoom = null;
+        this.target = null;
+    }
+
+    public void setTarget(Target target) {
+        this.target = target;
+    }
+
+    public boolean isItemsOnBackPack() {
+        return !this.backPack.isEmpty();
+    }
+
+    public boolean isHeroAlive() {
+        return this.health > 0;
+    }
+
+    public boolean doesHeroHaveTarget() {
+        return this.target != null;
+    }
+
+    public void setCurrentRoom(Room room) {
+        this.currentRoom = room;
+    }
+
+    public Room getCurrentRoom() {
+        return this.currentRoom;
     }
 
     /**

@@ -1,7 +1,9 @@
 package Collections.Stacks;
 
 import Collections.Exceptions.EmptyCollectionException;
-import Collections.Lists.ArrayList;
+
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 /**
  * A generic class that implements a stack using an array as the underlying data
@@ -142,5 +144,61 @@ public class ArrayStack<T> implements StackADT<T> {
         return result + "}";
     }
 
-}
+
+
+
+
+        public Iterator<T> iterator() {
+            return new StackIterator();
+        }
+
+        private class StackIterator implements Iterator<T> {
+            private int current;
+            private int expectedModCount;
+            private boolean okToRemove;
+
+            public StackIterator() {
+                this.current = 0;
+                this.expectedModCount = top;
+                this.okToRemove = false;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return this.current < top;
+            }
+
+            @Override
+            public T next() {
+                if (top != expectedModCount) {
+                    throw new ConcurrentModificationException();
+                }
+                if (!hasNext()) {
+                    throw new UnsupportedOperationException();
+                }
+                okToRemove = true;
+                return stack[current++];
+            }
+
+            @Override
+            public void remove() {
+                if (expectedModCount != top) {
+                    throw new ConcurrentModificationException();
+                }
+                if (!okToRemove) {
+                    throw new IllegalStateException();
+                }
+                Collections.Stacks.ArrayStack.this.pop();
+                current--;
+                this.expectedModCount++;
+                this.okToRemove = false;
+            }
+        }
+
+    }
+
+
+
+
+
 

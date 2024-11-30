@@ -1,14 +1,21 @@
 package Game.Interfaces;
 
+import Collections.Lists.UnorderedListADT;
 import Game.Exceptions.RoomException;
+
+import java.util.Iterator;
 
 public interface Map {
 
+    public Iterator<Room> shortestPath(Room start, Room end);
 
+
+
+    public void updateWeight(Room vertex1, Room vertex2, double newWeight);
 
     public boolean isConnected(Room room1, Room room2);
 
-    public Room[] getRooms();
+    public UnorderedListADT<Room> getRooms();
 
     /**
      * Adds a room to the map

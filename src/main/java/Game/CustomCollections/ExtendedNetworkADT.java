@@ -1,6 +1,7 @@
 package Game.CustomCollections;
 
 import Collections.Graphs.NetworkADT;
+import Collections.Lists.UnorderedListADT;
 import Game.Interfaces.Room;
 
 import java.util.Iterator;
@@ -15,7 +16,7 @@ public interface ExtendedNetworkADT<T> extends NetworkADT<T> {
 
         public boolean areConnected(T vertex1, T vertex2) throws IllegalArgumentException;
 
-        public Room[] getRooms();
+        public UnorderedListADT<T> getRooms();
 
         public void updateWeight(T vertex1, T vertex2, double newWeight);
 
@@ -28,14 +29,8 @@ public interface ExtendedNetworkADT<T> extends NetworkADT<T> {
         */
         double shortestPathWeight(T vertex1, T vertex2);
 
-        /**
-        * Returns the shortest path in this network.
-        *
-        * @param vertex1 the first vertex
-        * @param vertex2 the second vertex
-        * @return the shortest path in this network
-        */
-        Iterable<T> shortestPath(T vertex1, T vertex2);
+
+
 
         /**
          * Returns a room by its name

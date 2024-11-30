@@ -26,7 +26,7 @@ import java.nio.file.Paths;
  */
 public class Importer {
 
-    private static final String PATH = "mission.json";
+    private String PATH ;
     private static final JSONParser PARSER = new JSONParser();
     private JSONObject mission;
     private JSONObject target;
@@ -49,9 +49,9 @@ public class Importer {
      * @throws FileNotFoundException if the JSON file is not found.
      * @throws IOException if an I/O error occurs.
      */
-    public void importData(Map map) throws FileNotFoundException, IOException {
+    public void importData(Map map, String nameMission) throws FileNotFoundException, IOException {
         try {
-            importFiles(map);
+            importFiles(map,nameMission);
         } catch (ParseException | MapException e) {
             e.printStackTrace();
         }
@@ -66,8 +66,8 @@ public class Importer {
      * @throws ParseException if the JSON file cannot be parsed.
      * @throws MapException if the map is null.
      */
-    private void importFiles(Map map) throws FileNotFoundException, IOException, ParseException, MapException {
-        if(!Files.exists(Paths.get(PATH))){
+    private void importFiles(Map map, String nameMission) throws FileNotFoundException, IOException, ParseException, MapException {
+        if(!Files.exists(Paths.get(nameMission))){
             throw new FileNotFoundException("File not found");
         }
 
@@ -75,7 +75,7 @@ public class Importer {
             throw new MapException("Map cannot be null");
         }
 
-        this.mission = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(PATH))));
+        this.mission = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(nameMission))));
         this.rooms = (JSONArray) mission.get("edificio");
         this.enemies = (JSONArray) mission.get("inimigos");
         this.connections = (JSONArray) mission.get("ligacoes");
@@ -105,6 +105,7 @@ public class Importer {
             }
 
             addConnections(map);
+            //addNonConnectedRooms(map);
         } catch (Exception e) {
             System.out.println("Error adding rooms");
         }
@@ -125,7 +126,7 @@ public class Importer {
                 String division = (String) jsonInimigo.get("divisao");
 
                 if (room.getRoomName().equals(division)) {
-                    Enemy enemy = new EnemyImp(name, power, health, room);
+                    Enemy enemy = new EnemyImp(name, health, power, room);
                     room.addEnemy(enemy); // Adds enemy to the room
                 }
             }
@@ -144,12 +145,18 @@ public class Importer {
         try {
             for (Object obj : this.items) {
                 JSONObject jsonItem = (JSONObject) obj;
-                String name = (String) jsonItem.get("nome");
-                int power = ((Long) jsonItem.get("poder")).intValue();
+                int points = 0;
+
+                String name = (String) jsonItem.get("tipo");
+                if (jsonItem.containsKey("pontos-recuperados")) {
+                    points = ((Long) jsonItem.get("pontos-recuperados")).intValue();
+                } else if (jsonItem.containsKey("pontos-extra")) {
+                    points = ((Long) jsonItem.get("pontos-extra")).intValue();
+                }
                 String division = (String) jsonItem.get("divisao");
 
                 if (room.getRoomName().equals(division)) {
-                    room.addItem(new ItemImp(power, name));
+                    room.addItem(new ItemImp(points, name));
                 }
             }
         } catch (Exception e) {
@@ -195,18 +202,13 @@ public class Importer {
 
             if (room1 != null && room2 != null) {
                 map.addConnection(room1, room2, room2.getTotalRoomPower());
+                map.addConnection(room2, room1, room1.getTotalRoomPower());
             }
 
-            Room[] allRooms = map.getRooms();
-            for (int i = 0; i < allRooms.length; i++) {
-                for (int j = 0; j < allRooms.length; j++) {
-                    if (i != j && !map.isConnected(allRooms[i], allRooms[j])) {
-                        map.addConnection(allRooms[i], allRooms[j], Double.MAX_VALUE);
-                    }
-                }
-            }
         }
     }
+
+
 
     /**
      * Adds the target to the specified room based on the JSON data.

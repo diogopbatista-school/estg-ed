@@ -1,8 +1,10 @@
 package Game.Interfaces;
 
 import Collections.Lists.LinkedUnorderedList;
+import Collections.Lists.UnorderedListADT;
 import Game.Exceptions.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -10,11 +12,25 @@ import java.util.List;
  */
 public interface Room {
 
+    public boolean isThereAnEnemyAlive();
+
+    public void addEnemyDeadCounter();
+
+    public int getEnemyAliveCounter();
+
+    public Iterator<Item> getItems();
+
+    public boolean hasItems();
+
+    public boolean isTargetInRoom();
+
+    public boolean getIsInAndOut();
+
     /**
      * Returns a list of all enemies in the room.
      * @return a LinkedUnorderedList of all enemies
      */
-    public LinkedUnorderedList<Enemy> getEnemies();
+    public UnorderedListADT<Enemy> getEnemies();
 
 
     /**
@@ -91,7 +107,7 @@ public interface Room {
      * @param hero the hero to add the item to ( backPack or add to armor bar)
      * @throws ItemException if the item is invalid or null
      */
-    public void removeItem(Item itemToRemove, Hero hero) throws ItemException;
+    public Item removeItem(Item itemToRemove, Hero hero) throws ItemException;
 
     /**
      * Simulation of the fight between the hero and the enemies in the room
@@ -108,4 +124,5 @@ public interface Room {
 
     public boolean isIsAndOut();
 
+    public Target getTarget();
 }
