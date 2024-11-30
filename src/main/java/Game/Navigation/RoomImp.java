@@ -46,6 +46,7 @@ public class RoomImp implements Room {
 
     public void addEnemyDeadCounter(){
         this.enemyDeadCounter++;
+        this.enemyAliveCounter--;
     }
 
     public int getEnemyAliveCounter(){
@@ -143,6 +144,7 @@ public class RoomImp implements Room {
         if(this.enemies.isEmpty()){
             this.enemies.addToFront(enemy);
             totalRoomPower += enemy.getAttackPower();
+            this.enemyAliveCounter++;
             return;
         }
 

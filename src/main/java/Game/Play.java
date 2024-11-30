@@ -70,11 +70,12 @@ public class Play {
         Hero hero = createHero(scanner);
         Room targetRoom = findRoomWithTarget(allRooms);
         selectStartRoom(hero, scanner, allRooms);
+        //colocar flag
 
         while (hero.isHeroAlive()) {
             Room movedRoom = listConnectedRooms(map, scanner, hero, allRooms, targetRoom);
 
-            if (movedRoom.isThereAnEnemyAlive()) {
+            if (!movedRoom.isThereAnEnemyAlive()) {
                 ScenaryTwo(movedRoom,targetRoom, hero, scanner); // ja faz o cenario 2 3 , 4 , 6
             } else {
                 System.out.println("!!!!!ENEMIES IN THE ROOM!!!!!:\n");
@@ -123,7 +124,7 @@ public class Play {
         System.out.println("No enemies in the room.");
         System.out.println("Enemy's turn:");
         //map.shuffleEnemies();
-        if (movedRoom.isThereAnEnemyAlive()) {
+        if (!movedRoom.isThereAnEnemyAlive()) {
             System.out.println("No enemies have entered the room.");
             System.out.println("Hero's turn:");
 

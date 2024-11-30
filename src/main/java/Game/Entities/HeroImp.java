@@ -202,7 +202,14 @@ public class HeroImp extends CharacterImp implements Hero {
         if (character == null || character instanceof Hero) {
             throw new IllegalArgumentException("Character must be valid");
         }
-        character.setHealth(character.getHealth() - this.getAttackPower());
+        int damage = character.getHealth() - this.getAttackPower();
+
+        if (damage < 0) {
+            character.setHealth(0);
+            return;
+        }
+
+        character.setHealth(damage);
     }
 
     /**
