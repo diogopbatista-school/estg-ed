@@ -1,6 +1,7 @@
 package Game.Interfaces;
 
 import Collections.Lists.UnorderedListADT;
+import Game.Exceptions.EnemyException;
 import Game.Exceptions.RoomException;
 
 import java.util.Iterator;
@@ -10,6 +11,7 @@ public interface Map {
     public Iterator<Room> shortestPath(Room start, Room end);
 
 
+    public void mapShuffle() throws EnemyException;
 
     public void updateWeight(Room vertex1, Room vertex2, double newWeight);
 

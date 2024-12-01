@@ -105,7 +105,7 @@ public class Importer {
             }
 
             addConnections(map);
-            //addNonConnectedRooms(map);
+
         } catch (Exception e) {
             System.out.println("Error adding rooms");
         }
@@ -204,7 +204,6 @@ public class Importer {
                 map.addConnection(room1, room2, room2.getTotalRoomPower());
                 map.addConnection(room2, room1, room1.getTotalRoomPower());
             }
-
         }
     }
 

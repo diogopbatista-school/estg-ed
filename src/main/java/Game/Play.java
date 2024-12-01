@@ -1,9 +1,10 @@
 package Game;
 
 import Collections.Lists.ArrayUnorderedList;
+import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
 import Game.Entities.HeroImp;
-import Game.Enumerations.ItemType;
+import Game.Exceptions.EnemyException;
 import Game.Exceptions.HeroException;
 import Game.Exceptions.ItemException;
 import Game.Exceptions.TargetException;
@@ -16,7 +17,7 @@ import java.util.Scanner;
 import java.util.Iterator;
 
 public class Play {
-    public static void main(String[] args) throws HeroException, ItemException, TargetException {
+    public static void main(String[] args) throws HeroException, ItemException, TargetException, EnemyException {
         Scanner scanner = new Scanner(System.in);
 
 
@@ -42,7 +43,7 @@ public class Play {
         }
     }
 
-    public static void startGame(Scanner scanner) throws HeroException, ItemException, TargetException {
+    public static void startGame(Scanner scanner) throws HeroException, ItemException, TargetException, EnemyException {
         System.out.println("\nCreate Game:");
 
         Map map = new MapImp();
@@ -59,6 +60,7 @@ public class Play {
                 mapLoader.importData(map, fileName);
                 clearConsole();
                 System.out.println("Map loaded successfully!");
+                System.out.println(map.toString());
 
             } catch (IllegalArgumentException | IOException e) {
                 System.out.println("Error loading the map: " + e.getMessage());
@@ -111,20 +113,18 @@ public class Play {
 
     }
 
-    public static void ScenaryOne(Map map, Room movedRoom, Hero hero,Scanner scanner) throws HeroException {
-        heroTurn(hero, movedRoom, scanner);
+    public static void ScenaryOne(Map map, Room movedRoom, Hero hero,Scanner scanner) throws HeroException, EnemyException {
+        Iterator<Enemy> enemyIterator = movedRoom.getEnemies().iterator();
 
-        if(!hero.isHeroAlive()){
-            System.out.println("Hero is dead. Game over.");
-            return;
-        }
+
+        heroTurn(hero, movedRoom, scanner);
 
         if(!movedRoom.isThereAnEnemyAlive()){
             System.out.println("You have defeated all enemies in the room.");
             return;
         }
-        //SHUFFFLEEE !!!-----------------------------------------------------------------------------------------------------------------------------------------------------
-        // map.shuffleEnemies();
+
+        map.mapShuffle();
 
         enemyTurnAttack(movedRoom, hero);
 
@@ -304,8 +304,8 @@ public class Play {
     }
 
 
-    public static void selectStartRoom(Map map, Hero hero, Scanner scanner, UnorderedListADT<Room> rooms) throws HeroException {
-        UnorderedListADT<Room> inAndOutRooms = new ArrayUnorderedList<>();
+    public static void selectStartRoom(Map map, Hero hero, Scanner scanner, UnorderedListADT<Room> rooms) throws HeroException, EnemyException {
+        UnorderedListADT<Room> inAndOutRooms = new LinkedUnorderedList<>(); // Linked porque eu nunca sei quantos elementos eu vou ter
         System.out.println("In and Out Rooms:");
 
         Iterator<Room> roomIterator = rooms.iterator();
@@ -366,94 +366,94 @@ public class Play {
 }
 
     public static Room listConnectedRooms(Map map, Scanner scanner, Hero hero, UnorderedListADT<Room> allRooms, Room targetRoom) throws HeroException {
-    Room currentRoom = hero.getCurrentRoom();
-    hero.setCurrentRoom(null);
-    currentRoom.removeHero();
+        Room currentRoom = hero.getCurrentRoom();
+        hero.setCurrentRoom(null);
+        currentRoom.removeHero();
 
-    Iterator<Room> iterator = allRooms.iterator();
-    UnorderedListADT<Room> connectedRooms = new ArrayUnorderedList<>();
+        Iterator<Room> iterator = allRooms.iterator();
+        UnorderedListADT<Room> connectedRooms = new ArrayUnorderedList<>();
 
-    while (iterator.hasNext()) {
-        Room room = iterator.next();
-        if (map.isConnected(currentRoom, room)) {
-            connectedRooms.addToRear(room);
+        while (iterator.hasNext()) {
+            Room room = iterator.next();
+            if (map.isConnected(currentRoom, room)) {
+                connectedRooms.addToRear(room);
+            }
         }
-    }
 
-    if (connectedRooms.isEmpty()) {
-        System.out.println("No connected rooms available.");
-        return null;
-    }
+        if (connectedRooms.isEmpty()) {
+            System.out.println("No connected rooms available.");
+            return null;
+        }
 
-    if (!hero.doesHeroHaveTarget()) {
-        int count = 0;
-        Iterator<Room> pathIterator = map.shortestPath(currentRoom, targetRoom);
+        if (!hero.doesHeroHaveTarget()) {
+            int count = 0;
+            Iterator<Room> pathIterator = map.shortestPath(currentRoom, targetRoom);
+            System.out.println("----------------------------------------------------------------");
+            System.out.println("Shortest path from " + currentRoom.getRoomName() + " to " + targetRoom.getRoomName() + ":");
+            while (pathIterator.hasNext() && count < 2) {
+                Room room = pathIterator.next();
+                System.out.println(room.getRoomName());
+                count++;
+            }
+        }
+
         System.out.println("----------------------------------------------------------------");
-        System.out.println("Shortest path from " + currentRoom.getRoomName() + " to " + targetRoom.getRoomName() + ":");
-        while (pathIterator.hasNext() && count < 2) {
-            Room room = pathIterator.next();
-            System.out.println(room.getRoomName());
-            count++;
-        }
-    }
+        System.out.println("Connected Rooms:");
+        Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
+        int index = 1;
+        while (connectedRoomIterator.hasNext()) {
+            Room room = connectedRoomIterator.next();
+            System.out.println(index + ". " + room.getRoomName());
 
-    System.out.println("----------------------------------------------------------------");
-    System.out.println("Connected Rooms:");
-    Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
-    int index = 1;
-    while (connectedRoomIterator.hasNext()) {
-        Room room = connectedRoomIterator.next();
-        System.out.println(index + ". " + room.getRoomName());
-
-        // Display information about enemies and items in the connected room
-        System.out.println("Information about the room:");
-        if (room.isIsAndOut()) {
-            System.out.println("!!!!!THIS IS AN EXIT ROOM!!!!!");
-        }
-        if (room.isThereAnEnemyAlive()) {
-            System.out.println("Enemies in the room:");
-            Iterator<Enemy> enemyIterator = room.getEnemies().iterator();
-            while (enemyIterator.hasNext()) {
-                Enemy enemy = enemyIterator.next();
-                System.out.println("- " + enemy.getName() + " (Health: " + enemy.getHealth() + ")");
+            // Display information about enemies and items in the connected room
+            System.out.println("Information about the room:");
+            if (room.isIsAndOut()) {
+                System.out.println("!!!!!THIS IS AN EXIT ROOM!!!!!");
             }
-        } else {
-            System.out.println("No enemies in the room.");
-        }
-
-        if (room.hasItems()) {
-            System.out.println("Items in the room:");
-            Iterator<Item> itemIterator = room.getItems();
-            while (itemIterator.hasNext()) {
-                Item item = itemIterator.next();
-                System.out.println("- " + item.getNameItem() + " (Type: " + item.getType().toString() + ")");
+            if (room.isThereAnEnemyAlive()) {
+                System.out.println("Enemies in the room:");
+                Iterator<Enemy> enemyIterator = room.getEnemies().iterator();
+                while (enemyIterator.hasNext()) {
+                    Enemy enemy = enemyIterator.next();
+                    System.out.println("- " + enemy.getName() + " (Health: " + enemy.getHealth() + ")");
+                }
+            } else {
+                System.out.println("No enemies in the room.");
             }
-        } else {
-            System.out.println("No items in the room.");
+
+            if (room.hasItems()) {
+                System.out.println("Items in the room:");
+                Iterator<Item> itemIterator = room.getItems();
+                while (itemIterator.hasNext()) {
+                    Item item = itemIterator.next();
+                    System.out.println("- " + item.getNameItem() + " (Type: " + item.getType().toString() + ")");
+                }
+            } else {
+                System.out.println("No items in the room.");
+            }
+
+            System.out.println("------------------------------------------------");
+            index++;
         }
 
-        System.out.println("------------------------------------------------");
-        index++;
-    }
-
-    System.out.print("Select a connected room by number: ");
-    int roomChoice = scanner.nextInt();
-    while (roomChoice < 1 || roomChoice > connectedRooms.size()) {
-        System.out.println("Invalid choice. Please try again.");
         System.out.print("Select a connected room by number: ");
-        roomChoice = scanner.nextInt();
-    }
+        int roomChoice = scanner.nextInt();
+        while (roomChoice < 1 || roomChoice > connectedRooms.size()) {
+            System.out.println("Invalid choice. Please try again.");
+            System.out.print("Select a connected room by number: ");
+            roomChoice = scanner.nextInt();
+        }
 
-    connectedRoomIterator = connectedRooms.iterator();
-    Room selectedRoom = null;
-    for (int i = 1; i <= roomChoice; i++) {
-        selectedRoom = connectedRoomIterator.next();
-    }
+        connectedRoomIterator = connectedRooms.iterator();
+        Room selectedRoom = null;
+        for (int i = 1; i <= roomChoice; i++) {
+            selectedRoom = connectedRoomIterator.next();
+        }
 
-    selectedRoom.addHero(hero);
-    clearConsole();
-    System.out.println("Hero moved to the room: " + selectedRoom.getRoomName() + "\n\n");
-    return selectedRoom;
+        selectedRoom.addHero(hero);
+        clearConsole();
+        System.out.println("Hero moved to the room: " + selectedRoom.getRoomName() + "\n\n");
+        return selectedRoom;
 }
 
     public static Room findRoomWithTarget(UnorderedListADT<Room> rooms) {

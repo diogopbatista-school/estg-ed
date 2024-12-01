@@ -69,10 +69,114 @@ public class MapImp implements Map {
         network.updateWeight(vertex1, vertex2, vertex2.getTotalRoomPower());
     }
 
-    public void moveAllEnemies() {
 
+    public void mapShuffle() throws EnemyException {
+        Random rand = new Random(); // random para gerar os numeros de cada sala , ou seja cada sala vai ter X arestas , e o x tem que ser entre 1 e x ;
+        Random numberOfEdgesToMove = new Random();
+        Iterator<Room> iterator = network.iteratorVertexes();
+
+        while (iterator.hasNext()) {
+            Room currentRoom = iterator.next();
+            if (currentRoom.isThereAnEnemyAlive()) {
+                UnorderedListADT<Enemy> enemiesToMove = new LinkedUnorderedList<>();
+                Iterator<Enemy> enemyIterator = currentRoom.getEnemies().iterator();
+                while (enemyIterator.hasNext()) {
+                    Enemy enemy = enemyIterator.next();
+                    if (!enemy.isInFight()) {
+                        enemiesToMove.addToRear(enemy); // Add enemy to the list to move later
+                    }
+                }
+                Iterator<Enemy> moveIterator = enemiesToMove.iterator();
+                int jumps = numberOfEdgesToMove.nextInt(2) + 1;
+                while (moveIterator.hasNext()) {
+                    Enemy enemy = moveIterator.next();
+                    System.out.println(enemy.getName() + " | old " + enemy.getCurrentRoom().getRoomName());
+                    currentRoom.removeEnemy(enemy); //// Use the removeEnemy method
+                    moveEnemyRecursively(currentRoom, enemy, rand, jumps); // Move the enemy with up to 2 jumps
+                    System.out.println(enemy.getName() + " | new " + enemy.getCurrentRoom().getRoomName());
+                }
+            }
+        }
+
+        iterator = network.iteratorVertexes();
+        while (iterator.hasNext()) {
+            Room room1 = iterator.next();
+            UnorderedListADT<Room> connectedRooms = getConnectedRooms(room1);
+            Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
+            while (connectedRoomIterator.hasNext()) {
+                Room room2 = connectedRoomIterator.next();
+                updateWeight(room1, room2, room2.getTotalRoomPower());
+                updateWeight(room2, room1, room1.getTotalRoomPower());
+            }
+        }
+
+
+        // Agora, atualiza os pesos da rede de salas
+        iterator = network.iteratorVertexes();
+        while (iterator.hasNext()) {
+            Room room1 = iterator.next();
+
+            // Obter as salas conectadas à sala atual
+            UnorderedListADT<Room> connectedRooms = getConnectedRooms(room1);
+            Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
+
+            // Atualizar os pesos das conexões
+            while (connectedRoomIterator.hasNext()) {
+                Room room2 = connectedRoomIterator.next();
+
+                // Atualiza o peso entre duas salas conectadas
+                updateWeight(room1, room2, room2.getTotalRoomPower());
+                updateWeight(room2, room1, room1.getTotalRoomPower());
+            }
+        }
     }
 
+    private void moveEnemyRecursively(Room currentRoom, Enemy enemy, Random rand, int remainingJumps) throws EnemyException {
+
+        if (remainingJumps == 0) {
+            currentRoom.addEnemy(enemy); // Adiciona o inimigo à sala se não houver mais pulos
+            enemy.setCurrentRoom(currentRoom); // Atualiza a sala atual do inimigo
+            return;
+        }
+
+        // Obtém as salas conectadas à sala atual
+        UnorderedListADT<Room> connectedRooms = getConnectedRooms(currentRoom);
+        if (!connectedRooms.isEmpty()) {
+            // Seleciona uma sala aleatória entre as conectadas
+            Room nextRoom = getRandomRoom(connectedRooms, rand);
+            moveEnemyRecursively(nextRoom, enemy, rand, remainingJumps - 1); // Chamada recursiva para mover o inimigo
+        } else {
+            // Caso não haja salas conectadas, o inimigo volta para a sala atual
+            currentRoom.addEnemy(enemy);
+            enemy.setCurrentRoom(currentRoom);
+        }
+    }
+
+    private UnorderedListADT<Room> getConnectedRooms(Room room) {
+        UnorderedListADT<Room> connectedRooms = new ArrayUnorderedList<>();
+        Iterator<Room> iterator = network.iteratorVertexes();
+
+        // Itera sobre as salas conectadas e adiciona à lista
+        while (iterator.hasNext()) {
+            Room connectedRoom = iterator.next();
+            if (network.areConnected(room, connectedRoom)) {
+                connectedRooms.addToRear(connectedRoom);
+            }
+        }
+        return connectedRooms;
+    }
+
+    private Room getRandomRoom(UnorderedListADT<Room> rooms, Random rand) {
+        int index = rand.nextInt(rooms.size());
+        Iterator<Room> iterator = rooms.iterator();
+        Room selectedRoom = null;
+
+        // Itera até o índice sorteado
+        for (int i = 0; i <= index; i++) {
+            selectedRoom = iterator.next();
+        }
+        return selectedRoom;
+    }
 
 
 

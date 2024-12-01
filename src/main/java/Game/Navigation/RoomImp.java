@@ -36,6 +36,11 @@ public class RoomImp implements Room {
         this.enemyDeadCounter = 0;
     }
 
+
+    public void setTotalRoomPower(int totalRoomPower){
+        this.totalRoomPower = totalRoomPower;
+    }
+
     public Target getTarget(){
         return this.target;
     }
@@ -77,18 +82,25 @@ public class RoomImp implements Room {
             throw new EnemyException("Enemy not found in the room.");
         }
 
+        UnorderedListADT<Enemy> enemiesToRemove = new LinkedUnorderedList<>();
         Iterator<Enemy> iterator = enemies.iterator();
         while (iterator.hasNext()) {
             Enemy currentEnemy = iterator.next();
             if (currentEnemy.equals(enemy)) {
                 totalRoomPower -= enemy.getAttackPower();
-                iterator.remove();
+                enemiesToRemove.addToRear(currentEnemy);
                 enemy.setCurrentRoom(null); // Optionally clear the enemy's current room reference
                 enemyAliveCounter--;
-                return;
+                break; // Exit the loop after finding the enemy
             }
         }
+
+        Iterator<Enemy> removeIterator = enemiesToRemove.iterator();
+        while (removeIterator.hasNext()) {
+            enemies.remove(removeIterator.next());
+        }
     }
+
 
     @Override
     public UnorderedListADT<Enemy> getEnemies() {

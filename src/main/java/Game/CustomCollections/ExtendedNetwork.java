@@ -66,6 +66,8 @@ public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT
         addEdge(index1, index2, ((RoomImp) vertex2).getTotalRoomPower());
     }
 
+
+
     @Override
     public void addEdge(T room1, T room2, double weight) throws NoSuchElementException, IllegalArgumentException {
         if (room1 == null || room2 == null) {
@@ -76,7 +78,11 @@ public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT
         if (index1 == -1 || index2 == -1) {
             throw new NoSuchElementException("The vertex is not in the network.");
         }
-        addEdge(index1, index2, weight);
+        addEdgeRooms(index1, index2, weight);
+    }
+
+    private void addEdgeRooms(int index1, int index2, double weight) {
+        adjMatrix[index1][index2] = weight;
     }
 
     @Override

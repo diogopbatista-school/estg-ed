@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface Room {
 
+    public void setTotalRoomPower(int roomPower);
+
     public boolean isThereAnEnemyAlive();
 
     public void addEnemyDeadCounter();
