@@ -6,6 +6,7 @@ import Game.Entities.HeroImp;
 import Game.Enumerations.ItemType;
 import Game.Exceptions.HeroException;
 import Game.Exceptions.ItemException;
+import Game.Exceptions.TargetException;
 import Game.IO.Importer;
 import Game.Interfaces.*;
 import Game.Navigation.MapImp;
@@ -15,10 +16,10 @@ import java.util.Scanner;
 import java.util.Iterator;
 
 public class Play {
-    public static void main(String[] args) throws HeroException, ItemException {
+    public static void main(String[] args) throws HeroException, ItemException, TargetException {
         Scanner scanner = new Scanner(System.in);
 
-        clearConsole();
+
         System.out.println("!!!!!MISSION IMPOSSIBLE!!!!");
 
         // Menu options
@@ -41,7 +42,7 @@ public class Play {
         }
     }
 
-    public static void startGame(Scanner scanner) throws HeroException, ItemException {
+    public static void startGame(Scanner scanner) throws HeroException, ItemException, TargetException {
         System.out.println("\nCreate Game:");
 
         Map map = new MapImp();
@@ -69,14 +70,23 @@ public class Play {
 
         Hero hero = createHero(scanner);
         Room targetRoom = findRoomWithTarget(allRooms);
-        selectStartRoom(hero, scanner, allRooms);
-        //colocar flag
+        selectStartRoom(map,hero, scanner, allRooms);
+
 
         while (hero.isHeroAlive()) {
             Room movedRoom = listConnectedRooms(map, scanner, hero, allRooms, targetRoom);
 
+            if (movedRoom.isIsAndOut()) {
+                if (hero.doesHeroHaveTarget()) {
+                    System.out.println("Success! Hero has reached the exit with the target.");
+                } else {
+                    System.out.println("Game Over! Hero reached the exit without the target.");
+                }
+                break;
+            }
+
             if (!movedRoom.isThereAnEnemyAlive()) {
-                ScenaryTwo(movedRoom,targetRoom, hero, scanner); // ja faz o cenario 2 3 , 4 , 6
+                ScenaryTwo(movedRoom, targetRoom, hero, scanner); // ja faz o cenario 2 3 , 4 , 6
             } else {
                 System.out.println("!!!!!ENEMIES IN THE ROOM!!!!!:\n");
 
@@ -86,14 +96,16 @@ public class Play {
                 if (movedRoom.hasItems()) {
                     itemsScenario(movedRoom, hero);
                 }
-                if(movedRoom.equals(targetRoom)){ //
+                if (movedRoom.equals(targetRoom)) {
                     Target target = movedRoom.getTarget();
                     hero.setTarget(target);
+                    movedRoom.removeTarget(target);
+                    System.out.println("Hero has reached the target.\n"
+                            + "Your online device has been compromised. You need to find your way out alone!\n" +
+                            "Available services: \n" +
+                            "1.Next room's information ");
                 }
-
-
             }
-
         }
 
 
@@ -119,7 +131,7 @@ public class Play {
     }
 
 
-    public static void ScenaryTwo(Room movedRoom, Room targetRoom, Hero hero, Scanner scanner) {
+    public static void ScenaryTwo(Room movedRoom, Room targetRoom, Hero hero, Scanner scanner) throws TargetException {
 
         System.out.println("No enemies in the room.");
         System.out.println("Enemy's turn:");
@@ -128,13 +140,17 @@ public class Play {
             System.out.println("No enemies have entered the room.");
             System.out.println("Hero's turn:");
 
-            if(movedRoom.hasItems()){
+            if (movedRoom.hasItems()) {
                 itemsScenario(movedRoom, hero);
             }
-
-            if(movedRoom.equals(targetRoom)){
+            if (movedRoom.equals(targetRoom)) {
                 Target target = movedRoom.getTarget();
                 hero.setTarget(target);
+                movedRoom.removeTarget(target);
+                System.out.println("Hero has reached the target.\n"
+                        + "Your online device has been compromised. You need to find your way out alone!\n" +
+                        "Available services: \n" +
+                        "1.Next room's information ");
             }
 
         } else {
@@ -161,6 +177,7 @@ public class Play {
     }
 
     public static void itemsScenario(Room movedRoom, Hero hero){
+        System.out.println("--------------------------------------");
         System.out.println("Items in the room:");
         Iterator<Item> itemIterator = movedRoom.getItems();
         while (itemIterator.hasNext()) {
@@ -180,7 +197,7 @@ public class Play {
         System.out.println("Hero's turn:");
         int actionChoice;
         boolean hasItems = hero.isItemsOnBackPack();
-        Iterator<Enemy> enemyIterator;// Check if the hero has items in the backpack
+        Iterator<Enemy> enemyIterator; // Check if the hero has items in the backpack
 
         do {
             if (hasItems) {
@@ -189,31 +206,63 @@ public class Play {
                 System.out.print("Choose an action (1: Attack): ");
             }
             actionChoice = scanner.nextInt();
-            if (actionChoice != 1 && (hasItems || actionChoice != 2)) {
+            if (actionChoice != 1 && (!hasItems || actionChoice != 2)) {
                 System.out.println("Invalid choice. Please try again.");
             }
-        } while (actionChoice != 1 && (hasItems || actionChoice != 2));
+        } while (actionChoice != 1 && (!hasItems || actionChoice != 2));
 
-        if (actionChoice == 1) {
-            System.out.println("Hero's turn to attack:");
-            enemyIterator = movedRoom.getEnemies().iterator();
-            while (enemyIterator.hasNext()) {
-                Enemy enemy = enemyIterator.next();
-                if (!enemy.isDead()) {
-                    hero.attack(enemy);
-                    if (enemy.isDead()) {
-                        System.out.println("Enemy " + enemy.getName() + " is dead.");
-                        movedRoom.addEnemyDeadCounter();
-                    } else {
-                        System.out.println("Hero attacked " + enemy.getName() + ". Enemy health: " + enemy.getHealth());
+        while (actionChoice == 2) {
+            System.out.println("Hero's turn to use an item:");
+            int heroHealth = hero.getHealth();
+            int maxHealth = 100; // Max health is always 100
+            Item item = hero.getItemFirstItem();
+            int itemPoints = item.getPoints();
+
+            if (heroHealth == maxHealth) {
+                System.out.println("Hero's health is full. Do you still want to use the item? (yes/no): ");
+                String choice = scanner.next().toLowerCase();
+                if (!choice.equals("yes")) {
+                    System.out.print("Choose an action (1: Attack, 2: Use Item): ");
+                    actionChoice = scanner.nextInt();
+                    if (actionChoice == 1){
+                        break;
                     }
+                    continue;
+                }
+            } else if (heroHealth + itemPoints > maxHealth) {
+                System.out.println("Using this item will waste points. Do you still want to use the item? (yes/no): ");
+                String choice = scanner.next().toLowerCase();
+                if (!choice.equals("yes")) {
+                    System.out.print("Choose an action (1: Attack, 2: Use Item): ");
+                    actionChoice = scanner.nextInt();
+                    if (actionChoice == 1){
+                        break;
+                    }
+                    continue;
                 }
             }
-        } else {
-            System.out.println("Hero's turn to use an item:");
+
             hero.UseItem();
+            break;
+    }
+
+    if (actionChoice == 1) {
+        System.out.println("Hero's turn to attack:");
+        enemyIterator = movedRoom.getEnemies().iterator();
+        while (enemyIterator.hasNext()) {
+            Enemy enemy = enemyIterator.next();
+            if (!enemy.isDead()) {
+                hero.attack(enemy);
+                if (enemy.isDead()) {
+                    System.out.println("Enemy " + enemy.getName() + " is dead.");
+                    movedRoom.addEnemyDeadCounter();
+                } else {
+                    System.out.println("Hero attacked " + enemy.getName() + ". Enemy health: " + enemy.getHealth());
+                }
+            }
         }
     }
+}
 
     public static void enemyTurnAttack(Room movedRoom, Hero hero) {
         System.out.println("Enemies' turn to attack:");
@@ -222,7 +271,7 @@ public class Play {
             Enemy enemy = enemyIterator.next();
             if (!enemy.isDead()) {
                 enemy.attack(hero);
-                System.out.println(enemy.getName() + " attacked Hero. Hero health: " + hero.getHealth());
+                System.out.println(enemy.getName() + " attacked Hero. Hero health: " + hero.getHealth() + ", Hero armor: " + hero.getArmorHealth());
             }
         }
     }
@@ -255,7 +304,7 @@ public class Play {
     }
 
 
-    public static void selectStartRoom(Hero hero, Scanner scanner, UnorderedListADT<Room> rooms) throws HeroException {
+    public static void selectStartRoom(Map map, Hero hero, Scanner scanner, UnorderedListADT<Room> rooms) throws HeroException {
         UnorderedListADT<Room> inAndOutRooms = new ArrayUnorderedList<>();
         System.out.println("In and Out Rooms:");
 
@@ -273,86 +322,139 @@ public class Play {
             return;
         }
 
-        System.out.print("Select a room by number: ");
-        int roomChoice = scanner.nextInt();
-        while (roomChoice < 1 || roomChoice > inAndOutRooms.size()) {
-            System.out.println("Invalid choice. Please try again.");
-            System.out.print("Select a room by number: ");
-            roomChoice = scanner.nextInt();
-        }
-
-        Iterator<Room> inAndOutRoomIterator = inAndOutRooms.iterator();
         Room selectedRoom = null;
-        for (int i = 1; i <= roomChoice; i++) {
-            selectedRoom = inAndOutRoomIterator.next();
-        }
+        boolean roomConfirmed = false;
 
-        selectedRoom.addHero(hero);
-        clearConsole();
-        System.out.println("Hero will start the game at the room: " + selectedRoom.getRoomName());
-    }
+        while (!roomConfirmed) {
+            System.out.print("Select a room by number: ");
+            int roomChoice = scanner.nextInt();
+            while (roomChoice < 1 || roomChoice > inAndOutRooms.size()) {
+                System.out.println("Invalid choice. Please try again.");
+                System.out.print("Select a room by number: ");
+                roomChoice = scanner.nextInt();
+            }
+
+            Iterator<Room> inAndOutRoomIterator = inAndOutRooms.iterator();
+            for (int i = 1; i <= roomChoice; i++) {
+                selectedRoom = inAndOutRoomIterator.next();
+            }
+
+            if (selectedRoom.isThereAnEnemyAlive()) {
+                System.out.println("The selected room contains enemies. Do you want to enter? (yes/no): ");
+                String enterChoice = scanner.next().toLowerCase();
+                if (enterChoice.equals("yes")) {
+                    roomConfirmed = true;
+                    selectedRoom.addHero(hero);
+                    clearConsole();
+                    System.out.println("Hero will start the game at the room: " + selectedRoom.getRoomName());
+
+                    System.out.println("!!!!!ENEMIES IN THE ROOM!!!!!:\n");
+
+                    while (hero.isHeroAlive() && selectedRoom.isThereAnEnemyAlive()) { // ja faz o cenario 1 , 4 , 5
+                        ScenaryOne(map, selectedRoom, hero, scanner);
+                    }
+                } else {
+                    System.out.println("Select another room.");
+                }
+            } else {
+                roomConfirmed = true;
+                selectedRoom.addHero(hero);
+                clearConsole();
+                System.out.println("Hero will start the game at the room: " + selectedRoom.getRoomName());
+            }
+        }
+}
 
     public static Room listConnectedRooms(Map map, Scanner scanner, Hero hero, UnorderedListADT<Room> allRooms, Room targetRoom) throws HeroException {
-        Room currentRoom = hero.getCurrentRoom();
-        hero.setCurrentRoom(null);
-        currentRoom.removeHero();
+    Room currentRoom = hero.getCurrentRoom();
+    hero.setCurrentRoom(null);
+    currentRoom.removeHero();
 
-        Iterator<Room> iterator = allRooms.iterator();
-        UnorderedListADT<Room> connectedRooms = new ArrayUnorderedList<>();
+    Iterator<Room> iterator = allRooms.iterator();
+    UnorderedListADT<Room> connectedRooms = new ArrayUnorderedList<>();
 
-        while (iterator.hasNext()) {
-            Room room = iterator.next();
-            if (map.isConnected(currentRoom, room)) {
-                connectedRooms.addToRear(room);
-            }
+    while (iterator.hasNext()) {
+        Room room = iterator.next();
+        if (map.isConnected(currentRoom, room)) {
+            connectedRooms.addToRear(room);
         }
-
-        if (connectedRooms.isEmpty()) {
-            System.out.println("No connected rooms available.");
-            return null;
-        }
-
-        if(!hero.doesHeroHaveTarget()) {
-            int count = 0;
-            Iterator<Room> pathIterator = map.shortestPath(currentRoom, targetRoom);
-            System.out.println("Shortest path from " + currentRoom.getRoomName() + " to " + targetRoom.getRoomName() + ":");
-            while (pathIterator.hasNext() && count < 2) {
-                Room room = pathIterator.next();
-                System.out.println(room.getRoomName());
-                count++;
-            }
-        }
-
-
-        System.out.println("Connected Rooms:");
-        Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
-        int index = 1;
-        while (connectedRoomIterator.hasNext()) {
-            Room room = connectedRoomIterator.next();
-            System.out.println(index + ". " + room.getRoomName());
-            index++;
-        }
-
-        System.out.print("Select a connected room by number: ");
-        int roomChoice = scanner.nextInt();
-        while (roomChoice < 1 || roomChoice > connectedRooms.size()) {
-            System.out.println("Invalid choice. Please try again.");
-            System.out.print("Select a connected room by number: ");
-            roomChoice = scanner.nextInt();
-        }
-
-        connectedRoomIterator = connectedRooms.iterator();
-        Room selectedRoom = null;
-        for (int i = 1; i <= roomChoice; i++) {
-            selectedRoom = connectedRoomIterator.next();
-        }
-
-
-        selectedRoom.addHero(hero);
-        clearConsole();
-        System.out.println("Hero moved to the room: " + selectedRoom.getRoomName() + "\n\n");
-        return selectedRoom;
     }
+
+    if (connectedRooms.isEmpty()) {
+        System.out.println("No connected rooms available.");
+        return null;
+    }
+
+    if (!hero.doesHeroHaveTarget()) {
+        int count = 0;
+        Iterator<Room> pathIterator = map.shortestPath(currentRoom, targetRoom);
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("Shortest path from " + currentRoom.getRoomName() + " to " + targetRoom.getRoomName() + ":");
+        while (pathIterator.hasNext() && count < 2) {
+            Room room = pathIterator.next();
+            System.out.println(room.getRoomName());
+            count++;
+        }
+    }
+
+    System.out.println("----------------------------------------------------------------");
+    System.out.println("Connected Rooms:");
+    Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
+    int index = 1;
+    while (connectedRoomIterator.hasNext()) {
+        Room room = connectedRoomIterator.next();
+        System.out.println(index + ". " + room.getRoomName());
+
+        // Display information about enemies and items in the connected room
+        System.out.println("Information about the room:");
+        if (room.isIsAndOut()) {
+            System.out.println("!!!!!THIS IS AN EXIT ROOM!!!!!");
+        }
+        if (room.isThereAnEnemyAlive()) {
+            System.out.println("Enemies in the room:");
+            Iterator<Enemy> enemyIterator = room.getEnemies().iterator();
+            while (enemyIterator.hasNext()) {
+                Enemy enemy = enemyIterator.next();
+                System.out.println("- " + enemy.getName() + " (Health: " + enemy.getHealth() + ")");
+            }
+        } else {
+            System.out.println("No enemies in the room.");
+        }
+
+        if (room.hasItems()) {
+            System.out.println("Items in the room:");
+            Iterator<Item> itemIterator = room.getItems();
+            while (itemIterator.hasNext()) {
+                Item item = itemIterator.next();
+                System.out.println("- " + item.getNameItem() + " (Type: " + item.getType().toString() + ")");
+            }
+        } else {
+            System.out.println("No items in the room.");
+        }
+
+        System.out.println("------------------------------------------------");
+        index++;
+    }
+
+    System.out.print("Select a connected room by number: ");
+    int roomChoice = scanner.nextInt();
+    while (roomChoice < 1 || roomChoice > connectedRooms.size()) {
+        System.out.println("Invalid choice. Please try again.");
+        System.out.print("Select a connected room by number: ");
+        roomChoice = scanner.nextInt();
+    }
+
+    connectedRoomIterator = connectedRooms.iterator();
+    Room selectedRoom = null;
+    for (int i = 1; i <= roomChoice; i++) {
+        selectedRoom = connectedRoomIterator.next();
+    }
+
+    selectedRoom.addHero(hero);
+    clearConsole();
+    System.out.println("Hero moved to the room: " + selectedRoom.getRoomName() + "\n\n");
+    return selectedRoom;
+}
 
     public static Room findRoomWithTarget(UnorderedListADT<Room> rooms) {
         Iterator<Room> roomIterator = rooms.iterator();

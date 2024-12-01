@@ -33,6 +33,10 @@ public class HeroImp extends CharacterImp implements Hero {
         this.target = null;
     }
 
+    public Item getItemFirstItem(){
+        return this.backPack.peek();
+    }
+
     public void setTarget(Target target) {
         this.target = target;
     }

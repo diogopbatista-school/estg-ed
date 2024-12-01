@@ -10,6 +10,8 @@ import java.util.Iterator;
  */
 public interface Hero extends Character{
 
+    public Item getItemFirstItem();
+
     public void setTarget(Target target);
 
     public boolean isItemsOnBackPack();

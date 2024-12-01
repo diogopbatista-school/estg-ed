@@ -25,9 +25,9 @@ public class ItemImp implements Item {
      */
     public ItemImp(int points, String type) {
         this.points = points;
-        if(type == "kit de vida"){
+        if(type.equals("kit de vida")){
             this.type = ItemType.POTION;
-        } else if(type == "colete"){
+        } else if(type.equals("colete")){
             this.type = ItemType.ARMOR;
         }else{
             this.type = ItemType.UNKNOWN;

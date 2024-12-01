@@ -39,4 +39,5 @@ public class EnemyImp extends CharacterImp implements Enemy {
         }
         this.name = name;
     }
+
 }

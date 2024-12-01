@@ -2,6 +2,7 @@
 package Game.Entities;
 
 import Game.Interfaces.Character;
+import Game.Interfaces.Hero;
 
 public abstract class CharacterImp implements Character {
     protected String name;
@@ -62,6 +63,30 @@ public abstract class CharacterImp implements Character {
         if (character == null) {
             throw new IllegalArgumentException("Character must be valid");
         }
-        character.setHealth(character.getHealth() - this.getAttackPower());
+
+        int attackPower = this.getAttackPower();
+
+        if (character instanceof Hero) {
+            Hero hero = (Hero) character;
+            int armor = hero.getArmorHealth();
+
+            if (armor > 0) {
+                if (armor >= attackPower) {
+                    hero.setArmorHealth(armor - attackPower);
+                    return;
+                } else {
+                    attackPower -= armor;
+                    hero.setArmorHealth(0);
+                }
+            }
+        }
+
+        int damage = character.getHealth() - attackPower;
+
+        if (damage < 0) {
+            character.setHealth(0);
+        } else {
+            character.setHealth(damage);
+        }
     }
 }
