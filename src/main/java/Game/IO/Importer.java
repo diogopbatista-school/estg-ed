@@ -1,8 +1,13 @@
 package Game.IO;
 
+import Collections.Lists.LinkedOrderedList;
+import Collections.Lists.LinkedUnorderedList;
+import Collections.Lists.OrderedListADT;
+import Collections.Lists.UnorderedListADT;
 import Game.Entities.EnemyImp;
 import Game.Entities.ItemImp;
 import Game.Entities.TargetImp;
+import Game.Exceptions.ItemException;
 import Game.Exceptions.MapException;
 import Game.Exceptions.RoomException;
 import Game.Interfaces.Enemy;
@@ -27,6 +32,7 @@ public class Importer {
 
 
     private static final JSONParser PARSER = new JSONParser();
+    private JSONArray missions;
     private JSONObject mission;
     private JSONObject target;
     private JSONArray enemies;
@@ -39,6 +45,17 @@ public class Importer {
      * Default constructor for the Importer class.
      */
     public Importer() {
+    }
+
+    public UnorderedListADT<String> loadMissions(String filePath) throws  IOException, ParseException {
+        UnorderedListADT<String> missionsList = new LinkedUnorderedList<>();
+        JSONObject missionsJSON = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(filePath))));
+        missions = (JSONArray) missionsJSON.get("missoes");
+        for (Object obj : missions) {
+            JSONObject mission = (JSONObject) obj;
+            missionsList.addToRear((String) mission.get("cod-missao"));
+        }
+        return missionsList;
     }
 
     /**
@@ -60,29 +77,33 @@ public class Importer {
      * Reads the JSON file and parses its content to populate the map.
      *
      * @param map The map to be populated with data.
-     * @throws FileNotFoundException if the JSON file is not found.
-     * @throws IOException if an I/O error occurs.
      * @throws ParseException if the JSON file cannot be parsed.
      * @throws MapException if the map is null.
      */
-    private void importFiles(Map map, String nameMission) throws FileNotFoundException, IOException, ParseException, MapException {
-        if(!Files.exists(Paths.get(nameMission))){
-            throw new FileNotFoundException("File not found");
-        }
-
-        if(map == null){
+    private void importFiles(Map map, String nameMission) throws ParseException, MapException {
+        if (map == null) {
             throw new MapException("Map cannot be null");
         }
 
-        this.mission = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(nameMission))));
-        this.rooms = (JSONArray) mission.get("edificio");
-        this.enemies = (JSONArray) mission.get("inimigos");
-        this.connections = (JSONArray) mission.get("ligacoes");
-        this.items = (JSONArray) mission.get("itens");
-        this.exitsAndEntrances = (JSONArray) mission.get("entradas-saidas");
-        this.target = (JSONObject) mission.get("alvo");
+        for (Object obj : missions) {
+            JSONObject mission = (JSONObject) obj;
+            if (nameMission.equals(mission.get("cod-missao"))) {
+                this.mission = mission;
+                this.rooms = (JSONArray) mission.get("edificio");
+                this.enemies = (JSONArray) mission.get("inimigos");
+                this.connections = (JSONArray) mission.get("ligacoes");
+                this.items = (JSONArray) mission.get("itens");
+                this.exitsAndEntrances = (JSONArray) mission.get("entradas-saidas");
+                this.target = (JSONObject) mission.get("alvo");
+                break;
+            }
+        }
 
-        this.ConstructMap(map);
+        if (this.mission == null) {
+            throw new IllegalArgumentException("Mission code not found: " + nameMission);
+        }
+
+        this.constructMap(map);
     }
 
     /**
@@ -90,14 +111,14 @@ public class Importer {
      *
      * @param map The map to be constructed.
      */
-    private void ConstructMap(Map map) {
+    private void constructMap(Map map) {
         try {
             for (Object obj : this.rooms) {
                 String roomName = (String) obj;
                 Room room = new RoomImp(roomName);
                 map.addRoom(room);
 
-                AddEnemiesToRoom(room);
+                addEnemiesToRoom(room);
                 addItemsToRoom(room);
                 addExitsAndEntrancesToRoom(room);
                 addTargetToRoom(room);
@@ -115,7 +136,7 @@ public class Importer {
      *
      * @param room The room to which enemies will be added.
      */
-    private void AddEnemiesToRoom(Room room) {
+    private void addEnemiesToRoom(Room room) {
         try {
             for (Object obj : this.enemies) {
                 JSONObject jsonInimigo = (JSONObject) obj;
@@ -158,7 +179,7 @@ public class Importer {
                     try{
                         ItemImp item = new ItemImp(points, name);
                         room.addItem(item);
-                    }catch(IllegalArgumentException e){
+                    }catch(ItemException e){
                         System.out.println("An item with the name " + name + " was not added to the room");
                     }
                 }
@@ -206,10 +227,8 @@ public class Importer {
             int weight1 = room1.getTotalEnemiesAttackPower();
             int weight2 = room2.getTotalEnemiesAttackPower();
 
-            if (room1 != null && room2 != null) {
-                map.addConnection(room1, room2, weight1);
-                map.addConnection(room2, room1, weight2);
-            }
+            map.addConnection(room1, room2, weight1);
+            map.addConnection(room2, room1, weight2);
         }
     }
 

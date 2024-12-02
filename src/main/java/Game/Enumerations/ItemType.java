@@ -1,5 +1,7 @@
 package Game.Enumerations;
 
+import Game.Exceptions.ItemException;
+
 /**
  * Represents the type of an item
  */
@@ -18,11 +20,11 @@ public enum ItemType {
         return "Unknown";
     }
 
-    public static ItemType fromString(String type) {
+    public static ItemType fromString(String type) throws ItemException {
         try {
             return ItemType.valueOf(type.toUpperCase().replace(" ", "_"));
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid item type: " + type);
+            throw new ItemException("Invalid item type: " + type);
         }
     }
 }

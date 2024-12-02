@@ -1,6 +1,7 @@
 package Game.Entities;
 
 import Game.Enumerations.ItemType;
+import Game.Exceptions.ItemException;
 import Game.Interfaces.Item;
 
 /**
@@ -23,7 +24,7 @@ public class ItemImp implements Item {
      * @param points The points the item gives
      * @param type The type of the item
      */
-    public ItemImp(int points, String type) { // mudar sem enum
+    public ItemImp(int points, String type) throws ItemException { // mudar sem enum
         this.points = points;
         this.type = ItemType.fromString(type);
     }

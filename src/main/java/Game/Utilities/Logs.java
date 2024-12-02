@@ -10,4 +10,8 @@ public class Logs {
     public Logs(){
         this.logs = new LinkedOrderedList<>();
     }
+
+    public void addLog(Log log){
+        this.logs.add(log);
+    }
 }

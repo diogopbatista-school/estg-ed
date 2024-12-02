@@ -1,8 +1,6 @@
 package Game;
 
-import Collections.Lists.ArrayUnorderedList;
-import Collections.Lists.LinkedUnorderedList;
-import Collections.Lists.UnorderedListADT;
+import Collections.Lists.*;
 import Game.Entities.HeroImp;
 import Game.Exceptions.EnemyException;
 import Game.Exceptions.HeroException;
@@ -13,67 +11,163 @@ import Game.Interfaces.*;
 import Game.Navigation.MapImp;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Iterator;
 
 public class Play {
     public static void main(String[] args) throws HeroException, ItemException, TargetException, EnemyException {
         Scanner scanner = new Scanner(System.in);
+        Importer importer = new Importer();
+        UnorderedListADT<String> missionCodes = new LinkedUnorderedList<>();
 
+        try {
+            missionCodes = importer.loadMissions("Missoes.json");
+        } catch (Exception e) {
+            System.out.println("Error loading missions: " + e.getMessage());
+            System.exit(1);
+        }
 
+        displayMenu(scanner, importer, missionCodes);
+    }
+
+    private static void displayMenu(Scanner scanner, Importer importer, UnorderedListADT<String> missionCodes) {
         System.out.println("!!!!!MISSION IMPOSSIBLE!!!!");
 
-        // Menu options
-        System.out.println("\nMenu:");
-        System.out.println("1.Start Game");
-        System.out.println("2. Exit");
-        System.out.print("Choose an option: ");
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Start Game");
+            System.out.println("2. Exit");
+            System.out.print("Choose an option: ");
 
-        int choice = scanner.nextInt();
+            int choice = getValidNumberInput(scanner, 1, 2);
 
-        switch (choice) {
-            case 1:
-                startGame(scanner);
-                break;
-            case 2:
-                System.out.println("Exiting. Goodbye!");
-                System.exit(0);
-            default:
-                System.out.println("Invalid option. Please try again.");
+            switch (choice) {
+                case 1:
+                    startGame(scanner, importer, missionCodes);
+                    break;
+                case 2:
+                    System.out.println("Exiting. Goodbye!");
+                    System.exit(0);
+            }
         }
     }
 
-    public static void startGame(Scanner scanner) throws HeroException, ItemException, TargetException, EnemyException {
-        System.out.println("\nCreate Game:");
 
-        Map map = new MapImp();
-        UnorderedListADT<Room> allRooms = new ArrayUnorderedList<>();
+    private static void startGame(Scanner scanner, Importer importer, UnorderedListADT<String> missionCodes) {
+        boolean playAgain = true;
 
-        System.out.print("Do you want to import a map from a JSON file? (yes/no): ");
-        String restoreMapChoice = scanner.next().toLowerCase();
-        if (restoreMapChoice.equals("yes")) {
-            System.out.print("Enter the name of the file to load the map JSON: ");
-            String fileName = scanner.next();
+        while (playAgain) {
+            System.out.println("\nCreate Game:");
+
+            System.out.println("\nAvailable Missions:");
+            Iterator<String> iterator = missionCodes.iterator();
+            int index = 1;
+            while (iterator.hasNext()) {
+                System.out.println(index + ". " + iterator.next());
+                index++;
+            }
+            System.out.print("Choose a mission: ");
+
+            int missionChoice = -1;
+            while (missionChoice < 1 || missionChoice > missionCodes.size()) {
+                try {
+                    missionChoice = scanner.nextInt();
+                    if (missionChoice < 1 || missionChoice > missionCodes.size()) {
+                        System.out.println("Invalid choice. Please try again.");
+                        scanner.next();
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    scanner.next();
+                }
+            }
+
+            iterator = missionCodes.iterator();
+            String selectedMission = null;
+            for (int i = 0; i < missionChoice; i++) {
+                selectedMission = iterator.next();
+            }
+
+            Map map = new MapImp();
 
             try {
-                Importer mapLoader = new Importer();
-                mapLoader.importData(map, fileName);
+                importer.importData(map, selectedMission);
                 clearConsole();
-                System.out.println("Map loaded successfully!");
-                System.out.println(map.toString());
+                System.out.println("Mission loaded successfully! Mission: " + selectedMission);
 
-            } catch (IllegalArgumentException | IOException e) {
-                System.out.println("Error loading the map: " + e.getMessage());
-                return;
+                System.out.println("Choose play mode:");
+                System.out.println("1. Manual");
+                System.out.println("2. Automatic");
+                int playModeChoice = getValidNumberInput(scanner, 1, 2);
+
+                if (playModeChoice == 1) {
+                    try {
+                        playManually(map, scanner);
+                    } catch (HeroException | ItemException | TargetException | EnemyException e) {
+                        System.out.println("Error playing the game: " + e.getMessage());
+                    }
+                } else if (playModeChoice == 2) {
+                    /**
+                     try {
+                     playAutomatically(map);
+                     } catch (HeroException | ItemException | TargetException | EnemyException e) {
+                     System.out.println("Error playing the game: " + e.getMessage());
+                     }
+                     */
+                }
+            } catch (Exception e) {
+                System.out.println("Error loading mission: " + e.getMessage());
+            }
+
+            System.out.println("Do you want to play the game again?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+            int playAgainChoice = getValidNumberInput(scanner, 1, 2);
+            playAgain = (playAgainChoice == 1);
+
+            System.out.println("Exiting. Goodbye!");
+        }
+    }
+
+    private static String getValidInput(Scanner scanner, String prompt, String... validInputs) {
+        String input;
+        while (true) {
+            System.out.print(prompt);
+            input = scanner.next().toLowerCase();
+            for (String validInput : validInputs) {
+                if (input.equals(validInput)) {
+                    return input;
+                }
+            }
+            System.out.println("Invalid input. Please try again.");
+        }
+    }
+
+    private static int getValidNumberInput(Scanner scanner, int min, int max) {
+        int choice = -1;
+        while (choice < min || choice > max) {
+            try {
+                System.out.print("Choose a number between " + min + " and " + max + ": ");
+                choice = scanner.nextInt();
+                if (choice < min || choice > max) {
+                    System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next(); // Clear the invalid input
             }
         }
+        return choice;
+    }
 
-        allRooms = map.getRooms();
+    private static void playManually(Map mapOfGame ,Scanner scanner) throws HeroException, ItemException, TargetException, EnemyException {
+        UnorderedListADT<Room>
 
+        allRooms = mapOfGame.getRooms();
         Hero hero = createHero(scanner);
         Room targetRoom = findRoomWithTarget(allRooms);
-        selectStartRoom(map,hero, scanner, allRooms);
-
+        selectStartRoom(mapOfGame,hero, scanner, allRooms);
 
         while (hero.isAlive()) {
             int selectNextMove;
@@ -94,40 +188,39 @@ public class Play {
             }
 
             if(selectNextMove == 1) {
-                Room movedRoom = listConnectedRooms(map, scanner, hero, allRooms, targetRoom);
+                Room movedRoom = listConnectedRooms(mapOfGame, scanner, hero, allRooms, targetRoom);
 
                 if (checkEndGame(hero, movedRoom)) {
                     break;
                 }
 
                 if (movedRoom.isThereAnEnemyAlive() && !movedRoom.isTargetInRoom()) {
-                    ScenaryOne(map, movedRoom, hero, scanner);
+                    ScenaryOne(mapOfGame, movedRoom, hero, scanner);
                 }
 
                 if (!movedRoom.isThereAnEnemyAlive() && !movedRoom.isTargetInRoom()) {
-                    ScenaryTwo(map, movedRoom, targetRoom, hero, scanner);
+                    ScenaryTwo(mapOfGame, movedRoom, targetRoom, hero, scanner);
                 }
 
 
                 if (movedRoom.isThereAnEnemyAlive() && movedRoom.isTargetInRoom()) {
-                    ScenaryFive(map, movedRoom, hero, scanner);
+                    ScenaryFive(mapOfGame, movedRoom, hero, scanner);
                 }
 
                 if (movedRoom.isTargetInRoom() && !movedRoom.isThereAnEnemyAlive()) {
                     ScenarySix(hero, movedRoom);
                 }
-            }else{
+            }else {
                 hero.UseItem();
                 System.out.println("Hero used an item. Hero health: " + hero.getHealth() + ", Hero armor: " + hero.getArmorHealth());
                 System.out.println("------------------------------------------------ ENEMY TURN");
                 System.out.println("------------------------------------------------ ENEMY MOVED");
-                map.mapShuffle();
+                mapOfGame.mapShuffle();
                 System.out.println("------------------------------------------------");
-                if(hero.getCurrentRoom().isThereAnEnemyAlive()){
-                    ScenaryOne(map, hero.getCurrentRoom(), hero, scanner);
+                if (hero.getCurrentRoom().isThereAnEnemyAlive()) {
+                    ScenaryOne(mapOfGame, hero.getCurrentRoom(), hero, scanner);
                 }
             }
-
         }
     }
 
@@ -143,7 +236,7 @@ public class Play {
         return false;
     }
 
-    public static void ScenaryOne(Map map, Room movedRoom, Hero hero,Scanner scanner) throws HeroException, EnemyException {
+    public static void ScenaryOne(Map map, Room movedRoom, Hero hero,Scanner scanner) throws EnemyException {
         UnorderedListADT<Enemy> enemies = movedRoom.getEnemies();
         while (hero.isAlive() && movedRoom.isThereAnEnemyAlive()) {
 
@@ -163,7 +256,7 @@ public class Play {
         }
     }
 
-    public static void ScenaryTwo(Map map , Room movedRoom, Room targetRoom, Hero hero, Scanner scanner) throws TargetException, EnemyException, HeroException {
+    public static void ScenaryTwo(Map map , Room movedRoom, Room targetRoom, Hero hero, Scanner scanner) throws TargetException, EnemyException {
 
         System.out.println("No enemies in the room.");
         System.out.println("------------------------------------------------");
@@ -184,7 +277,7 @@ public class Play {
         }
     }
 
-    public static void ScenaryFive(Map map, Room movedRoom, Hero hero, Scanner scanner) throws HeroException, EnemyException, TargetException {
+    public static void ScenaryFive(Map map, Room movedRoom, Hero hero, Scanner scanner) throws EnemyException, TargetException {
         System.out.println("Tó Cruz encontrou o alvo, mas há inimigos na sala!");
 
         ScenaryOne(map, movedRoom, hero, scanner);
@@ -199,9 +292,9 @@ public class Play {
     public static void ScenarySix(Hero hero, Room movedRoom) throws TargetException {
         hero.setTarget(movedRoom.getTarget());
         movedRoom.removeTarget(movedRoom.getTarget());
-        System.out.println("Hero has reached the target.\n"
+        System.out.println("Hero has reached the target."
                 + "Your online device has been compromised. You need to find your way out alone!\n" +
-                "Available services: \n" +
+                "Available services:\n " +
                 "1.Next room's information ");
     }
 
@@ -220,7 +313,7 @@ public class Play {
         }
     }
 
-    public static void fight(UnorderedListADT<Enemy> enemies,Hero hero, Room movedRoom,Scanner scanner) throws HeroException, EnemyException {
+    public static void fight(UnorderedListADT<Enemy> enemies,Hero hero, Room movedRoom,Scanner scanner) {
         if (enemies == null ||  !movedRoom.isThereAnEnemyAlive()) {
             System.out.println("No Enemies in the room to fight.");
             return;
@@ -322,24 +415,33 @@ public class Play {
     }
 
     public static Hero createHero(Scanner scanner) {
-
-        int attackValue;
-        do {
-            System.out.print("Enter the attack value for your hero (non-negative): ");
-            attackValue = scanner.nextInt();
-            if (attackValue < 0) {
-                System.out.println("Attack value cannot be negative. Please try again.");
+        int attackValue = -1;
+        while (attackValue <= 0) {
+            try {
+                System.out.print("Enter the attack value for your hero (greater than 0): ");
+                attackValue = scanner.nextInt();
+                if (attackValue <= 0) {
+                    System.out.println("Attack value must be greater than 0. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next();
             }
-        } while (attackValue < 0);
+        }
 
-        int backpackCapacity;
-        do {
-            System.out.print("Enter the capacity of your hero's backpack (non-negative): ");
-            backpackCapacity = scanner.nextInt();
-            if (backpackCapacity < 0) {
-                System.out.println("Backpack capacity cannot be negative. Please try again.");
+        int backpackCapacity = -1;
+        while (backpackCapacity <= 0) {
+            try {
+                System.out.print("Enter the capacity of your hero's backpack (greater than 0): ");
+                backpackCapacity = scanner.nextInt();
+                if (backpackCapacity <= 0) {
+                    System.out.println("Backpack capacity must be greater than 0. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next();
             }
-        } while (backpackCapacity < 0);
+        }
         clearConsole();
 
         return new HeroImp(attackValue, backpackCapacity);

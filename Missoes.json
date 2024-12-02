@@ -1,0 +1,154 @@
+{
+  "missoes": [
+    {
+      "cod-missao": "fortaleza de aço",
+      "versao": 1,
+      "edificio": [
+        "Portão Principal", "Guarita", "Corredor A", "Sala de Controle", "Escada 1",
+        "Armazém", "Sala de Vigilância", "Escada 2", "Laboratório", "Hall Central",
+        "Depósito", "Sala de Reunião", "Heliporto"
+      ],
+      "ligacoes": [
+        ["Portão Principal", "Guarita"],
+        ["Guarita", "Corredor A"],
+        ["Corredor A", "Sala de Controle"],
+        ["Sala de Controle", "Escada 1"],
+        ["Escada 1", "Armazém"],
+        ["Armazém", "Sala de Vigilância"],
+        ["Sala de Vigilância", "Escada 2"],
+        ["Escada 2", "Laboratório"],
+        ["Laboratório", "Hall Central"],
+        ["Hall Central", "Depósito"],
+        ["Depósito", "Sala de Reunião"],
+        ["Sala de Reunião", "Heliporto"]
+      ],
+      "inimigos": [
+        { "nome": "sentinela1", "poder": 10, "vida": 100, "divisao": "Sala de Vigilância" },
+        { "nome": "sentinela2", "poder": 15, "vida": 120, "divisao": "Armazém" },
+        { "nome": "cientista hostil", "poder": 20, "vida": 80, "divisao": "Laboratório" }
+      ],
+      "entradas-saidas": ["Portão Principal", "Heliporto"],
+      "alvo": { "divisao": "Laboratório", "tipo": "roubar amostra" },
+      "itens": [
+        { "divisao": "Portão Principal", "pontos-recuperados": 10, "tipo": "kit de vida" },
+        { "divisao": "Corredor A", "pontos-extra": 20, "tipo": "colete" },
+        { "divisao": "Sala de Vigilância", "pontos-recuperados": 15, "tipo": "kit de vida" },
+        { "divisao": "Laboratório", "pontos-extra": 30, "tipo": "colete" }
+      ]
+    },
+    {
+      "cod-missao": "cerco à base",
+      "versao": 2,
+      "edificio": [
+        "Entrada Oeste", "Posto de Guarda", "Escada Principal", "Sala de Ferramentas",
+        "Oficina", "Armazém Superior", "Escada de Emergência", "Corredor de Acesso",
+        "Sala de Controle 2", "Área Restrita", "Laboratório Secreto"
+      ],
+      "ligacoes": [
+        ["Entrada Oeste", "Posto de Guarda"],
+        ["Posto de Guarda", "Escada Principal"],
+        ["Escada Principal", "Sala de Ferramentas"],
+        ["Sala de Ferramentas", "Oficina"],
+        ["Oficina", "Armazém Superior"],
+        ["Armazém Superior", "Escada de Emergência"],
+        ["Escada de Emergência", "Corredor de Acesso"],
+        ["Corredor de Acesso", "Sala de Controle 2"],
+        ["Sala de Controle 2", "Área Restrita"],
+        ["Área Restrita", "Laboratório Secreto"]
+      ],
+      "inimigos": [
+        { "nome": "técnico rebelde", "poder": 25, "vida": 90, "divisao": "Sala de Controle 2" },
+        { "nome": "cientista hostil", "poder": 30, "vida": 100, "divisao": "Área Restrita" }
+      ],
+      "entradas-saidas": ["Entrada Oeste", "Laboratório Secreto"],
+      "alvo": { "divisao": "Área Restrita", "tipo": "neutralizar cientista" },
+      "itens": [
+        { "divisao": "Posto de Guarda", "pontos-recuperados": 15, "tipo": "kit de vida" },
+        { "divisao": "Sala de Ferramentas", "pontos-extra": 10, "tipo": "colete" },
+        { "divisao": "Oficina", "pontos-recuperados": 10, "tipo": "kit de vida" },
+        { "divisao": "Laboratório Secreto", "pontos-recuperados": 20, "tipo": "kit de vida" }
+      ]
+    },
+    {
+      "cod-missao": "dilema subterrâneo",
+      "versao": 3,
+      "edificio": [
+        "Entrada Norte", "Escada 1", "Sala de Arquivos", "Escada 2", "Corredor Secundário",
+        "Depósito Subterrâneo", "Sala de Planejamento", "Corredor Principal", "Sala de Controle",
+        "Escada 3", "Laboratório Central", "Sala de Testes"
+      ],
+      "ligacoes": [
+        ["Entrada Norte", "Escada 1"],
+        ["Escada 1", "Sala de Arquivos"],
+        ["Sala de Arquivos", "Escada 2"],
+        ["Escada 2", "Corredor Secundário"],
+        ["Corredor Secundário", "Depósito Subterrâneo"],
+        ["Depósito Subterrâneo", "Sala de Planejamento"],
+        ["Sala de Planejamento", "Corredor Principal"],
+        ["Corredor Principal", "Sala de Controle"],
+        ["Sala de Controle", "Escada 3"],
+        ["Escada 3", "Laboratório Central"],
+        ["Laboratório Central", "Sala de Testes"]
+      ],
+      "inimigos": [
+        { "nome": "guarda avançado", "poder": 35, "vida": 120, "divisao": "Sala de Controle" },
+        { "nome": "cientista hostil", "poder": 40, "vida": 140, "divisao": "Sala de Testes" }
+      ],
+      "entradas-saidas": ["Entrada Norte", "Sala de Testes"],
+      "alvo": { "divisao": "Laboratório Central", "tipo": "recuperar protótipo" },
+      "itens": [
+        { "divisao": "Escada 1", "pontos-recuperados": 10, "tipo": "kit de vida" },
+        { "divisao": "Corredor Secundário", "pontos-extra": 15, "tipo": "colete" },
+        { "divisao": "Laboratório Central", "pontos-extra": 25, "tipo": "colete" }
+      ]
+    },
+    {
+      "cod-missao": "pata de coelho",
+      "versao": 1,
+      "edificio": [
+        "Heliporto", "Escada 6", "Camaratas", "Armazém", "Escada 5",
+        "Laboratório", "Escritório 3", "Escada 4", "WC", "Corredor 2",
+        "Segurança", "Hall", "Escada 3", "Escritório 1", "Escritório 2",
+        "Escada de Emergência", "Corredor 1", "Escada 2", "Porteiro",
+        "Escada 1", "Garagem"
+      ],
+      "ligacoes": [
+        ["Garagem", "Escada 1"],
+        ["Garagem", "Escada de Emergência"],
+        ["Escritório 1", "Escada de Emergência"],
+        ["Porteiro", "Escada 1"],
+        ["Porteiro", "Escada 2"],
+        ["Corredor 1", "Escada 2"],
+        ["Corredor 1", "Escritório 1"],
+        ["Corredor 1", "Escritório 2"],
+        ["Corredor 1", "Escada 3"],
+        ["Hall", "Escada 3"],
+        ["Hall", "Segurança"],
+        ["Corredor 2", "Segurança"],
+        ["Corredor 2", "WC"],
+        ["Corredor 2", "Escada 4"],
+        ["Escritório 3", "Escada 4"],
+        ["Escritório 3", "Escada 5"],
+        ["Laboratório", "Escada 5"],
+        ["Armazém", "Escada 5"],
+        ["Camaratas", "Escada 5"],
+        ["Camaratas", "Escada 6"],
+        ["Heliporto", "Escada 6"]
+      ],
+      "inimigos": [
+        {"nome": "badguy1", "poder": 5, "vida": 120,"divisao": "Heliporto"},
+        {"nome": "badguy2", "poder": 15, "vida": 70,"divisao": "Heliporto"},
+        {"nome": "badguy3", "poder": 25, "vida": 10,"divisao": "Camaratas"},
+        {"nome": "badguy4", "poder": 15, "vida": 30,"divisao": "Segurança"},
+        {"nome": "badguy5", "poder": 15, "vida": 150,"divisao": "Corredor 1"}
+      ],
+      "entradas-saidas": ["Escada de Emergência", "Garagem", "Heliporto", "Porteiro"],
+      "alvo": {"divisao": "Laboratório", "tipo": "quimico"},
+      "itens": [
+        {"divisao": "WC", "pontos-recuperados": 20, "tipo":"kit de vida"},
+        {"divisao": "Escritório 1", "pontos-recuperados": 15, "tipo":"kit de vida"},
+        {"divisao": "Escada 2", "pontos-extra": 25, "tipo":"colete"}
+      ]
+    }
+  ]
+}
