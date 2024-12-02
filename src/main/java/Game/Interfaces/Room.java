@@ -1,24 +1,20 @@
 package Game.Interfaces;
 
-import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
 import Game.Exceptions.*;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Represents a room in the game
  */
 public interface Room {
 
-    public void setTotalRoomPower(int roomPower);
 
     public boolean isThereAnEnemyAlive();
 
-    public void addEnemyDeadCounter();
 
-    public int getEnemyAliveCounter();
+    public int getNumberOfEnemyAlives();
 
     public Iterator<Item> getItems();
 
@@ -47,13 +43,6 @@ public interface Room {
     public void setEntryAndExit();
 
     /**
-     * Sets whether the hero has attack priority in the room.
-     * This determines if the hero will attack first during a turn-based fight sequence.
-     *
-     * @param heroHasAttackPriority Boolean value indicating if the hero has attack priority.
-     */
-    public void setHeroHasAttackPriority(Boolean heroHasAttackPriority);
-    /**
      * Calculates the total attack power of all enemies in the room that are still alive.
      *
      * Iterates through the list of enemies in the room and sums up the attack power
@@ -61,7 +50,7 @@ public interface Room {
      *
      * @return the total attack power of all living enemies in the room.
      */
-    public int getTotalRoomPower();
+    public int getTotalEnemiesAttackPower();
 
     /**
      * Adds an enemy to the room
@@ -111,18 +100,7 @@ public interface Room {
      */
     public Item removeItem(Item itemToRemove, Hero hero) throws ItemException;
 
-    /**
-     * Simulation of the fight between the hero and the enemies in the room
-     */
-    public void fight();
-
-    /**
-     * Returns the name of the room
-     * @return the name of the room
-     */
     public String getRoomName();
-
-    public void setInAndOut(Boolean isInAndOut);
 
     public boolean isIsAndOut();
 

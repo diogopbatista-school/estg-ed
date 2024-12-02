@@ -9,7 +9,6 @@ import Game.Interfaces.Enemy;
 import Game.Interfaces.Map;
 import Game.Interfaces.Room;
 import Game.Navigation.RoomImp;
-import Game.Interfaces.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -26,7 +25,7 @@ import java.nio.file.Paths;
  */
 public class Importer {
 
-    private String PATH ;
+
     private static final JSONParser PARSER = new JSONParser();
     private JSONObject mission;
     private JSONObject target;
@@ -156,11 +155,16 @@ public class Importer {
                 String division = (String) jsonItem.get("divisao");
 
                 if (room.getRoomName().equals(division)) {
-                    room.addItem(new ItemImp(points, name));
+                    try{
+                        ItemImp item = new ItemImp(points, name);
+                        room.addItem(item);
+                    }catch(IllegalArgumentException e){
+                        System.out.println("An item with the name " + name + " was not added to the room");
+                    }
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error adding items to room");
+            System.out.println("Error adding items to room"); //------------------ Adicionar log
             e.printStackTrace();
         }
     }
@@ -199,10 +203,12 @@ public class Importer {
 
             Room room1 = map.getRoomByName(room1Name);
             Room room2 = map.getRoomByName(room2Name);
+            int weight1 = room1.getTotalEnemiesAttackPower();
+            int weight2 = room2.getTotalEnemiesAttackPower();
 
             if (room1 != null && room2 != null) {
-                map.addConnection(room1, room2, room2.getTotalRoomPower());
-                map.addConnection(room2, room1, room1.getTotalRoomPower());
+                map.addConnection(room1, room2, weight1);
+                map.addConnection(room2, room1, weight2);
             }
         }
     }

@@ -1,6 +1,5 @@
 package Game.Navigation;
 
-import Collections.Lists.ArrayUnorderedList;
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
 import Game.Enumerations.ItemType;
@@ -17,61 +16,81 @@ public class RoomImp implements Room {
     private Target target;
     private UnorderedListADT<Item> items;
     private String roomName;
-    private Boolean heroHasAttackPriority;
     private Boolean isInAndOut;
-    private int totalRoomPower;
-    private int enemyAliveCounter;
-    private int enemyDeadCounter;
 
     public RoomImp(String roomName) {
         this.enemies = new LinkedUnorderedList<>();
         this.target = null;
-        this.items = new ArrayUnorderedList<>();
+        this.items = new LinkedUnorderedList<>();
         this.hero = null;
         this.roomName = roomName;
-        this.heroHasAttackPriority = true;
         this.isInAndOut = false;
-        this.totalRoomPower = 0;
-        this.enemyAliveCounter = 0;
-        this.enemyDeadCounter = 0;
     }
 
 
-    public void setTotalRoomPower(int totalRoomPower){
-        this.totalRoomPower = totalRoomPower;
-    }
-
+    /**
+     * Method that returns the target in the room
+     * @return the target in the room
+     */
     public Target getTarget(){
         return this.target;
     }
 
+    /**
+     * Method that verifies if there is an enemy alive
+     * @return true if there is at least one enemy alive, false otherwise
+     */
     public boolean isThereAnEnemyAlive(){
-        return this.enemyAliveCounter > 0;
+        Iterator<Enemy> enemy = this.enemies.iterator();
+        while(enemy.hasNext()){
+            if(enemy.next().isAlive()){
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void addEnemyDeadCounter(){
-        this.enemyDeadCounter++;
-        this.enemyAliveCounter--;
+    @Override
+    public int getNumberOfEnemyAlives() {
+        Iterator<Enemy> enemy = this.enemies.iterator();
+        int count = 0;
+        while(enemy.hasNext()){
+            if(enemy.next().isAlive()){
+                count++;
+            }
+        }
+        return count;
     }
 
-    public int getEnemyAliveCounter(){
-        return this.enemyAliveCounter;
-    }
-
-
+    /**
+     * Method that returns the items in the room
+     * @return the items in the room
+     */
     @Override
     public Iterator<Item> getItems() {
         return items.iterator();
     }
 
+    /**
+     * Method that verifies if the room has items
+     * @return true if the room has items, false otherwise
+     */
     public boolean hasItems(){
         return !this.items.isEmpty();
     }
 
+    /**
+     * Method that verifies if the room has a target
+     * @return true if the room has a target, false otherwise
+     */
     public boolean isTargetInRoom(){
         return this.target != null;
     }
 
+    /**
+     * Method that verifies if the room is and exit and a entry
+     * @return true if the room is an exit and entry, false otherwise
+     */
     public boolean getIsInAndOut(){
         return this.isInAndOut;
     }
@@ -87,10 +106,8 @@ public class RoomImp implements Room {
         while (iterator.hasNext()) {
             Enemy currentEnemy = iterator.next();
             if (currentEnemy.equals(enemy)) {
-                totalRoomPower -= enemy.getAttackPower();
                 enemiesToRemove.addToRear(currentEnemy);
                 enemy.setCurrentRoom(null); // Optionally clear the enemy's current room reference
-                enemyAliveCounter--;
                 break; // Exit the loop after finding the enemy
             }
         }
@@ -112,10 +129,6 @@ public class RoomImp implements Room {
         return this.hero;
     }
 
-    public Iterator<Enemy> getEnemiesIterator() {
-        return enemies.iterator();
-    }
-
     /**
      * Sets the boolean flag indicating if the room is an in and out room
      */
@@ -123,19 +136,17 @@ public class RoomImp implements Room {
         this.isInAndOut = true;
     }
 
-    /**
-     * Sets whether the hero has attack priority in the room.
-     * This determines if the hero will attack first during a turn-based fight sequence.
-     *
-     * @param heroHasAttackPriority Boolean value indicating if the hero has attack priority.
-     */
-    public void setHeroHasAttackPriority(Boolean heroHasAttackPriority){
-        this.heroHasAttackPriority = heroHasAttackPriority;
-    }
 
 
-    public int getTotalRoomPower(){
-        return this.totalRoomPower;
+    public int getTotalEnemiesAttackPower(){
+        Iterator<Enemy> enemies = this.enemies.iterator();
+        int totalRoomPower = 0;
+
+        while(enemies.hasNext()){
+            totalRoomPower += enemies.next().getAttackPower();
+        }
+
+        return totalRoomPower;
     }
 
     /**
@@ -155,15 +166,18 @@ public class RoomImp implements Room {
 
         if(this.enemies.isEmpty()){
             this.enemies.addToFront(enemy);
-            totalRoomPower += enemy.getAttackPower();
-            this.enemyAliveCounter++;
             return;
         }
 
         this.enemies.addAfter(enemy, this.enemies.last());
-        totalRoomPower += enemy.getAttackPower();
         enemy.setCurrentRoom(this);
-        this.enemyAliveCounter++;
+
+        if(this.hero != null){
+            enemy.attack(this.hero);
+            System.out.println("AN ENEMY HAS ENTERED THE ROOM AND ATTACKED THE HERO");
+            System.out.println("The enemy " + enemy.getName() + " has entered the room and attacked the hero " + this.hero.getName());
+            System.out.println(enemy.getName() + " attacked Hero. Hero's health: " + this.hero.getHealth() + " Armor: " + this.hero.getArmorHealth());
+        }
     }
 
 
@@ -206,16 +220,16 @@ public class RoomImp implements Room {
             throw new ItemException("Item cannot be null/unknown");
         }
 
-        if (hero.isBackPackFull() && itemToRemove.getType().equals(ItemType.POTION)) {
+        if (hero.isBackPackFull() && itemToRemove.getType().equals(ItemType.KIT_DE_VIDA)) {
             throw new ItemException("Hero's backpack is full.");
         }
 
-        Item removedItem = removeItemByType(itemToRemove);
+        Item removedItem = items.remove(itemToRemove);
         if (removedItem == null) {
             throw new ItemException("Item not found in the room.");
         }
 
-        if (itemToRemove.getType().equals(ItemType.ARMOR)) {
+        if (itemToRemove.getType().equals(ItemType.COLETE)) {
             hero.healArmor(itemToRemove.getPoints());
             return itemToRemove;
         }
@@ -223,150 +237,16 @@ public class RoomImp implements Room {
         hero.addToBackPack(removedItem);
 
 
-    return removedItem;
-}
-
-    private Item removeItemByType(Item itemToRemove) {
-        Iterator<Item> iterator = items.iterator();
-        while (iterator.hasNext()) {
-            Item item = iterator.next();
-            if (item.getType().equals(itemToRemove.getType())) {
-                iterator.remove();
-                return item;
-            }
-        }
-        return null;
+         return removedItem;
     }
 
-    /**
-     * Executes a turn-based fight sequence in the room.
-     * The method handles the logic for battling enemies within the room. It checks if there are enemies to fight or
-     * if the room is empty, printing a message if there are none. The fight sequence is divided into phases,
-     * with either the hero or the enemies attacking first based on attack priority. If the hero has priority,
-     * the hero attacks the enemies, and if any enemies are still alive, they counter-attack. Conversely, if the
-     * enemies have priority, they attack first, followed by a counter-attack from the hero if the hero is still
-     * alive.
-     *
-     * After each phase, the method checks if the hero has been defeated, printing a game over message if so.
-     * If all enemies are dead, a victory message is printed. If there are still enemies alive, then we call the method shuffle() and the fight sequence
-     * repeats recursively until all enemies are defeated.
-     *
-     */
-    @Override
-    public void fight() {
-        if (enemies == null || allEnemiesDead()) {
-            System.out.println("No Enemies in the room to fight.");
-            return;
-        }
 
-        if (heroHasAttackPriority) {
-            heroPhase(this.hero);
-            if (!allEnemiesDead()) {
-                enemiesPhase(); // inimigos atacam se ainda estiverem vivos
-            }
-        } else {
-            enemiesPhase();
-            if (hero.getHealth() > 0) {
-                heroPhase(this.hero); // hero ataca se ainda estiver vivo
-            }
-        }
-
-        // Verificação se o herói está morto
-        if (hero.getHealth() <= 0) {
-            System.out.println("Tó Cruz has died. Game Over.");
-            return;
-        }
-
-        // Se ainda houver inimigos vivos, continuar a lutar
-        if (!allEnemiesDead()) {
-            /**
-             * meter o shuffle() aqui /
-             * IMPORTANTE METER REGRA NO SHUFFLE!: se um inimigo entrar num room onde o hero esteja
-             * entao definir o heroHasAttackPriority do respetivo room para false
-             */
-            fight(); // chamada recursiva até que todos os inimigos estejam mortos
-        } else {
-            System.out.println("All enemies defeated in the room.");
-        }
-    }
-
-    /**
-     * Executes the hero's phase during a turn-based fight.
-     * The method handles the hero's attack on all enemies in the room.
-     * If all enemies are defeated after the attack, it prints a victory message.
-     * Otherwise, it sets the attack priority to the enemies for the next phase.
-     */
-    private void heroPhase(Hero hero) {
-        System.out.println("Hero's turn to attack.");
-        Iterator<Enemy> iterator = enemies.iterator();
-
-        while (iterator.hasNext()) {
-            Enemy enemy = iterator.next();
-            hero.attack(enemy);
-        }
-
-        if (allEnemiesDead()) {
-            System.out.println("All enemies have been defeated by Tó Cruz.");
-        } else {
-            heroHasAttackPriority = false;
-        }
-    }
-
-    /**
-     * Executes the enemies' phase during a turn-based fight.
-     * This method handles the enemies' attack on the hero. Each enemy in the room
-     * attacks the hero by reducing the hero's health based on the enemy's attack power.
-     * If there are still enemies alive after the attack, the attack priority is set
-     * to the hero for the next phase.
-     */
-    private void enemiesPhase() {
-        System.out.println("Enemies' turn to attack.");
-
-
-        Iterator<Enemy> iterator = enemies.iterator();
-
-        while (iterator.hasNext()) {
-            Enemy enemy = iterator.next();
-            enemy.attack(this.hero);
-        }
-
-        heroHasAttackPriority = true;
-
-        System.out.println("Tó Cruz's current health: " + hero.getHealth());
-    }
-
-    /**
-     * Checks if all enemies in the room are dead.
-     *
-     * @return true if all enemies are dead, false otherwise
-     */
-    private boolean allEnemiesDead() {
-        Iterator<Enemy> iterator = enemies.iterator();
-
-        while (iterator.hasNext()) {
-            Enemy enemy = iterator.next();
-            if (!enemy.isDead()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     @Override
     public String getRoomName() {
         return this.roomName;
     }
 
-    
-    /**
-     * Sets the boolean flag indicating if the room is an in and out room.
-     * @param isInAndOut Boolean value to set the room as in and out (true) or not (false)
-     */
-    @Override
-    public void setInAndOut(Boolean isInAndOut) {
-        this.isInAndOut = isInAndOut;
-    }
 
     /**
      * Checks if the room is an in and out room.

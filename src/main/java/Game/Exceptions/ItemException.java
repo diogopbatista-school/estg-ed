@@ -9,14 +9,14 @@ public class ItemException extends Exception {
     private static final String DEFAULT_MESSAGE = "Item Exception";
 
     /**
-     * Creates a new ElementNotFoundException with no message.
+     * Creates a new ItemException with no message.
      */
     public ItemException() {
         super(DEFAULT_MESSAGE);
     }
 
     /**
-     * Creates a new ElementNotFoundException with the specified message.
+     * Creates a new ItemException with the specified message.
      *
      * @param message the message for this exception.
      */

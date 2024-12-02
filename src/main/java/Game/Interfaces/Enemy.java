@@ -5,22 +5,17 @@ package Game.Interfaces;
  */
 public interface Enemy extends Character {
 
+    /**
+     * Setter for the current room
+     * @param currentRoom the current room
+     */
     public void setCurrentRoom(Room currentRoom);
 
+    /**
+     * Getter for the current room
+     * @return the current room
+     */
     public Room getCurrentRoom();
-
-    /**
-     * Method that verifies if the enemy is dead
-     * @return true if the enemy is dead, false otherwise
-     */
-    public boolean isDead();
-
-    /**
-     * Sets the name of the enemy
-     * @param name the name of the enemy
-     * @throws IllegalArgumentException if the name is null
-     */
-    public void setName(String name) throws IllegalArgumentException;
 
     /**
      * Returns the name of the enemy

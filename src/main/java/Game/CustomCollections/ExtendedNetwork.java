@@ -52,23 +52,6 @@ public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT
     }
 
     @Override
-    public void addEdge(T vertex1, T vertex2) throws NoSuchElementException, IllegalArgumentException {
-        if (vertex1 == null || vertex2 == null) {
-            throw new IllegalArgumentException("The vertex cannot be null.");
-        }
-        Room local1 = (Room) vertex1;
-        Room local2 = (Room) vertex2;
-        int index1 = getIndex(vertex1);
-        int index2 = getIndex(vertex2);
-        if (index1 == -1 || index2 == -1) {
-            throw new NoSuchElementException("The vertex is not in the network.");
-        }
-        addEdge(index1, index2, ((RoomImp) vertex2).getTotalRoomPower());
-    }
-
-
-
-    @Override
     public void addEdge(T room1, T room2, double weight) throws NoSuchElementException, IllegalArgumentException {
         if (room1 == null || room2 == null) {
             throw new IllegalArgumentException("The vertex cannot be null.");

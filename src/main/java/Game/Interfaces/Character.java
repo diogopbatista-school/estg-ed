@@ -6,6 +6,10 @@ package Game.Interfaces;
  */
 public interface Character {
 
+    /**
+     * Setter for the isInFight attribute
+     * @param inFight the value to set
+     */
     public void setInFight(boolean inFight);
 
     /**
@@ -52,5 +56,10 @@ public interface Character {
      * @throws IllegalArgumentException if attack power is negative
      */
     public void setAttackPower(int attackPower) throws IllegalArgumentException;
+
+    /**
+     * Method that verifies if the character is alive
+     */
+    public boolean isAlive();
 
 }

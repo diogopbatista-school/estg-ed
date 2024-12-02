@@ -251,7 +251,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      *
      * @param <E> the type of the stored element
      */
-    private class BasicIterator<E> implements Iterator<T>{
+    private abstract class BasicIterator<E> implements Iterator<T>{
 
         /**
          * The current index of the iterator

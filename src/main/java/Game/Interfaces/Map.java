@@ -15,7 +15,7 @@ public interface Map {
 
     public void updateWeight(Room vertex1, Room vertex2, double newWeight);
 
-    public boolean isConnected(Room room1, Room room2);
+    public boolean areConnected(Room room1, Room room2);
 
     public UnorderedListADT<Room> getRooms();
 

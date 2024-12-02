@@ -1,27 +1,46 @@
 package Game.Interfaces;
 
-import Collections.Stacks.StackADT;
 import Game.Exceptions.ItemException;
-
-import java.util.Iterator;
 
 /**
  * Represents a hero in the game
  */
 public interface Hero extends Character{
 
+    /**
+     * Getter for the target attribute
+     * @return the target attribute
+     */
     public Item getItemFirstItem();
 
+    /**
+     * Setter for the target attribute
+     * @param target the target attribute
+     */
     public void setTarget(Target target);
 
+    /**
+     * Method that verifies if the hero has items on the backpack
+     * @return true if the hero has items on the backpack, false otherwise
+     */
     public boolean isItemsOnBackPack();
 
-    public boolean isHeroAlive();
-
+    /**
+     * Getter for the target attribute
+     * @return
+     */
     public boolean doesHeroHaveTarget();
 
+    /**
+     * Setter for the current room
+     * @param room the current room
+     */
     public void setCurrentRoom(Room room);
 
+    /**
+     * Getter for the current room
+     * @return the current room
+     */
     public Room getCurrentRoom();
 
     /**

@@ -37,13 +37,12 @@ public class MapImp implements Map {
         return network.iteratorRoutes();
     }
 
-    public boolean isConnected(Room room1, Room room2) {
+    public boolean areConnected(Room room1, Room room2) {
         return network.areConnected(room1, room2);
     }
 
     @Override
     public UnorderedListADT<Room> getRooms() {
-
         return network.getRooms();
     }
 
@@ -62,18 +61,36 @@ public class MapImp implements Map {
 
     @Override
     public void addConnection(Room room1, Room room2, double weight) {
-        network.addEdge(room1, room2, room2.getTotalRoomPower());
+        network.addEdge(room1, room2, room2.getTotalEnemiesAttackPower());
     }
 
     public void updateWeight(Room vertex1, Room vertex2, double newWeight) {
-        network.updateWeight(vertex1, vertex2, vertex2.getTotalRoomPower());
+        network.updateWeight(vertex1, vertex2, vertex2.getTotalEnemiesAttackPower());
+    }
+
+    private void updateWeights(){
+        Iterator<Room> iterator = network.iteratorVertexes();
+        while (iterator.hasNext()) {
+            Room room1 = iterator.next();
+            UnorderedListADT<Room> connectedRooms = getConnectedRooms(room1);
+            Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
+            while (connectedRoomIterator.hasNext()) {
+                Room room2 = connectedRoomIterator.next();
+                int weight1 = room1.getTotalEnemiesAttackPower();
+                int weight2 = room2.getTotalEnemiesAttackPower();
+                updateWeight(room1, room2, weight2);
+                updateWeight(room2, room1, weight1);
+            }
+        }
     }
 
 
+
     public void mapShuffle() throws EnemyException {
-        Random rand = new Random(); // random para gerar os numeros de cada sala , ou seja cada sala vai ter X arestas , e o x tem que ser entre 1 e x ;
+        Random rand = new Random();
         Random numberOfEdgesToMove = new Random();
         Iterator<Room> iterator = network.iteratorVertexes();
+        UnorderedListADT<Enemy> movedEnemies = new ArrayUnorderedList<>(); // Initialize the list
 
         while (iterator.hasNext()) {
             Room currentRoom = iterator.next();
@@ -82,53 +99,26 @@ public class MapImp implements Map {
                 Iterator<Enemy> enemyIterator = currentRoom.getEnemies().iterator();
                 while (enemyIterator.hasNext()) {
                     Enemy enemy = enemyIterator.next();
-                    if (!enemy.isInFight()) {
+                    if (!enemy.isInFight() && enemy.isAlive() && (movedEnemies.isEmpty() || !movedEnemies.contains(enemy))) {
                         enemiesToMove.addToRear(enemy); // Add enemy to the list to move later
                     }
                 }
+
                 Iterator<Enemy> moveIterator = enemiesToMove.iterator();
-                int jumps = numberOfEdgesToMove.nextInt(2) + 1;
+                int jumps = numberOfEdgesToMove.nextInt(2) + 1; // 1 or 2 jumps
                 while (moveIterator.hasNext()) {
                     Enemy enemy = moveIterator.next();
                     System.out.println(enemy.getName() + " | old " + enemy.getCurrentRoom().getRoomName());
-                    currentRoom.removeEnemy(enemy); //// Use the removeEnemy method
+                    currentRoom.removeEnemy(enemy);
                     moveEnemyRecursively(currentRoom, enemy, rand, jumps); // Move the enemy with up to 2 jumps
+                    movedEnemies.addToFront(enemy); // Mark the enemy as moved
                     System.out.println(enemy.getName() + " | new " + enemy.getCurrentRoom().getRoomName());
+                    System.out.println("Jumps: " + jumps);
                 }
             }
         }
 
-        iterator = network.iteratorVertexes();
-        while (iterator.hasNext()) {
-            Room room1 = iterator.next();
-            UnorderedListADT<Room> connectedRooms = getConnectedRooms(room1);
-            Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
-            while (connectedRoomIterator.hasNext()) {
-                Room room2 = connectedRoomIterator.next();
-                updateWeight(room1, room2, room2.getTotalRoomPower());
-                updateWeight(room2, room1, room1.getTotalRoomPower());
-            }
-        }
-
-
-        // Agora, atualiza os pesos da rede de salas
-        iterator = network.iteratorVertexes();
-        while (iterator.hasNext()) {
-            Room room1 = iterator.next();
-
-            // Obter as salas conectadas à sala atual
-            UnorderedListADT<Room> connectedRooms = getConnectedRooms(room1);
-            Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
-
-            // Atualizar os pesos das conexões
-            while (connectedRoomIterator.hasNext()) {
-                Room room2 = connectedRoomIterator.next();
-
-                // Atualiza o peso entre duas salas conectadas
-                updateWeight(room1, room2, room2.getTotalRoomPower());
-                updateWeight(room2, room1, room1.getTotalRoomPower());
-            }
-        }
+        updateWeights();
     }
 
     private void moveEnemyRecursively(Room currentRoom, Enemy enemy, Random rand, int remainingJumps) throws EnemyException {

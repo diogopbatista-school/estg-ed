@@ -33,8 +33,8 @@
     ["Heliporto", "Escada 6"]
   ],
   "inimigos": [
-    { "nome": "badguy1", "poder": 5, "vida": 50, "divisao": "Heliporto" },
-    { "nome": "badguy2", "poder": 15, "vida": 100, "divisao": "Heliporto" },
+    { "nome": "badguy1", "poder": 1, "vida": 50, "divisao": "Heliporto" },
+    { "nome": "badguy2", "poder": 1, "vida": 100, "divisao": "Heliporto" },
     { "nome": "badguy3", "poder": 25, "vida": 150, "divisao": "Camaratas" },
     { "nome": "badguy4", "poder": 15, "vida": 90, "divisao": "Segurança" },
     { "nome": "badguy5", "poder": 15, "vida": 70, "divisao": "Corredor 1" }

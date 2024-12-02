@@ -23,15 +23,9 @@ public class ItemImp implements Item {
      * @param points The points the item gives
      * @param type The type of the item
      */
-    public ItemImp(int points, String type) {
+    public ItemImp(int points, String type) { // mudar sem enum
         this.points = points;
-        if(type.equals("kit de vida")){
-            this.type = ItemType.POTION;
-        } else if(type.equals("colete")){
-            this.type = ItemType.ARMOR;
-        }else{
-            this.type = ItemType.UNKNOWN;
-        }
+        this.type = ItemType.fromString(type);
     }
 
     /**

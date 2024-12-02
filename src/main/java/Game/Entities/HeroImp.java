@@ -5,58 +5,112 @@ import Collections.Stacks.ArrayStack;
 import Collections.Stacks.StackADT;
 import Game.Enumerations.ItemType;
 import Game.Exceptions.ItemException;
-import Game.Interfaces.*;
-import Game.Interfaces.Character;
+import Game.Interfaces.Hero;
+import Game.Interfaces.Item;
+import Game.Interfaces.Room;
+import Game.Interfaces.Target;
 
-import java.util.Iterator;
 
 /**
  * Represents a hero in the game
  */
 public class HeroImp extends CharacterImp implements Hero {
 
+    /**
+     * The hero's armor health
+     */
     private int armor;
+
+    /**
+     * The hero's backpack with a stack data structure ( LIFO )
+     */
     private StackADT<Item> backPack;
+
+    /**
+     * Boolean value indicating if the hero's backpack is full
+     */
     private boolean isBackPackFull;
+
+    /**
+     * The room where the hero is currently located
+     */
     private Room currentRoom;
+
+    /**
+     * The target that the hero wants to get it
+     */
     private Target target;
+
+    /**
+     * The size of the backpack
+     */
+    private int sizeBackPack;
 
     /**
      * Constructor for the HeroImp class
      */
-    public HeroImp(int attackPower, int sizeBackPack) {
+    public HeroImp(int attackPower, int maxSize) {
         super("Tó Cruz", 100, attackPower); // Em memória ao grande Tom Cruise
         this.armor = 100;
-        this.backPack = new ArrayStack<>(sizeBackPack);
+        this.backPack = new ArrayStack<>(maxSize);
+        int sizeBackPack = maxSize;
         this.isBackPackFull = false;
         this.currentRoom = null;
         this.target = null;
     }
 
+    /**
+     * Getter that returns the hero's first item in the backpack
+     * @return the hero's first item in the backpack
+     */
     public Item getItemFirstItem(){
         return this.backPack.peek();
     }
 
+    /**
+     * Setter for the hero's target
+     * @param target the target to set
+     */
     public void setTarget(Target target) {
         this.target = target;
     }
 
+    /**
+     * Method that verifies if the hero has items on the backpack
+     * @return true if the hero has items on the backpack, false otherwise
+     */
     public boolean isItemsOnBackPack() {
         return !this.backPack.isEmpty();
     }
 
-    public boolean isHeroAlive() {
+    /**
+     * Method that verifies if the hero is alive
+     * @return true if the hero is alive, false otherwise
+     */
+    public boolean isAlive() {
         return this.health > 0;
     }
 
+    /**
+     * Method that verifies if the hero has a target
+     * @return true if the hero has a target, false otherwise
+     */
     public boolean doesHeroHaveTarget() {
         return this.target != null;
     }
 
+    /**
+     * Setter for the hero's current room
+     * @param room the room to set
+     */
     public void setCurrentRoom(Room room) {
         this.currentRoom = room;
     }
 
+    /**
+     * Getter for the hero's current room
+     * @return the hero's current room
+     */
     public Room getCurrentRoom() {
         return this.currentRoom;
     }
@@ -80,6 +134,10 @@ public class HeroImp extends CharacterImp implements Hero {
         if (item == null) {
             throw new IllegalArgumentException("Item must be valid");
         }
+        if (this.backPack.size() == this.sizeBackPack) {
+            this.isBackPackFull = true;
+            throw new ItemException("Backpack is full");
+        }
         this.backPack.push(item);
     }
 
@@ -101,9 +159,9 @@ public class HeroImp extends CharacterImp implements Hero {
     public void UseItem() {
         try {
             Item item = RemoveItem();
-            if (item.getType() == ItemType.POTION) {
+            if (item.getType() == ItemType.KIT_DE_VIDA) {
                 heal(item.getPoints());
-            } else if (item.getType() == ItemType.ARMOR) {
+            } else if (item.getType() == ItemType.COLETE) {
                 healArmor(item.getPoints());
             }
         } catch (ItemException e) {
@@ -196,25 +254,6 @@ public class HeroImp extends CharacterImp implements Hero {
         this.health = health;
     }
 
-    /**
-     * Method that has the logic for the hero to attack
-     * @param character The character that the hero is attacking
-     * @throws IllegalArgumentException if the character is invalid
-     */
-    @Override
-    public void attack(Character character) throws IllegalArgumentException {
-        if (character == null || character instanceof Hero) {
-            throw new IllegalArgumentException("Character must be valid");
-        }
-        int damage = character.getHealth() - this.getAttackPower();
-
-        if (damage < 0) {
-            character.setHealth(0);
-            return;
-        }
-
-        character.setHealth(damage);
-    }
 
     /**
      * Getter for the hero's attack power

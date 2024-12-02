@@ -188,10 +188,10 @@ public abstract class LinkedList<T> implements ListADT<T> {
         Node<T> current = this.head;
 
         if(this.head.getElement().equals(element)){
-            removeFirst();
+           removed = removeFirst();
         }
         else if(this.tail.getElement().equals(element)){
-            removeLast();
+           removed = removeLast();
         }
         else{
             while(!current.getNext().getElement().equals(element)){
@@ -281,7 +281,7 @@ public abstract class LinkedList<T> implements ListADT<T> {
      * Inner class that represents an iterator for the list
      * @param <E> the type of the stored element
      */
-    private class BasicIterator<E> implements Iterator<T>{
+    private abstract class BasicIterator<E> implements Iterator<T>{
 
         /**
          * The current node
