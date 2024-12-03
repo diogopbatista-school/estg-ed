@@ -60,10 +60,7 @@ public class Main {
         double shortestPathWeight = network.shortestPathWeight("A", "E");
         System.out.println("Shortest path weight from A to E: " + shortestPathWeight);
 
-        // Testing MST
 
-        System.out.println("Minimum Spanning Tree:");
-        System.out.println();
 
         // Printing the network representation
         System.out.println("Network representation:");

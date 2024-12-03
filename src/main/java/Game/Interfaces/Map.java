@@ -10,6 +10,7 @@ public interface Map {
 
     public Iterator<Room> shortestPath(Room start, Room end);
 
+    public double shortestPathWeight(Room start, Room end);
 
     public void mapShuffle() throws EnemyException;
 

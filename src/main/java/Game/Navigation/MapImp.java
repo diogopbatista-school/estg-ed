@@ -21,12 +21,40 @@ public class MapImp implements Map {
         this.network = new ExtendedNetwork<>();
     }
 
+    public Room findRoomWithTarget() {
+        Iterator<Room> iterator = this.iteratorVertexes();
+        while (iterator.hasNext()) {
+            Room room = iterator.next();
+            if (room.isTargetInRoom()) {
+                return room;
+            }
+        }
+        return null; // Caso nenhuma sala tenha o alvo
+    }
+
+    public UnorderedListADT<Room> getEntryRooms() {
+        UnorderedListADT<Room> entryRooms = new LinkedUnorderedList<>();
+        Iterator<Room> iterator = iteratorVertexes();
+        while (iterator.hasNext()) {
+            Room room = iterator.next();
+            if (room.isIsAndOut()) {
+                entryRooms.addToRear(room);
+            }
+        }
+        return entryRooms;
+    }
+
     public Iterator<Room> shortestPath(Room start, Room end) {
         return network.iteratorShortestPath(start, end);
     }
 
     public String toString() {
         return network.toString();
+    }
+
+    @Override
+    public double shortestPathWeight(Room start, Room end) {
+        return network.shortestPathWeight(start, end);
     }
 
     public Iterator<Room> iteratorVertexes() {
