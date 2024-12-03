@@ -53,7 +53,7 @@ public class HeroImp extends CharacterImp implements Hero {
         super("Tó Cruz", 100, attackPower); // Em memória ao grande Tom Cruise
         this.armor = 100;
         this.backPack = new ArrayStack<>(maxSize);
-        int sizeBackPack = maxSize;
+        this.sizeBackPack = maxSize;
         this.isBackPackFull = false;
         this.currentRoom = null;
         this.target = null;

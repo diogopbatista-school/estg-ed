@@ -447,6 +447,7 @@ public class Play {
         Iterator<Item> itemIterator = movedRoom.getItems();
         while (itemIterator.hasNext()) {
             Item item = itemIterator.next();
+            System.out.println(item.getNameItem());
             try {
                 Item itemAux = movedRoom.removeItem(item, hero); // ja faz as verificaçoes no metodo
                 System.out.println("Hero picked up item: " + itemAux.getNameItem());
@@ -477,7 +478,7 @@ public class Play {
             }
     }
 
-private static void heroTurnManually(Hero hero, Room movedRoom, Scanner scanner) {
+    private static void heroTurnManually(Hero hero, Room movedRoom, Scanner scanner) {
     System.out.println("------------------------------------------------ HERO TURN");
     System.out.println("Hero's turn:");
     int actionChoice;
@@ -675,6 +676,9 @@ private static void heroTurnManually(Hero hero, Room movedRoom, Scanner scanner)
                 path.addToRear(selectedRoom);
                 clearConsole();
                 System.out.println("Hero will start the game at the room: " + selectedRoom.getRoomName());
+                if(selectedRoom.hasItems()) {
+                    itemsScenario(selectedRoom, hero);
+                }
             }
         }
 }
