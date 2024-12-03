@@ -5,15 +5,18 @@ import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.OrderedListADT;
 import Collections.Lists.UnorderedListADT;
 import Game.Entities.EnemyImp;
+import Game.Entities.HeroImp;
 import Game.Entities.ItemImp;
 import Game.Entities.TargetImp;
 import Game.Exceptions.ItemException;
 import Game.Exceptions.MapException;
 import Game.Exceptions.RoomException;
 import Game.Interfaces.Enemy;
+import Game.Interfaces.Hero;
 import Game.Interfaces.Map;
 import Game.Interfaces.Room;
 import Game.Navigation.RoomImp;
+import Game.Utilities.ManualSimulationLog;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -231,8 +234,6 @@ public class Importer {
             map.addConnection(room2, room1, weight2);
         }
     }
-
-
 
     /**
      * Adds the target to the specified room based on the JSON data.

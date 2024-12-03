@@ -6,9 +6,12 @@ import Game.Exceptions.EnemyException;
 import Game.Exceptions.HeroException;
 import Game.Exceptions.ItemException;
 import Game.Exceptions.TargetException;
+import Game.IO.Exporter;
 import Game.IO.Importer;
 import Game.Interfaces.*;
 import Game.Navigation.MapImp;
+import Game.Utilities.Logs;
+import Game.Utilities.ManualSimulationLog;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -52,8 +55,8 @@ public class Play {
         }
     }
 
-
     private static void startGame(Scanner scanner, Importer importer, UnorderedListADT<String> missionCodes) {
+
         boolean playAgain = true;
 
         while (playAgain) {
@@ -128,8 +131,6 @@ public class Play {
         }
     }
 
-
-
     private static int getValidNumberInput(Scanner scanner, int min, int max) {
         int choice = -1;
         while (choice < min || choice > max) {
@@ -146,7 +147,6 @@ public class Play {
         }
         return choice;
     }
-
 
     private static void playAutomatically(Map map, Scanner scanner) throws HeroException, EnemyException, TargetException {
         UnorderedListADT<Room> allRooms = map.getRooms();
@@ -288,16 +288,14 @@ public class Play {
         return false;
     }
 
-
-
-
     private static void playManually(Map mapOfGame ,Scanner scanner) throws HeroException, ItemException, TargetException, EnemyException {
-        UnorderedListADT<Room>
-
-        allRooms = mapOfGame.getRooms();
+        UnorderedListADT<Room> allRooms = mapOfGame.getRooms();
+        UnorderedListADT<Room> path = new LinkedUnorderedList<>();
         Hero hero = createHero(scanner);
         Room targetRoom = findRoomWithTarget(allRooms);
-        selectStartRoom(mapOfGame,hero, scanner, allRooms);
+        Exporter exporter = new Exporter();
+        Logs manualSimulationLogs = new Logs();
+        selectStartRoom(mapOfGame,hero, scanner, allRooms,path);
 
         while (hero.isAlive()) {
             int selectNextMove;
@@ -319,6 +317,10 @@ public class Play {
 
             if(selectNextMove == 1) {
                 Room movedRoom = listConnectedRooms(mapOfGame, scanner, hero, allRooms, targetRoom);
+
+                if (movedRoom != null) {
+                    path.addToRear(movedRoom);
+                }
 
                 if (checkEndGame(hero, movedRoom)) {
                     break;
@@ -352,6 +354,13 @@ public class Play {
                 }
             }
         }
+
+
+        ManualSimulationLog manualSimulationLog = new ManualSimulationLog(hero,path);
+
+        manualSimulationLogs.addManualSimulationLog(manualSimulationLog);
+
+        exporter.saveManualSimulation(manualSimulationLogs);
     }
 
     private static boolean checkEndGame(Hero hero, Room movedRoom) {
@@ -610,7 +619,7 @@ private static void heroTurnManually(Hero hero, Room movedRoom, Scanner scanner)
     }
 
 
-    private static void selectStartRoom(Map map, Hero hero, Scanner scanner, UnorderedListADT<Room> rooms) throws HeroException, EnemyException {
+    private static void selectStartRoom(Map map, Hero hero, Scanner scanner, UnorderedListADT<Room> rooms,UnorderedListADT<Room> path) throws HeroException, EnemyException {
         UnorderedListADT<Room> inAndOutRooms = new LinkedUnorderedList<>(); // Linked porque eu nunca sei quantos elementos eu vou ter
         System.out.println("In and Out Rooms:");
 
@@ -651,6 +660,7 @@ private static void heroTurnManually(Hero hero, Room movedRoom, Scanner scanner)
                 if (enterChoice.equals("yes")) {
                     roomConfirmed = true;
                     selectedRoom.addHero(hero);
+                    path.addToRear(selectedRoom);
                     clearConsole();
                     System.out.println("Hero will start the game at the room: " + selectedRoom.getRoomName());
 
@@ -662,6 +672,7 @@ private static void heroTurnManually(Hero hero, Room movedRoom, Scanner scanner)
             } else {
                 roomConfirmed = true;
                 selectedRoom.addHero(hero);
+                path.addToRear(selectedRoom);
                 clearConsole();
                 System.out.println("Hero will start the game at the room: " + selectedRoom.getRoomName());
             }
