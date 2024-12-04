@@ -8,7 +8,7 @@ import java.util.Iterator;
 /**
  * Represents a room in the game
  */
-public interface Room {
+public interface Room extends Comparable<Room> {
 
 
     public boolean isThereAnEnemyAlive();

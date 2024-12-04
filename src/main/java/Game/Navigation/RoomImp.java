@@ -262,4 +262,9 @@ public class RoomImp implements Room {
     public String toString() {
         return "Room: " + this.roomName;
     }
+
+    @Override
+    public int compareTo(Room o) {
+        return 0;
+    }
 }
