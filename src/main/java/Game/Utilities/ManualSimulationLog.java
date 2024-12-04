@@ -7,7 +7,7 @@ import Game.Interfaces.Room;
 
 public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
     private Hero hero;
-    private UnorderedListADT<Room> path;
+    private OrderedListADT<Room> path;
     private String timestamp;
 
     public ManualSimulationLog(String timestamp) {
@@ -18,7 +18,7 @@ public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
 
     public ManualSimulationLog(Hero hero, OrderedListADT<Room> path) {
         this.hero = hero;
-        this.path = null;
+        this.path = path;
         this.timestamp = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new java.util.Date());
     }
 
@@ -26,19 +26,19 @@ public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
         this.hero = hero;
     }
 
-    public void setPath(UnorderedListADT<Room> path){
+    public void setPath(OrderedListADT<Room> path){
         this.path = path;
     }
 
     public void addRoom(Room room){
-        this.path.addToRear(room);
+        this.path.add(room);
     }
 
     public Hero getHero(){
         return this.hero;
     }
 
-    public UnorderedListADT<Room> getPath(){
+    public OrderedListADT<Room> getPath(){
         return this.path;
     }
 
