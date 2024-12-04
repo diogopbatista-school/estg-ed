@@ -10,6 +10,7 @@ import Game.IO.Exporter;
 import Game.IO.Importer;
 import Game.Interfaces.*;
 import Game.Navigation.MapImp;
+import Game.Navigation.MissionsImp;
 import Game.Utilities.Logs;
 import Game.Utilities.ManualSimulationLog;
 
@@ -47,7 +48,14 @@ public class Play {
 
             switch (choice) {
                 case 1:
-                    startGame(scanner, importer, missionCodes);
+                    Missions missions = new MissionsImp();
+                    startGame(missions,scanner, importer, missionCodes);
+                    try {
+                        Exporter exporter = new Exporter(missions);
+                        exporter.save();
+                    } catch (IOException e) {
+                        System.out.println("Error saving logs: " + e.getMessage());
+                    }
                     break;
                 case 2:
                     System.out.println("Exiting. Goodbye!");
@@ -56,7 +64,7 @@ public class Play {
         }
     }
 
-    private static void startGame(Scanner scanner, Importer importer, UnorderedListADT<String> missionCodes) {
+    private static void startGame(Missions missions, Scanner scanner, Importer importer, UnorderedListADT<String> missionCodes) {
 
         boolean playAgain = true;
 
@@ -107,7 +115,7 @@ public class Play {
 
                 if (playModeChoice == 1) {
                     try {
-                        playManually(mission, scanner);
+                        playManually(missions,mission, scanner);
                     } catch (HeroException | ItemException | TargetException | EnemyException e) {
                         System.out.println("Error playing the game: " + e.getMessage());
                     }
@@ -289,15 +297,13 @@ public class Play {
         return false;
     }
 
-    private static void playManually(Mission mission ,Scanner scanner) throws HeroException, ItemException, TargetException, EnemyException, IOException {
+    private static void playManually(Missions missions,Mission mission ,Scanner scanner) throws HeroException, ItemException, TargetException, EnemyException, IOException {
         Map mapOfGame = mission.getMap();
 
         UnorderedListADT<Room> allRooms = mapOfGame.getRooms();
         OrderedListADT<Room> path = new LinkedOrderedList<>();
         Hero hero = createHero(scanner);
         Room targetRoom = findRoomWithTarget(allRooms);
-        //Exporter exporter = new Exporter();
-        Logs manualSimulationLogs = new Logs();
         selectStartRoom(mapOfGame,hero, scanner, allRooms,path);
 
         while (hero.isAlive()) {
@@ -363,8 +369,8 @@ public class Play {
 
         mission.addManualSimulationLog(manualSimulationLog);
 
-        Exporter exporter = new Exporter(mission.getLogs());
-        exporter.save();
+        missions.addMission(mission);
+
     }
 
     private static boolean checkEndGame(Hero hero, Room movedRoom) {

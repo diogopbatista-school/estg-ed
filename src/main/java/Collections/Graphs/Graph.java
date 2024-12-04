@@ -8,9 +8,9 @@ import java.util.Iterator;
 
 public class Graph<T> implements GraphADT<T> {
     protected final int DEFAULT_CAPACITY = 10;
-    protected int numVertices; // number of vertices in the graph
-    protected boolean[][] adjMatrix; // adjacency matrix
-    protected T[] vertices; // values of vertices
+    protected int numVertices;
+    protected boolean[][] adjMatrix;
+    protected T[] vertices;
 
     public Graph() {
         numVertices = 0;
@@ -135,8 +135,7 @@ public class Graph<T> implements GraphADT<T> {
             x = traversalQueue.dequeue();
             resultList.addToRear(vertices[x]);
 
-            //Find all vertices adjacent to x that have not been visited and
-            //queue them up
+
             for (int i = 0; i < numVertices; i++) {
                 if (adjMatrix[x][i] && !visited[i]) {
                     traversalQueue.enqueue(i);
@@ -174,8 +173,7 @@ public class Graph<T> implements GraphADT<T> {
             x = traversalStack.peek();
             found = false;
 
-            //Find a vertex adjacent to x that has not been visited and push it
-            //on the stack
+
             for (int i = 0; (i < numVertices) && !found; i++) {
                 if (adjMatrix[x][i] && !visited[i]) {
                     traversalStack.push(i);
@@ -233,8 +231,7 @@ public class Graph<T> implements GraphADT<T> {
         while (!traversalQueue.isEmpty() && (index != targetIndex)) {
             index = traversalQueue.dequeue();
 
-            //Update the pathLength for each unvisited vertex adjacent to the
-            //vertex at the current index
+
             for (int i = 0; i < numVertices; i++) {
                 if (adjMatrix[index][i] && !visited[i]) {
                     pathLength[i] = pathLength[index] + 1;
@@ -244,7 +241,7 @@ public class Graph<T> implements GraphADT<T> {
                 }
             }
         }
-        if (index != targetIndex) { // no path must have been found
+        if (index != targetIndex) {
             return resultList.iterator();
         }
 

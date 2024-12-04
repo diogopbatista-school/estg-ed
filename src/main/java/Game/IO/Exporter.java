@@ -1,6 +1,9 @@
 package Game.IO;
 
 
+import Collections.Lists.UnorderedListADT;
+import Game.Interfaces.Mission;
+import Game.Interfaces.Missions;
 import Game.Interfaces.Room;
 import Game.Utilities.Logs;
 import Game.Utilities.ManualSimulationLog;
@@ -14,10 +17,10 @@ import java.util.Iterator;
 
 public class Exporter {
 
-    private Logs logs;
+    private Missions missions;
 
-    public Exporter(Logs logs) {
-        this.logs = logs;
+    public Exporter(Missions missions) {
+        this.missions = missions;
     }
 
     public void save() throws IOException{
@@ -25,11 +28,27 @@ public class Exporter {
     }
 
     public void saveLogs() throws IOException{
-        saveManualSimulationLogs();
-        //saveExceptionsLogs(logs);
+        JSONArray allLogs = new JSONArray();
+        JSONObject MissionsLogs = new JSONObject();
+
+        Iterator<Mission> it = missions.getMissions().iterator();
+        while(it.hasNext()){
+            Mission mission = it.next();
+            Logs logs = mission.getLogs();
+            JSONArray ManualLogs = saveManualSimulationLogs(logs);
+            MissionsLogs.put(mission.getCode(),ManualLogs);
+
+
+            allLogs.add(MissionsLogs);
+        }
+
+
+        try (FileWriter file = new FileWriter("MissionsLogs.json")) {
+            file.write(allLogs.toJSONString());
+        }
     }
 
-    private void saveManualSimulationLogs() throws IOException{
+    private JSONArray saveManualSimulationLogs(Logs logs) throws IOException{
         JSONArray ManualLogs = new JSONArray();
 
         Iterator<ManualSimulationLog> it = logs.getManualSimulationLogs().iterator();
@@ -44,10 +63,7 @@ public class Exporter {
 
             ManualLogs.add(time);
         }
-
-        try(FileWriter file = new FileWriter("ManualSimulationLogs.json")){
-            file.write(ManualLogs.toJSONString());
-        }
+        return ManualLogs;
 
     }
 
