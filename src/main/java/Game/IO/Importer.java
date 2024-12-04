@@ -1,8 +1,6 @@
 package Game.IO;
 
-import Collections.Lists.LinkedOrderedList;
 import Collections.Lists.LinkedUnorderedList;
-import Collections.Lists.OrderedListADT;
 import Collections.Lists.UnorderedListADT;
 import Game.Entities.EnemyImp;
 import Game.Entities.HeroImp;
@@ -11,10 +9,9 @@ import Game.Entities.TargetImp;
 import Game.Exceptions.ItemException;
 import Game.Exceptions.MapException;
 import Game.Exceptions.RoomException;
-import Game.Interfaces.Enemy;
-import Game.Interfaces.Hero;
-import Game.Interfaces.Map;
-import Game.Interfaces.Room;
+import Game.Interfaces.*;
+import Game.Navigation.MapImp;
+import Game.Navigation.MissionImp;
 import Game.Navigation.RoomImp;
 import Game.Utilities.ManualSimulationLog;
 import org.json.simple.JSONArray;
@@ -43,6 +40,7 @@ public class Importer {
     private JSONArray connections;
     private JSONArray items;
     private JSONArray exitsAndEntrances;
+    private JSONArray manualSimulationLogs;
 
     /**
      * Default constructor for the Importer class.
@@ -50,7 +48,7 @@ public class Importer {
     public Importer() {
     }
 
-    public UnorderedListADT<String> loadMissions(String filePath) throws  IOException, ParseException {
+    public UnorderedListADT<String> loadMissions(String filePath) throws IOException, ParseException {
         UnorderedListADT<String> missionsList = new LinkedUnorderedList<>();
         JSONObject missionsJSON = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(filePath))));
         missions = (JSONArray) missionsJSON.get("missoes");
@@ -62,35 +60,36 @@ public class Importer {
     }
 
     /**
-     * Imports data from the JSON file and constructs the game map.
-     *
-     * @param map The map to be populated with data.
-     * @throws FileNotFoundException if the JSON file is not found.
-     * @throws IOException if an I/O error occurs.
+     * Imports the game data from the JSON file and constructs the map.
+     * @param nameMission
+     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public void importData(Map map, String nameMission) throws FileNotFoundException, IOException {
+    public Mission importData(String nameMission) throws FileNotFoundException, IOException {
         try {
-            importFiles(map,nameMission);
-        } catch (ParseException | MapException e) {
-            e.printStackTrace();
+            Mission msn = new MissionImp();
+            return importFiles(msn,nameMission);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * Reads the JSON file and parses its content to populate the map.
      *
-     * @param map The map to be populated with data.
      * @throws ParseException if the JSON file cannot be parsed.
-     * @throws MapException if the map is null.
+     * @throws MapException   if the map is null.
      */
-    private void importFiles(Map map, String nameMission) throws ParseException, MapException {
-        if (map == null) {
-            throw new MapException("Map cannot be null");
-        }
+    private Mission importFiles(Mission msn ,String nameMission) throws ParseException {
+
+
+        Map map = new MapImp();
 
         for (Object obj : missions) {
             JSONObject mission = (JSONObject) obj;
             if (nameMission.equals(mission.get("cod-missao"))) {
+                String codMission = (String) mission.get("cod-missao");
+                int VersMission = ((Long) mission.get("versao")).intValue();
                 this.mission = mission;
                 this.rooms = (JSONArray) mission.get("edificio");
                 this.enemies = (JSONArray) mission.get("inimigos");
@@ -98,6 +97,10 @@ public class Importer {
                 this.items = (JSONArray) mission.get("itens");
                 this.exitsAndEntrances = (JSONArray) mission.get("entradas-saidas");
                 this.target = (JSONObject) mission.get("alvo");
+
+                msn.setCode(codMission);
+                msn.setVersion(VersMission);
+
                 break;
             }
         }
@@ -106,7 +109,10 @@ public class Importer {
             throw new IllegalArgumentException("Mission code not found: " + nameMission);
         }
 
-        this.constructMap(map);
+        msn.addMap(this.constructMap(map));
+        //addManualSimulationLog(msn);
+
+        return msn;
     }
 
     /**
@@ -114,7 +120,7 @@ public class Importer {
      *
      * @param map The map to be constructed.
      */
-    private void constructMap(Map map) {
+    private Map constructMap(Map map) {
         try {
             for (Object obj : this.rooms) {
                 String roomName = (String) obj;
@@ -132,6 +138,8 @@ public class Importer {
         } catch (Exception e) {
             System.out.println("Error adding rooms");
         }
+
+        return map;
     }
 
     /**
@@ -150,7 +158,7 @@ public class Importer {
 
                 if (room.getRoomName().equals(division)) {
                     Enemy enemy = new EnemyImp(name, health, power, room);
-                    room.addEnemy(enemy); // Adds enemy to the room
+                    room.addEnemy(enemy);
                 }
             }
         } catch (Exception e) {
@@ -179,10 +187,10 @@ public class Importer {
                 String division = (String) jsonItem.get("divisao");
 
                 if (room.getRoomName().equals(division)) {
-                    try{
+                    try {
                         ItemImp item = new ItemImp(points, name);
                         room.addItem(item);
-                    }catch(ItemException e){
+                    } catch (ItemException e) {
                         System.out.println("An item with the name " + name + " was not added to the room");
                     }
                 }
@@ -254,4 +262,35 @@ public class Importer {
             e.printStackTrace();
         }
     }
+
+    private void addManualSimulationLog(Mission mission){
+        try{
+            for (Object obj : this.manualSimulationLogs){
+                JSONObject logObject = (JSONObject) obj;
+
+                String timestampObject = (String) logObject.get("timestamp");
+                ManualSimulationLog manualSimulationLog = new ManualSimulationLog(timestampObject);
+
+                JSONArray pathArray = (JSONArray) logObject.get("path");
+                for ( Object PathElement : pathArray){
+                    String roomName = (String) PathElement;
+                    Room room = new RoomImp(roomName);
+                    manualSimulationLog.addRoom(room);
+                }
+
+                JSONObject heroObject = (JSONObject) logObject.get("hero");
+                int health = ((Long) heroObject.get("health")).intValue();
+                int armorHealth = ((Long) heroObject.get("armorHealth")).intValue();
+                int attackPower = ((Long) heroObject.get("attackPower")).intValue();
+                Hero hero = new HeroImp(health, armorHealth, attackPower);
+                manualSimulationLog.setHero(hero);
+
+                mission.addManualSimulationLog(manualSimulationLog);
+            }
+        }catch (Exception e){
+            System.out.println("Error adding manual simulation log");
+            e.printStackTrace();
+        }
+    }
 }
+

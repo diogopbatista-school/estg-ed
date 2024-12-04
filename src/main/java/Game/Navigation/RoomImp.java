@@ -1,5 +1,6 @@
 package Game.Navigation;
 
+import Collections.Lists.DoublyLinkedUnorderedList;
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
 import Game.Enumerations.ItemType;
@@ -164,13 +165,8 @@ public class RoomImp implements Room {
             throw new EnemyException("Enemy cannot be null");
         }
 
-        if(this.enemies.isEmpty()){
-            this.enemies.addToFront(enemy);
-            return;
-        }
+        this.enemies.addToFront(enemy);
 
-        this.enemies.addAfter(enemy, this.enemies.last());
-        enemy.setCurrentRoom(this);
 
         if(this.hero != null){
             enemy.attack(this.hero);
@@ -214,30 +210,36 @@ public class RoomImp implements Room {
     }
 
     @Override
-    public Item removeItem(Item itemToRemove, Hero hero) throws ItemException { // iterar todos os items da sala
-
-        if (itemToRemove == null || itemToRemove.getType() == ItemType.UNKNOWN) {
-            throw new ItemException("Item cannot be null/unknown");
+    public void removeItem(Hero hero) throws ItemException { // iterar todos os items da sala
+        if(hero == null){
+            throw new ItemException("Hero cannot be null");
         }
 
-        if (hero.isBackPackFull() && itemToRemove.getType().equals(ItemType.KIT_DE_VIDA)) {
-            throw new ItemException("Hero's backpack is full.");
+        if(this.items.isEmpty()){
+            throw new ItemException("There are no items in the room");
         }
 
-        Item removedItem = items.remove(itemToRemove);
-        if (removedItem == null) {
-            throw new ItemException("Item not found in the room.");
-        }
+        boolean itemRemoved;
+        do {
+            itemRemoved = false;
+            Iterator<Item> iterator = this.items.iterator();
+            while (iterator.hasNext()) {
+                Item currentItem = iterator.next();
+                if (currentItem.getType() == ItemType.KIT_DE_VIDA) {
+                    hero.addToBackPack(currentItem);
+                    this.items.remove(currentItem);
+                    itemRemoved = true;
+                    break; // Restart the iterator
+                } else if (currentItem.getType() == ItemType.COLETE) {
+                    hero.healArmor(currentItem.getPoints());
+                    this.items.remove(currentItem);
+                    itemRemoved = true;
+                    break; // Restart the iterator
+                }
+            }
+        } while (itemRemoved);
 
-        if (itemToRemove.getType().equals(ItemType.COLETE)) {
-            hero.healArmor(itemToRemove.getPoints());
-            return itemToRemove;
-        }
-
-        hero.addToBackPack(removedItem);
-
-
-         return removedItem;
+        System.out.println("- There are no more items left in the room -");
     }
 
 

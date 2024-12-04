@@ -3,11 +3,11 @@ package Game.Utilities;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Log {
+public class LogExceptions implements Comparable<LogExceptions> {
     private String message;
     private final String date;
 
-    public Log(String message) {
+    public LogExceptions(String message) {
         this.message = message;
         this.date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     }
@@ -26,5 +26,10 @@ public class Log {
                 "message='" + message + '\'' +
                 ", timestamp='" + date + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(LogExceptions other) {
+        return this.date.compareTo(other.date);
     }
 }

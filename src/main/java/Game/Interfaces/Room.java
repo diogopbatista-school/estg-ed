@@ -94,15 +94,15 @@ public interface Room {
 
     /**
      * Removes an item from the room
-     * @param itemToRemove the item to remove
      * @param hero the hero to add the item to ( backPack or add to armor bar)
      * @throws ItemException if the item is invalid or null
      */
-    public Item removeItem(Item itemToRemove, Hero hero) throws ItemException;
+    public void removeItem(Hero hero) throws ItemException;
 
     public String getRoomName();
 
     public boolean isIsAndOut();
 
     public Target getTarget();
+
 }

@@ -7,24 +7,28 @@ import Collections.Lists.UnorderedListADT;
 
 public class Logs {
 
-    private OrderedListADT<Log> logs;
+    private final OrderedListADT<LogExceptions> exceptionlogs;
 
-    private UnorderedListADT<ManualSimulationLog> manualsimulationlogs;
+    private final OrderedListADT<ManualSimulationLog> manualsimulationlogs;
 
     public Logs(){
-        this.logs = new LinkedOrderedList<>();
-        this.manualsimulationlogs = new LinkedUnorderedList<>();
+        this.exceptionlogs = new LinkedOrderedList<>();
+        this.manualsimulationlogs = new LinkedOrderedList<>();
     }
 
-    public void addLog(Log log){
-        this.logs.add(log);
+    public void addExceptionLog(LogExceptions log){
+        this.exceptionlogs.add(log);
+    }
+
+    public OrderedListADT<LogExceptions> getExceptionLogs(){
+        return exceptionlogs;
     }
 
     public void addManualSimulationLog(ManualSimulationLog manualsimulationlog){
-        this.manualsimulationlogs.addToFront(manualsimulationlog);
+        this.manualsimulationlogs.add(manualsimulationlog);
     }
 
-    public UnorderedListADT<ManualSimulationLog> getManualSimulationLogs(){
+    public OrderedListADT<ManualSimulationLog> getManualSimulationLogs(){
        return manualsimulationlogs;
     }
 

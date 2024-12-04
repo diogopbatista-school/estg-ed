@@ -31,8 +31,8 @@
       "alvo": { "divisao": "Laboratório", "tipo": "roubar amostra" },
       "itens": [
         { "divisao": "Portão Principal", "pontos-recuperados": 10, "tipo": "kit de vida" },
-        { "divisao": "Corredor A", "pontos-extra": 20, "tipo": "colete" },
-        { "divisao": "Sala de Vigilância", "pontos-recuperados": 15, "tipo": "kit de vida" },
+        { "divisao": "Portão Principal", "pontos-extra": 20, "tipo": "colete" },
+        { "divisao": "Portão Principal", "pontos-recuperados": 15, "tipo": "kit de vida" },
         { "divisao": "Laboratório", "pontos-extra": 30, "tipo": "colete" }
       ]
     },
@@ -104,7 +104,7 @@
     },
     {
       "cod-missao": "pata de coelho",
-      "versao": 1,
+      "versao": 4,
       "edificio": [
         "Heliporto", "Escada 6", "Camaratas", "Armazém", "Escada 5",
         "Laboratório", "Escritório 3", "Escada 4", "WC", "Corredor 2",

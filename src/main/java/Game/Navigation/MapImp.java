@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class MapImp implements Map {
 
-    private ExtendedNetworkADT<Room> network;
+    private final ExtendedNetworkADT<Room> network;
 
     public MapImp() {
         this.network = new ExtendedNetwork<>();

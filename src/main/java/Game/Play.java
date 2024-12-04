@@ -13,6 +13,7 @@ import Game.Navigation.MapImp;
 import Game.Utilities.Logs;
 import Game.Utilities.ManualSimulationLog;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Iterator;
@@ -91,12 +92,13 @@ public class Play {
                 selectedMission = iterator.next();
             }
 
-            Map map = new MapImp();
+            Mission mission;
 
             try {
-                importer.importData(map, selectedMission);
+                mission = importer.importData(selectedMission);
                 clearConsole();
                 System.out.println("Mission loaded successfully! Mission: " + selectedMission);
+                System.out.println(mission.getMap().toString());
 
                 System.out.println("Choose play mode:");
                 System.out.println("1. Manual");
@@ -105,13 +107,13 @@ public class Play {
 
                 if (playModeChoice == 1) {
                     try {
-                        playManually(map, scanner);
+                        playManually(mission, scanner);
                     } catch (HeroException | ItemException | TargetException | EnemyException e) {
                         System.out.println("Error playing the game: " + e.getMessage());
                     }
                 } else if (playModeChoice == 2) {
                      try {
-                     playAutomatically(map,scanner);
+                     playAutomatically(mission,scanner);
                      } catch (HeroException | TargetException | EnemyException e) {
                      System.out.println("Error playing the game: " + e.getMessage());
                      }
@@ -142,13 +144,14 @@ public class Play {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next(); // Clear the invalid input
+                scanner.next();
             }
         }
         return choice;
     }
 
-    private static void playAutomatically(Map map, Scanner scanner) throws HeroException, EnemyException, TargetException {
+    private static void playAutomatically(Mission mission, Scanner scanner) throws HeroException, EnemyException, TargetException {
+        Map map = mission.getMap();
         UnorderedListADT<Room> allRooms = map.getRooms();
         Room targetRoom = findRoomWithTarget(allRooms);
         UnorderedListADT<Room> entryExitRooms = findEntryRooms(allRooms);
@@ -245,9 +248,7 @@ public class Play {
                 // Fase 2: Do targetRoom até os exits
                 else {
                     boolean endGame = handleRoomEvents(map, hero, nextRoom, targetRoom, scanner, true);
-                    if (endGame) {
-                        return true;
-                    }
+                    return endGame;
                 }
             }
         }
@@ -278,7 +279,7 @@ public class Play {
         }
 
         if (currentRoom.isTargetInRoom() && !currentRoom.isThereAnEnemyAlive() && !isExitPhase) {
-            ScenarySix(hero, currentRoom);
+            ScenarySix(map ,hero, currentRoom,scanner);
         }
 
         if (currentRoom.isIsAndOut() && isExitPhase && !currentRoom.isThereAnEnemyAlive()) {
@@ -288,12 +289,14 @@ public class Play {
         return false;
     }
 
-    private static void playManually(Map mapOfGame ,Scanner scanner) throws HeroException, ItemException, TargetException, EnemyException {
+    private static void playManually(Mission mission ,Scanner scanner) throws HeroException, ItemException, TargetException, EnemyException, IOException {
+        Map mapOfGame = mission.getMap();
+
         UnorderedListADT<Room> allRooms = mapOfGame.getRooms();
-        UnorderedListADT<Room> path = new LinkedUnorderedList<>();
+        OrderedListADT<Room> path = new LinkedOrderedList<>();
         Hero hero = createHero(scanner);
         Room targetRoom = findRoomWithTarget(allRooms);
-        Exporter exporter = new Exporter();
+        //Exporter exporter = new Exporter();
         Logs manualSimulationLogs = new Logs();
         selectStartRoom(mapOfGame,hero, scanner, allRooms,path);
 
@@ -319,7 +322,7 @@ public class Play {
                 Room movedRoom = listConnectedRooms(mapOfGame, scanner, hero, allRooms, targetRoom);
 
                 if (movedRoom != null) {
-                    path.addToRear(movedRoom);
+                    path.add(movedRoom);
                 }
 
                 if (checkEndGame(hero, movedRoom)) {
@@ -340,7 +343,7 @@ public class Play {
                 }
 
                 if (movedRoom.isTargetInRoom() && !movedRoom.isThereAnEnemyAlive()) {
-                    ScenarySix(hero, movedRoom);
+                    ScenarySix(mapOfGame,hero, movedRoom,scanner);
                 }
             }else {
                 hero.UseItem();
@@ -356,11 +359,12 @@ public class Play {
         }
 
 
-        ManualSimulationLog manualSimulationLog = new ManualSimulationLog(hero,path);
+        ManualSimulationLog manualSimulationLog = new ManualSimulationLog(hero, path);
 
-        manualSimulationLogs.addManualSimulationLog(manualSimulationLog);
+        mission.addManualSimulationLog(manualSimulationLog);
 
-        exporter.saveManualSimulation(manualSimulationLogs);
+        Exporter exporter = new Exporter(mission.getLogs());
+        exporter.save();
     }
 
     private static boolean checkEndGame(Hero hero, Room movedRoom) {
@@ -409,7 +413,7 @@ public class Play {
                 itemsScenario(movedRoom, hero);
             }
             if (movedRoom.equals(targetRoom)) {
-                ScenarySix(hero, movedRoom);
+                ScenarySix(map,hero, movedRoom,scanner);
             }
         } else {
                 ScenaryOne(map ,movedRoom, hero, scanner,isAutomatic);
@@ -424,13 +428,17 @@ public class Play {
         // Fim do turno: O próximo turno começa com Tó Cruz ainda na sala com o alvo, após eliminar os inimigos
         if (hero.isAlive() && !movedRoom.isThereAnEnemyAlive()) {
             System.out.println("Todos os inimigos na sala foram eliminados. Tó Cruz pode agora resgatar o alvo.");
-            ScenarySix(hero, movedRoom);
+            ScenarySix(map,hero, movedRoom,scanner);
         }
     }
 
-    private static void ScenarySix(Hero hero, Room movedRoom) throws TargetException {
+    private static void ScenarySix(Map map,Hero hero, Room movedRoom, Scanner scanner) throws TargetException, EnemyException {
         if(movedRoom.getTarget() == null){
             return;
+        }
+        map.mapShuffle();
+        if(movedRoom.isThereAnEnemyAlive()){
+            ScenaryOne(map, movedRoom, hero, scanner,false);
         }
 
         hero.setTarget(movedRoom.getTarget());
@@ -448,12 +456,11 @@ public class Play {
         while (itemIterator.hasNext()) {
             Item item = itemIterator.next();
             System.out.println(item.getNameItem());
-            try {
-                Item itemAux = movedRoom.removeItem(item, hero); // ja faz as verificaçoes no metodo
-                System.out.println("Hero picked up item: " + itemAux.getNameItem());
-            } catch (ItemException e) {
-                System.out.println("Item left in the room because : " + e.getMessage());
-            }
+        }
+        try{
+        movedRoom.removeItem(hero);
+        }catch (ItemException e){
+            System.out.println("Item left in the room because: " + e.getMessage());
         }
     }
 
@@ -619,8 +626,7 @@ public class Play {
         return new HeroImp(attackValue, backpackCapacity);
     }
 
-
-    private static void selectStartRoom(Map map, Hero hero, Scanner scanner, UnorderedListADT<Room> rooms,UnorderedListADT<Room> path) throws HeroException, EnemyException {
+    private static void selectStartRoom(Map map, Hero hero, Scanner scanner, UnorderedListADT<Room> rooms,OrderedListADT<Room> path) throws HeroException, EnemyException {
         UnorderedListADT<Room> inAndOutRooms = new LinkedUnorderedList<>(); // Linked porque eu nunca sei quantos elementos eu vou ter
         System.out.println("In and Out Rooms:");
 
@@ -661,7 +667,7 @@ public class Play {
                 if (enterChoice.equals("yes")) {
                     roomConfirmed = true;
                     selectedRoom.addHero(hero);
-                    path.addToRear(selectedRoom);
+                    path.add(selectedRoom);
                     clearConsole();
                     System.out.println("Hero will start the game at the room: " + selectedRoom.getRoomName());
 
@@ -673,7 +679,7 @@ public class Play {
             } else {
                 roomConfirmed = true;
                 selectedRoom.addHero(hero);
-                path.addToRear(selectedRoom);
+                path.add(selectedRoom);
                 clearConsole();
                 System.out.println("Hero will start the game at the room: " + selectedRoom.getRoomName());
                 if(selectedRoom.hasItems()) {

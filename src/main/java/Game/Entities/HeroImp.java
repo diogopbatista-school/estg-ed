@@ -59,6 +59,11 @@ public class HeroImp extends CharacterImp implements Hero {
         this.target = null;
     }
 
+    public HeroImp(int health , int armor , int attackPower) {
+        super("Tó Cruz", health, attackPower);
+        this.armor = armor;
+    }
+
     /**
      * Getter that returns the hero's first item in the backpack
      * @return the hero's first item in the backpack
