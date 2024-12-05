@@ -22,6 +22,8 @@ public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
         this.timestamp = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new java.util.Date());
     }
 
+
+
     public void setHero(Hero hero){
         this.hero = hero;
     }
@@ -48,7 +50,9 @@ public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
 
     @Override
     public int compareTo(ManualSimulationLog other) {
-        return Integer.compare(other.getHero().getHealth(), this.getHero().getHealth());
+        int thisTotalHealth = this.getHero().getArmorHealth() + this.getHero().getHealth();
+        int otherTotalHealth = other.getHero().getArmorHealth() + other.getHero().getHealth();
+        return Integer.compare(otherTotalHealth, thisTotalHealth);
     }
 
 

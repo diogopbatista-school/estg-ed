@@ -59,7 +59,7 @@ public class Exporter {
         Iterator<ManualSimulationLog> it = logs.getManualSimulationLogs().iterator();
         while (it.hasNext()) {
             ManualSimulationLog log = it.next();
-            
+
             JSONObject logObject = new JSONObject();
             logObject.put("path", pathToJsonArray(log));
             logObject.put("hero", heroToJsonObject(log));
@@ -89,4 +89,6 @@ public class Exporter {
         hero.put("armorHealth", log.getHero().getArmorHealth());
         return hero;
     }
+
+
 }
