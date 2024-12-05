@@ -1,6 +1,5 @@
 package Game.IO;
 
-
 import Collections.Lists.UnorderedListADT;
 import Game.Interfaces.Mission;
 import Game.Interfaces.Missions;
@@ -14,7 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
-
 public class Exporter {
 
     private Missions missions;
@@ -23,52 +21,57 @@ public class Exporter {
         this.missions = missions;
     }
 
-    public void save() throws IOException{
+    public void save() throws IOException {
         this.saveLogs();
     }
 
-    public void saveLogs() throws IOException{
-        JSONArray allLogs = new JSONArray();
-        JSONObject MissionsLogs = new JSONObject();
+
+    public void saveLogs() throws IOException {
+        JSONObject allLogs = new JSONObject();
 
         Iterator<Mission> it = missions.getMissions().iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Mission mission = it.next();
             Logs logs = mission.getLogs();
-            JSONArray ManualLogs = saveManualSimulationLogs(logs);
-            MissionsLogs.put(mission.getCode(),ManualLogs);
 
 
-            allLogs.add(MissionsLogs);
+            JSONArray manualLogs = saveManualSimulationLogs(logs);
+
+
+            if (allLogs.containsKey(mission.getCode())) {
+                JSONArray existingLogs = (JSONArray) allLogs.get(mission.getCode());
+                existingLogs.addAll(manualLogs);
+            } else {
+                allLogs.put(mission.getCode(), manualLogs);
+            }
         }
-
 
         try (FileWriter file = new FileWriter("MissionsLogs.json")) {
             file.write(allLogs.toJSONString());
         }
     }
 
-    private JSONArray saveManualSimulationLogs(Logs logs) throws IOException{
-        JSONArray ManualLogs = new JSONArray();
+
+
+    private JSONArray saveManualSimulationLogs(Logs logs) {
+        JSONArray manualLogs = new JSONArray();
 
         Iterator<ManualSimulationLog> it = logs.getManualSimulationLogs().iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             ManualSimulationLog log = it.next();
-            ManualLogs.add(pathToJsonObject(log));
-            ManualLogs.add(heroToJsonObject(log));
+            
+            JSONObject logObject = new JSONObject();
+            logObject.put("path", pathToJsonArray(log));
+            logObject.put("hero", heroToJsonObject(log));
+            logObject.put("timestamp", log.getTimestamp());
 
-            JSONObject time = new JSONObject();
-            String date= log.getTimestamp();
-            time.put("timestamp", date);
-
-            ManualLogs.add(time);
+            manualLogs.add(logObject);
         }
-        return ManualLogs;
 
+        return manualLogs;
     }
 
-    private JSONObject pathToJsonObject(ManualSimulationLog log){
-        JSONObject jsonObject = new JSONObject();
+    private JSONArray pathToJsonArray(ManualSimulationLog log) {
         JSONArray pathArray = new JSONArray();
         Iterator<Room> it = log.getPath().iterator();
 
@@ -77,26 +80,13 @@ public class Exporter {
             pathArray.add(room.getRoomName());
         }
 
-        jsonObject.put("path", pathArray);
-        return jsonObject;
+        return pathArray;
     }
 
-    private JSONObject heroToJsonObject(ManualSimulationLog log){
-        JSONObject jsonObject = new JSONObject();
+    private JSONObject heroToJsonObject(ManualSimulationLog log) {
         JSONObject hero = new JSONObject();
-        hero.put("health",log.getHero().getHealth());
+        hero.put("health", log.getHero().getHealth());
         hero.put("armorHealth", log.getHero().getArmorHealth());
-        jsonObject.put("hero", hero);
-        return jsonObject;
+        return hero;
     }
-
-    private void saveExceptionsLogs(Logs logs) throws IOException{
-
-    }
-
 }
-
-
-
-
-

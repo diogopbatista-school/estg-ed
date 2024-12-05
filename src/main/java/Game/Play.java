@@ -263,7 +263,7 @@ public class Play {
         return false;
     }
 
-    // Novo método para gerenciar eventos na sala
+
     private static boolean handleRoomEvents(Map map, Hero hero, Room currentRoom, Room targetRoom, Scanner scanner, boolean isExitPhase) throws HeroException, EnemyException, TargetException {
         if (currentRoom.isThereAnEnemyAlive() && !currentRoom.isTargetInRoom()) {
             ScenaryOne(map, currentRoom, hero, scanner, true);
