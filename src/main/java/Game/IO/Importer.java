@@ -235,8 +235,9 @@ public class Importer {
 
             Room room1 = map.getRoomByName(room1Name);
             Room room2 = map.getRoomByName(room2Name);
-            int weight1 = room1.getTotalEnemiesAttackPower();
-            int weight2 = room2.getTotalEnemiesAttackPower();
+
+            int weight1 = room2.getTotalEnemiesAttackPower();
+            int weight2 = room1.getTotalEnemiesAttackPower();
 
             map.addConnection(room1, room2, weight1);
             map.addConnection(room2, room1, weight2);

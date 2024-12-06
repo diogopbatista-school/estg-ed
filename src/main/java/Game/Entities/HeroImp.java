@@ -64,6 +64,8 @@ public class HeroImp extends CharacterImp implements Hero {
         this.armor = armor;
     }
 
+
+
     /**
      * Getter that returns the hero's first item in the backpack
      * @return the hero's first item in the backpack
@@ -161,7 +163,7 @@ public class HeroImp extends CharacterImp implements Hero {
     /**
      * Method that uses an item from the hero's backpack
      */
-    public void UseItem() {
+    public void useItem() {
         try {
             Item item = RemoveItem();
             if (item.getType() == ItemType.KIT_DE_VIDA) {

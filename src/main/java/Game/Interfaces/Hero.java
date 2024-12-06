@@ -7,6 +7,8 @@ import Game.Exceptions.ItemException;
  */
 public interface Hero extends Character{
 
+
+
     /**
      * Getter for the target attribute
      * @return the target attribute
@@ -59,7 +61,7 @@ public interface Hero extends Character{
     /**
      * Method uses an item from the hero's backpack
      */
-    public void UseItem();
+    public void useItem();
 
     /**
      * Heals the hero's helath by the given amount

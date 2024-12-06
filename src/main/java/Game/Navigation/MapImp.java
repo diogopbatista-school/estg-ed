@@ -10,6 +10,8 @@ import Game.Exceptions.RoomException;
 import Game.Interfaces.Enemy;
 import Game.Interfaces.Map;
 import Game.Interfaces.Room;
+import Game.PlayGame.GameRule;
+
 import java.util.Iterator;
 import java.util.Random;
 
@@ -139,7 +141,7 @@ public class MapImp implements Map {
                     System.out.println(enemy.getName() + " | old " + enemy.getCurrentRoom().getRoomName());
                     currentRoom.removeEnemy(enemy);
                     moveEnemyRecursively(currentRoom, enemy, rand, jumps); // Move the enemy with up to 2 jumps
-                    movedEnemies.addToFront(enemy); // Mark the enemy as moved
+                    movedEnemies.addToFront(enemy);
                     System.out.println(enemy.getName() + " | new " + enemy.getCurrentRoom().getRoomName());
                     System.out.println("Jumps: " + jumps);
                 }
@@ -151,20 +153,22 @@ public class MapImp implements Map {
 
     private void moveEnemyRecursively(Room currentRoom, Enemy enemy, Random rand, int remainingJumps) throws EnemyException {
 
+
         if (remainingJumps == 0) {
             currentRoom.addEnemy(enemy); // Adiciona o inimigo à sala se não houver mais pulos
             enemy.setCurrentRoom(currentRoom); // Atualiza a sala atual do inimigo
             return;
         }
 
-        // Obtém as salas conectadas à sala atual
+
         UnorderedListADT<Room> connectedRooms = getConnectedRooms(currentRoom);
         if (!connectedRooms.isEmpty()) {
-            // Seleciona uma sala aleatória entre as conectadas
+
             Room nextRoom = getRandomRoom(connectedRooms, rand);
             moveEnemyRecursively(nextRoom, enemy, rand, remainingJumps - 1); // Chamada recursiva para mover o inimigo
         } else {
-            // Caso não haja salas conectadas, o inimigo volta para a sala atual
+            // nunca deve chegar aqui pois a sala atual sempre terá pelo menos uma sala conectada
+            // so acontence se o mapa for invalido , e for impossivel mover o inimigo
             currentRoom.addEnemy(enemy);
             enemy.setCurrentRoom(currentRoom);
         }

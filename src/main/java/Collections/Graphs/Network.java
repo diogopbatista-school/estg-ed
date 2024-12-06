@@ -36,6 +36,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
     }
 
+
+
     @Override
     public void removeEdge(T vertex1, T vertex2) {
         removeEdge(getIndex(vertex1), getIndex(vertex2));

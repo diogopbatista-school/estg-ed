@@ -16,7 +16,7 @@ public class RoomImp implements Room {
     private Hero hero;
     private Target target;
     private UnorderedListADT<Item> items;
-    private String roomName;
+    private final String roomName;
     private Boolean isInAndOut;
 
     public RoomImp(String roomName) {
@@ -168,12 +168,6 @@ public class RoomImp implements Room {
         this.enemies.addToFront(enemy);
 
 
-        if(this.hero != null){
-            enemy.attack(this.hero);
-            System.out.println("AN ENEMY HAS ENTERED THE ROOM AND ATTACKED THE HERO");
-            System.out.println("The enemy " + enemy.getName() + " has entered the room and attacked the hero " + this.hero.getName());
-            System.out.println(enemy.getName() + " attacked Hero. Hero's health: " + this.hero.getHealth() + " Armor: " + this.hero.getArmorHealth());
-        }
     }
 
 
@@ -239,10 +233,12 @@ public class RoomImp implements Room {
             }
         } while (itemRemoved);
 
-        System.out.println("- There are no more items left in the room -");
+        throw new ItemException("There are no items in the room");
     }
 
-
+    public Hero getHeroInRoom(){
+        return this.hero;
+    }
 
     @Override
     public String getRoomName() {
