@@ -26,10 +26,12 @@ public class Menu {
     private final Input input ;
     private final Print print;
     private GameEngine gameEngine;
+    private Missions missions;
 
-    public Menu(Input input,Print print) {
+    public Menu(Missions missions, Input input,Print print) {
         this.input = input;
         this.print = print;
+        this.missions = missions;
         this.gameEngine = new GameEngine(input,print,this);
     }
 
@@ -38,7 +40,6 @@ public class Menu {
     }
 
     public void mainMenu(UnorderedListADT<String> missionCodes, Importer importer){
-        Missions missions = new MissionsImp();
         Exporter exporter = new Exporter(missions);
 
         print.mainMenu();
@@ -46,12 +47,15 @@ public class Menu {
 
         if(choice == 1){
             startGameMenu(missions,missionCodes,importer,exporter);
+        }else{
+            System.out.println("Exiting Game");
+            System.exit(0);
         }
+
 
         System.out.println("Exiting. Goodbye!");
         System.exit(0);
     }
-
 
     public void startGameMenu(Missions missions, UnorderedListADT<String> missionCodes, Importer importer, Exporter exporter) {
        boolean playAgain = true;
@@ -59,18 +63,19 @@ public class Menu {
        while(playAgain) {
            print.availableMissions(missionCodes);
            String selectedMission = chooseMapMenu(missionCodes);
-
            Mission mission;
 
            try{
                mission = importer.importData(selectedMission);
-               print.loadedMissionMenu(selectedMission);
+
+               print.loadedMissionMenu(mission,selectedMission);
+
                int playModeChoise = input.getValidNumberInput(1,2);
 
                if(playModeChoise == 1){
                    gameEngine.playManually(missions, mission);
                }else if(playModeChoise == 2){
-
+                   gameEngine.playAutomatically(mission);
                }
 
            } catch (IOException | HeroException | EnemyException | TargetException | RoomException e) {
@@ -79,13 +84,12 @@ public class Menu {
 
            print.playAgain();
            int playAgainChoice = input.getValidNumberInput(1, 2);
+           try{
+               exporter.save();
+           } catch (IOException e) {
+               throw new RuntimeException(e);
+           }
            playAgain = (playAgainChoice == 1);
-       }
-
-       try {
-           exporter.save();
-       }catch(IOException e){
-           System.out.println(e.getMessage());
        }
 
        System.out.println("Exiting. Goodbye!");

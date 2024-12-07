@@ -11,25 +11,26 @@ public class Logs {
 
     private final OrderedListADT<LogExceptions> exceptionlogs;
 
-    private ManualSimulationLog manualsimulationlogs;
+    private OrderedListADT<ManualSimulationLog> manualsimulationlogs;
 
-    public Logs(){
+    public Logs() {
         this.exceptionlogs = new LinkedOrderedList<>();
-        this.manualsimulationlogs = null;
+        this.manualsimulationlogs = new LinkedOrderedList<>();
     }
 
-    public void addExceptionLog(LogExceptions log){
+    public void addExceptionLog(LogExceptions log) {
         this.exceptionlogs.add(log);
     }
 
-    public OrderedListADT<LogExceptions> getExceptionLogs(){
+    public OrderedListADT<LogExceptions> getExceptionLogs() {
         return exceptionlogs;
     }
 
-    public void addManualSimulationLog(ManualSimulationLog manualsimulationlog){
-        this.manualsimulationlogs = manualsimulationlog;
+    public void addManualSimulationLog(ManualSimulationLog manualsimulationlog) {
+        manualsimulationlogs.add(manualsimulationlog);
     }
 
-    
-
+    public OrderedListADT<ManualSimulationLog> getManualSimulationLogs() {
+        return manualsimulationlogs;
+    }
 }

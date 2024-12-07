@@ -41,8 +41,8 @@ public class GameRule {
             } else if(movedRoom.hasItems()) {
                 itemsScenario(movedRoom, hero);
             }
-            print.fightOverNoItemsToCollect();
         }
+        print.fightOverNoItemsToCollect();
     }
 
     public void sceneryTwo(Map map, Room movedRoom,Room targetRoom, Hero hero,boolean isAutomatic) throws EnemyException, TargetException {
@@ -113,7 +113,7 @@ public class GameRule {
     public boolean checkEndGame (Hero hero, Room movedRoom){
         if (movedRoom.isIsAndOut()) {
             if (hero.doesHeroHaveTarget()) {
-                print.gameWonHeroReachedExit();
+                print.gameWonHeroReachedExit(hero);
             } else {
                 print.gameOverHeroReachedExit();
             }

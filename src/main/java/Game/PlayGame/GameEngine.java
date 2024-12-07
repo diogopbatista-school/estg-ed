@@ -86,7 +86,7 @@ public class GameEngine {
         OrderedListADT<Room> path = new LinkedOrderedList<>();
         Hero hero = menu.createHero();
         Room targetRoom = findRoomWithTarget(map.getRooms());
-        Room nextRoom = null;
+        Room nextRoom ;
         nextRoom = selectStartRoom(map,hero,path);
 
 
@@ -141,6 +141,139 @@ public class GameEngine {
         missions.addMission(mission);
     }
 
+    public void playAutomatically(Mission mission) throws HeroException, TargetException, EnemyException {
+        Map map = mission.getMap();
+        UnorderedListADT<Room> allRooms = map.getRooms();
+        Room targetRoom = findRoomWithTarget(allRooms);
+        UnorderedListADT<Room> entryExitRooms = findEntryRooms(allRooms);
+
+        if (entryExitRooms.isEmpty()) {
+            System.out.println("No entry rooms available.");
+            return;
+        }
+
+        Hero hero = menu.createHero();
+        Iterator<Room> entryRoomsIterator = entryExitRooms.iterator();
+        Room bestEntryRoom = findBestRoom(map, entryRoomsIterator, targetRoom);
+
+        if (bestEntryRoom == null) {
+            System.out.println("No valid path found.");
+            return;
+        }
+
+        System.out.println("Best entry point: " + bestEntryRoom.getRoomName());
+        moveHeroToRoom(hero, bestEntryRoom);
+
+        while (!hero.doesHeroHaveTarget() && hero.isAlive()) {
+            currentRoomActions(map, hero, targetRoom);
+        }
+
+        while (hero.doesHeroHaveTarget() && hero.isAlive()) {
+            Iterator<Room> exitRoomsIterator = entryExitRooms.iterator();
+            Room bestExitRoom = findBestRoom(map, exitRoomsIterator, hero.getCurrentRoom());
+
+            if (bestExitRoom == null) {
+                System.out.println("No exit rooms available.");
+                break;
+            }
+
+            boolean endGame = currentRoomActions(map, hero, bestExitRoom);
+            if(endGame){
+                break;
+            }
+        }
+
+    }
+
+    private  boolean currentRoomActions(Map map, Hero hero, Room targetRoom) throws HeroException, EnemyException, TargetException {
+        Iterator<Room> pathIterator = map.shortestPath(hero.getCurrentRoom(), targetRoom);
+
+        if (pathIterator.hasNext()) {
+            pathIterator.next(); // Skip the current room
+            if (pathIterator.hasNext()) {
+                Room nextRoom = pathIterator.next();
+                moveHeroToRoom(hero, nextRoom);
+
+                // Fase 1: Até o targetRoom
+                if (!hero.doesHeroHaveTarget()) {
+                    print.nextBestRoom(map,hero.getCurrentRoom(),targetRoom);
+                    handleRoomEvents(map, hero, nextRoom, targetRoom, false);
+                }
+                // Fase 2: Do targetRoom até os exits
+                else {
+                    print.nextBestRoom(map,hero.getCurrentRoom(),targetRoom);
+                    return handleRoomEvents(map, hero, nextRoom, targetRoom, true);
+                }
+            }
+        }
+        return false;
+    }
+
+    private  boolean handleRoomEvents(Map map, Hero hero, Room currentRoom, Room targetRoom, boolean isExitPhase) throws HeroException, EnemyException, TargetException {
+        if (currentRoom.isThereAnEnemyAlive() && !currentRoom.isTargetInRoom()) {
+            gameRule.sceneryOne(map, hero, currentRoom, true);
+        }
+
+        if (!currentRoom.isThereAnEnemyAlive() && !currentRoom.isTargetInRoom()) {
+            gameRule.sceneryTwo(map, currentRoom, targetRoom, hero, true);
+        }
+
+        if (currentRoom.isThereAnEnemyAlive() && currentRoom.isTargetInRoom()) {
+            gameRule.sceneryFive(map, currentRoom, hero, true);
+        }
+
+        if (currentRoom.isThereAnEnemyAlive() && currentRoom.isTargetInRoom()) {
+            gameRule.sceneryFive(map, currentRoom, hero, true);
+        }
+
+        if (currentRoom.isTargetInRoom() && !currentRoom.isThereAnEnemyAlive()) {
+            gameRule.scenerySix(map, currentRoom, hero, true);
+        }
+
+        if (currentRoom.isIsAndOut() && isExitPhase && !currentRoom.isThereAnEnemyAlive()) {
+            print.gameWonHeroReachedExit(hero);
+            return true;
+        }
+        return false;
+    }
+
+    private void moveHeroToRoom(Hero hero, Room room) throws HeroException {
+        if (hero.getCurrentRoom() != null) {
+            hero.getCurrentRoom().removeHero();
+        }
+        room.addHero(hero);
+        hero.setCurrentRoom(room);
+
+        print.heroMovedToRoom(room);
+    }
+
+    private  UnorderedListADT<Room> findEntryRooms(UnorderedListADT<Room> allRooms) {
+        UnorderedListADT<Room> entryRooms = new LinkedUnorderedList<>();
+        Iterator<Room> iterator = allRooms.iterator();
+        while (iterator.hasNext()) {
+            Room room = iterator.next();
+            if (room.isIsAndOut()) {
+                entryRooms.addToRear(room);
+            }
+        }
+        return entryRooms;
+    }
+
+    private Room findBestRoom(Map map, Iterator<Room> roomsIterator, Room target) {
+        Room bestRoom = null;
+        double minWeight = Double.MAX_VALUE;
+
+        while (roomsIterator.hasNext()) {
+            Room room = roomsIterator.next();
+            double weight = map.shortestPathWeight(room, target);
+            if (weight < minWeight) {
+                minWeight = weight;
+                bestRoom = room;
+            }
+        }
+        return bestRoom;
+    }
+
     private Room MoveToNextRoom(Map map ,Hero hero , Room targetRoom) throws HeroException {
         Room currentRoom = hero.getCurrentRoom();
         hero.setCurrentRoom(null);
@@ -155,7 +288,7 @@ public class GameEngine {
         }
 
         if (!hero.doesHeroHaveTarget()) {
-            print.NextBestRoom(map, currentRoom, targetRoom);
+            print.nextBestRoom(map, currentRoom, targetRoom);
         }
 
         print.nextRoomsAndInfos(connectedRooms);

@@ -1,5 +1,6 @@
 package Game.Utilities;
 
+import Collections.Lists.LinkedOrderedList;
 import Collections.Lists.OrderedListADT;
 import Collections.Lists.UnorderedListADT;
 import Game.Interfaces.Hero;
@@ -12,7 +13,7 @@ public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
 
     public ManualSimulationLog(String timestamp) {
         this.hero = null;
-        this.path = null;
+        this.path = new LinkedOrderedList<>();
         this.timestamp = timestamp;
     }
 
@@ -46,6 +47,15 @@ public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
 
     public String getTimestamp() {
         return this.timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "path='" + path + '\'' +
+                ", hero='" + hero.toString() + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                '}';
     }
 
     @Override

@@ -25,26 +25,26 @@ public class Exporter {
         this.saveLogs();
     }
 
-
     public void saveLogs() throws IOException {
         JSONObject root = new JSONObject();
         JSONArray missionsArray = new JSONArray();
 
-
+        // Iterar sobre as missões
         Iterator<Mission> it = missions.getMissions().iterator();
         while (it.hasNext()) {
             Mission mission = it.next();
             Logs logs = mission.getLogs();
+
+            // Criar os logs manuais
             JSONArray manualLogs = saveManualSimulationLogs(logs);
 
-
+            // Verificar se a missão já existe no array
             JSONObject existingMission = findMissionByName(missionsArray, mission.getCode());
-
             if (existingMission != null) {
-
                 JSONArray existingLogs = (JSONArray) existingMission.get("logs");
-                existingLogs.addAll(manualLogs);
+                existingLogs.addAll(manualLogs); // Adicionar logs à missão existente
             } else {
+                // Criar uma nova entrada de missão
                 JSONObject missionObject = new JSONObject();
                 missionObject.put("name", mission.getCode());
                 missionObject.put("vers", mission.getVersion());
@@ -53,13 +53,14 @@ public class Exporter {
             }
         }
 
+        // Adicionar as missões ao objeto raiz
         root.put("missions", missionsArray);
 
+        // Escrever no arquivo
         try (FileWriter file = new FileWriter("MissionsLogs.json")) {
             file.write(root.toJSONString());
         }
     }
-
 
     private JSONObject findMissionByName(JSONArray missionsArray, String missionName) {
         for (Object obj : missionsArray) {
@@ -70,8 +71,6 @@ public class Exporter {
         }
         return null;
     }
-
-
 
     private JSONArray saveManualSimulationLogs(Logs logs) {
         JSONArray manualLogs = new JSONArray();
@@ -109,6 +108,4 @@ public class Exporter {
         hero.put("armorHealth", log.getHero().getArmorHealth());
         return hero;
     }
-
-
 }
