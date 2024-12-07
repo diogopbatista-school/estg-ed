@@ -283,4 +283,9 @@ public class HeroImp extends CharacterImp implements Hero {
         }
         this.attackPower = attackPower;
     }
+
+    public String toString(){
+        String s = "Hero: " + this.name + " Health: " + this.health + " Armor: " + this.armor ;
+        return s;
+    }
 }

@@ -84,14 +84,14 @@ public class Menu {
 
            print.playAgain();
            int playAgainChoice = input.getValidNumberInput(1, 2);
-           try{
-               exporter.save();
-           } catch (IOException e) {
-               throw new RuntimeException(e);
-           }
            playAgain = (playAgainChoice == 1);
        }
 
+        try{
+            exporter.save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
        System.out.println("Exiting. Goodbye!");
        System.exit(0);
 

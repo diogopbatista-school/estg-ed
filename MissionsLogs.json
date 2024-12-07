@@ -1,1 +1,49 @@
-{"missions":[{"vers":1,"name":"fortaleza de aço","logs":[]},{"vers":2,"name":"cerco à base","logs":[]},{"vers":3,"name":"dilema subterrâneo","logs":[]},{"vers":4,"name":"pata de coelho","logs":[]}]}
+{
+  "missions": [
+    {
+      "vers": 1,
+      "name": "fortaleza de aço",
+      "logs": []
+    },
+    {
+      "vers": 2,
+      "name": "cerco à base",
+      "logs": []
+    },
+    {
+      "vers": 3,
+      "name": "dilema subterrâneo",
+      "logs": []
+    },
+    {
+      "vers": 4,
+      "name": "pata de coelho",
+      "logs": [
+        {
+          "path": [
+            "Heliporto",
+            "Escada 6",
+            "Camaratas",
+            "Escada 6",
+            "Heliporto"
+          ],
+          "hero": {
+            "health": 100,
+            "armorHealth": 100
+          },
+          "timestamp": "07-12-2024 17:06:33"
+        },
+        {
+          "path": [
+            "Heliporto"
+          ],
+          "hero": {
+            "health": 0,
+            "armorHealth": 0
+          },
+          "timestamp": "07-12-2024 17:06:46"
+        }
+      ]
+    }
+  ]
+}
