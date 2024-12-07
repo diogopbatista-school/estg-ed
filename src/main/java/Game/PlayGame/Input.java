@@ -49,13 +49,13 @@ public class Input {
         int choice = -1;
         while (choice < min || choice > max) {
             try {
-                System.out.print("Choose a number between " + min + " and " + max + ": ");
+                System.out.print("-> ");
                 choice = scanner.nextInt();
                 if (choice < min || choice > max) {
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Invalid input. Please enter a number between" + min + " and " + max);
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println("Invalid input. Please enter a number between " + min + " and " + max);
                 scanner.next();
             }
         }

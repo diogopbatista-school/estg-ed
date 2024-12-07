@@ -21,10 +21,13 @@ public class Print {
     }
 
     public void mainMenu() {
-        System.out.println("\nMenu:");
-        System.out.println("1. Start Game");
-        System.out.println("2. Exit");
-        System.out.print("Choose an option: ");
+        System.out.println("\n+------------------+");
+        System.out.println("|       MENU       |");
+        System.out.println("+---+--------------+");
+        System.out.println("| 1 | Start Game   |");
+        System.out.println("+---+--------------+");
+        System.out.println("| 2 | Exit         |");
+        System.out.println("+---+--------------+");
     }
 
     public void viewLogs(Mission mission) {
@@ -52,40 +55,53 @@ public class Print {
     }
 
     public void availableMissions(UnorderedListADT<String> missionCodes) {
-        System.out.println("\nChoose Mission to play\n:");
-        System.out.println("\nAvailable Missions:");
+        System.out.println("+--------------------------+");
+        System.out.println("|  Choose Mission to play  |");
+        System.out.println("+--------------------------+");
         Iterator<String> iterator = missionCodes.iterator();
         int index = 1;
         while (iterator.hasNext()) {
-            System.out.println(index + ". " + iterator.next());
+            System.out.println("  "+index + ". " + iterator.next());
             index++;
         }
-        System.out.print("Choose a mission: ");
+        System.out.print("-> ");
     }
 
     public void playAgain() {
-        System.out.println("Do you want to play the game again?");
-        System.out.println("1. Yes");
-        System.out.println("2. No");
+        System.out.println("+------------------------------------+");
+        System.out.println("| Do you want to play the game again |");
+        System.out.println("+---+--------------------------------+");
+        System.out.println("| 1 | Yes                            |");
+        System.out.println("+---+--------------------------------+");
+        System.out.println("| 2 | No                             |");
+        System.out.println("+---+--------------------------------+");
     }
 
     public void MoveOrUseItem(Hero hero) {
         if (hero.isItemsOnBackPack()) {
-            System.out.println("1. Move to another room");
-            System.out.println("2. Use Item");
+            System.out.println("+---+----------------------+---+-----------------+ Name: "+ hero.getName());
+            System.out.println("| 1 | Move to another room | 2 | Use Item        | Health: " + hero.getHealth());
+            System.out.println("+---+----------------------+---+-----------------+ Armor: "+ hero.getArmorHealth());
         } else {
-            System.out.println("1. Move to another room");
+            System.out.println("+---+----------------------+");
+            System.out.println("| 1 | Move to another room |");
+            System.out.println("+---+----------------------+");
         }
     }
 
     public void loadedMissionMenu(Mission mission,String selectedMission) {
         clearConsole();
         viewLogs(mission);
-        System.out.println("Mission loaded successfully! Mission: " + selectedMission);
+        System.out.println("Mission loaded successfully!");
+        System.out.println("Mission: "+ selectedMission + "\n");
 
-        System.out.println("Choose play mode:");
-        System.out.println("1. Manual");
-        System.out.println("2. Automatic");
+        System.out.println("+------------------+");
+        System.out.println("| Choose play mode |");
+        System.out.println("+---+--------------+");
+        System.out.println("| 1 | Manual       |");
+        System.out.println("+---+--------------+");
+        System.out.println("| 2 | Automatic    |");
+        System.out.println("+---+--------------+");
     }
 
     public void nextBestRoom(Map map, Room currentRoom, Room targetRoom) {
@@ -95,7 +111,7 @@ public class Print {
         System.out.println("Shortest path from " + currentRoom.getRoomName() + " to " + targetRoom.getRoomName() + ":");
         while (pathIterator.hasNext()) {
             Room room = pathIterator.next();
-            System.out.println(room.getRoomName());
+            System.out.print(room.getRoomName() + " -> ");
             count++;
         }
     }
