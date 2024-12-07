@@ -27,28 +27,48 @@ public class Exporter {
 
 
     public void saveLogs() throws IOException {
-        JSONObject allLogs = new JSONObject();
+        JSONObject root = new JSONObject();
+        JSONArray missionsArray = new JSONArray();
+
 
         Iterator<Mission> it = missions.getMissions().iterator();
         while (it.hasNext()) {
             Mission mission = it.next();
             Logs logs = mission.getLogs();
-
-
             JSONArray manualLogs = saveManualSimulationLogs(logs);
 
 
-            if (allLogs.containsKey(mission.getCode())) {
-                JSONArray existingLogs = (JSONArray) allLogs.get(mission.getCode());
+            JSONObject existingMission = findMissionByName(missionsArray, mission.getCode());
+
+            if (existingMission != null) {
+
+                JSONArray existingLogs = (JSONArray) existingMission.get("logs");
                 existingLogs.addAll(manualLogs);
             } else {
-                allLogs.put(mission.getCode(), manualLogs);
+                JSONObject missionObject = new JSONObject();
+                missionObject.put("name", mission.getCode());
+                missionObject.put("vers", mission.getVersion());
+                missionObject.put("logs", manualLogs);
+                missionsArray.add(missionObject);
             }
         }
 
+        root.put("missions", missionsArray);
+
         try (FileWriter file = new FileWriter("MissionsLogs.json")) {
-            file.write(allLogs.toJSONString());
+            file.write(root.toJSONString());
         }
+    }
+
+
+    private JSONObject findMissionByName(JSONArray missionsArray, String missionName) {
+        for (Object obj : missionsArray) {
+            JSONObject mission = (JSONObject) obj;
+            if (missionName.equals(mission.get("name"))) {
+                return mission;
+            }
+        }
+        return null;
     }
 
 

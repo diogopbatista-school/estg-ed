@@ -96,7 +96,7 @@ public class Combat {
         }
     }
 
-    private void attackTheEnemies(Hero hero , Room movedRoom){
+    private void attackTheEnemies(Hero hero , Room movedRoom) {
         Iterator<Enemy> enemies = movedRoom.getEnemies().iterator();
         while (enemies.hasNext()) {
             Enemy enemy = enemies.next();
@@ -104,17 +104,18 @@ public class Combat {
                 hero.attack(enemy);
                 if (!enemy.isAlive()) {
                     System.out.println("Enemy " + enemy.getName() + " is dead.");
+                } else {
+                    System.out.println("Hero attacked " + enemy.getName() + ". Enemy health: " + enemy.getHealth());
                 }
-            }else {
-                System.out.println("Hero attacked " + enemy.getName() + ". Enemy health: " + enemy.getHealth());
             }
         }
     }
 
     private void attackTheHero(Hero hero , Room movedRoom) {
         print.heroTurnToAttack();
-        while (movedRoom.getEnemies().iterator().hasNext()) {
-            Enemy enemy = movedRoom.getEnemies().iterator().next();
+        Iterator<Enemy> enemies = movedRoom.getEnemies().iterator();
+        while (enemies.hasNext()) {
+            Enemy enemy = enemies.next();
             if (enemy.isAlive()) {
                 enemy.attack(hero);
                 System.out.println(enemy.getName() + " attacked Hero. Hero health: " + hero.getHealth() + ", Hero armor: " + hero.getArmorHealth());

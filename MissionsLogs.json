@@ -1,48 +1,40 @@
 {
-  "pata de coelho": [
+  "missions": [
     {
-      "path": [
-        "Heliporto",
-        "Escada 6",
-        "Heliporto"
-      ],
-      "hero": {
-        "health": 100,
-        "armorHealth": 50
-      },
-      "timestamp": "05-12-2024 00:30:19"
-    },
-    {
-      "path": [
-        "Heliporto"
-      ],
-      "hero": {
-        "health": 0,
-        "armorHealth": 0
-      },
-      "timestamp": "05-12-2024 00:30:32"
-    },
-    {
-      "path": [
-        "Heliporto"
-      ],
-      "hero": {
-        "health": 0,
-        "armorHealth": 0
-      },
-      "timestamp": "05-12-2024 00:30:46"
-    },
-    {
-      "path": [
-        "Heliporto",
-        "Escada 6",
-        "Heliporto"
-      ],
-      "hero": {
-        "health": 100,
-        "armorHealth": 100
-      },
-      "timestamp": "05-12-2024 00:30:57"
+      "vers": 4,
+      "name": "pata de coelho",
+      "logs": [
+        {
+          "path": [
+            "Heliporto",
+            "Escada 6",
+            "Heliporto"
+          ],
+          "hero": {
+            "health": 100,
+            "armorHealth": 100
+          },
+          "timestamp": "07-12-2024 13:50:42"
+        },
+        {
+          "path": [
+            "Heliporto",
+            "Escada 6",
+            "Camaratas",
+            "Escada 5",
+            "Laboratório",
+            "Escada 5",
+            "Camaratas",
+            "Escada 6",
+            "Heliporto"
+          ],
+          "hero": {
+            "health": 100,
+            "armorHealth": 100
+          },
+          "timestamp": "07-12-2024 13:51:33"
+        }
+      ]
     }
   ]
 }

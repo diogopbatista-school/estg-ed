@@ -209,6 +209,10 @@ public class RoomImp implements Room {
             throw new ItemException("Hero cannot be null");
         }
 
+        if(hero.isBackPackFull()){
+            throw new ItemException("Hero's backpack is full");
+        }
+
         if(this.items.isEmpty()){
             throw new ItemException("There are no items in the room");
         }
@@ -219,19 +223,20 @@ public class RoomImp implements Room {
             Iterator<Item> iterator = this.items.iterator();
             while (iterator.hasNext()) {
                 Item currentItem = iterator.next();
-                if (currentItem.getType() == ItemType.KIT_DE_VIDA) {
+                if (currentItem.getType() == ItemType.KIT_DE_VIDA) { // TROCAR AQUI bug
                     hero.addToBackPack(currentItem);
                     this.items.remove(currentItem);
                     itemRemoved = true;
-                    break; // Restart the iterator
+                    break;
                 } else if (currentItem.getType() == ItemType.COLETE) {
                     hero.healArmor(currentItem.getPoints());
                     this.items.remove(currentItem);
                     itemRemoved = true;
-                    break; // Restart the iterator
+                    break;
                 }
             }
         } while (itemRemoved);
+
 
         throw new ItemException("There are no items in the room");
     }

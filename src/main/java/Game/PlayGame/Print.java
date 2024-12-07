@@ -2,7 +2,6 @@ package Game.PlayGame;
 
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
-import Game.Exceptions.EnemyException;
 import Game.Interfaces.*;
 
 import java.util.Iterator;
