@@ -105,7 +105,7 @@ public class Input {
         int roomChoice = -1;
         while (roomChoice < 1 || roomChoice > max) {
             try {
-                System.out.print("Select a room by number: ");
+                System.out.print("-> ");
                 roomChoice = scanner.nextInt();
                 if (roomChoice < 1 || roomChoice > max) {
                     System.out.println("Invalid choice. Please try again.");

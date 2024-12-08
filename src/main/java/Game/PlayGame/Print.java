@@ -35,8 +35,9 @@ public class Print {
 
         SortingandSearching.insertionSort(listToArray(logs));
 
-        System.out.println("Logs:");
         Iterator<ManualSimulationLog> it = logs.iterator();
+
+        System.out.println("+-----------------------------------------------+");
         while (it.hasNext()) {
             ManualSimulationLog log = it.next();
             System.out.println(log.toString());
@@ -83,9 +84,9 @@ public class Print {
             System.out.println("| 1 | Move to another room | 2 | Use Item        | Health: " + hero.getHealth());
             System.out.println("+---+----------------------+---+-----------------+ Armor: "+ hero.getArmorHealth());
         } else {
-            System.out.println("+---+----------------------+");
-            System.out.println("| 1 | Move to another room |");
-            System.out.println("+---+----------------------+");
+            System.out.println("+---+----------------------+ Name: "+ hero.getName());
+            System.out.println("| 1 | Move to another room | Health: " + hero.getHealth());
+            System.out.println("+---+----------------------+ Armor: "+ hero.getArmorHealth());
         }
     }
 
@@ -107,19 +108,18 @@ public class Print {
     public void nextBestRoom(Map map, Room currentRoom, Room targetRoom) {
         int count = 0;
         Iterator<Room> pathIterator = map.shortestPath(currentRoom, targetRoom);
-        System.out.println("----------------------------------------------------------------");
+        System.out.println("+----------------------------------------------------------------+");
         System.out.println("Shortest path from " + currentRoom.getRoomName() + " to " + targetRoom.getRoomName() + ":");
         while (pathIterator.hasNext()) {
             Room room = pathIterator.next();
             System.out.print(room.getRoomName() + " -> ");
             count++;
         }
+        System.out.println("END\n");
     }
 
-
-
     public void nextRoomsAndInfos(UnorderedListADT<Room> connectedRooms) {
-        System.out.println("----------------------------------------------------------------");
+        System.out.println("+----------------------------------------------------------------+");
         System.out.println("Connected Rooms:");
         Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
         int index = 1;
@@ -154,21 +154,23 @@ public class Print {
                 System.out.println("No items in the room.");
             }
 
-            System.out.println("------------------------------------------------");
+            System.out.println("+----------------------------------------------------------------+");
             index++;
         }
     }
 
     public UnorderedListADT<Room> inAndOutRooms(UnorderedListADT<Room> rooms) {
         UnorderedListADT<Room> inAndOutRooms = new LinkedUnorderedList<>(); // Linked porque eu nunca sei quantos elementos eu vou ter
-        System.out.println("In and Out Rooms:");
+        System.out.println("+------------------+");
+        System.out.println("| In and Out Rooms |");
+        System.out.println("+------------------+");
 
         Iterator<Room> roomIterator = rooms.iterator();
         while (roomIterator.hasNext()) {
             Room room = roomIterator.next();
             if (room.getIsInAndOut()) {
                 inAndOutRooms.addToRear(room);
-                System.out.println(inAndOutRooms.size() + ". " + room.getRoomName());
+                System.out.println(" "+inAndOutRooms.size() + ". " + room.getRoomName());
             }
         }
         return inAndOutRooms;

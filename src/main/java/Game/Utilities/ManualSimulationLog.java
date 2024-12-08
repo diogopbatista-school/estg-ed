@@ -51,11 +51,12 @@ public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
 
     @Override
     public String toString() {
-        return "Log{" +
-                "path='" + path + '\'' +
-                ", hero='" + hero.toString() + '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                '}';
+        return "| Log | \n" +
+                "+-----+\n" +
+                "   path='" + path.toString() + "\n" +
+                "   hero='" + hero.toString() + "\n" +
+                "   timestamp='" + timestamp + "\n" +
+                "+-----------------------------------------------+";
     }
 
     @Override

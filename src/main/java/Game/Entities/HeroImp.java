@@ -65,7 +65,6 @@ public class HeroImp extends CharacterImp implements Hero {
     }
 
 
-
     /**
      * Getter that returns the hero's first item in the backpack
      * @return the hero's first item in the backpack
