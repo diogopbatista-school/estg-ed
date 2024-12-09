@@ -194,7 +194,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return resultList.iterator();
     }
 
-    protected Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) {
+    public Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) {
         int index;
         double weight;
         // Array para armazenar o predecessor de cada vértice no caminho mais curto
@@ -216,70 +216,70 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         // int[] pathIndex = new int[numVertices];
         double[] pathWeight = new double[numVertices];
 
-        // Colocar todas as distâncias como infinito
+
         for (int i = 0; i < numVertices; i++) {
             pathWeight[i] = Double.POSITIVE_INFINITY;
         }
 
-        // Colocar  o array de visitados como falso para todos os vértices
+        // Array para marcar os vértices visitados
         boolean[] visited = new boolean[numVertices];
         for (int i = 0; i < numVertices; i++) {
             visited[i] = false;
         }
 
-        // Verifica se os índices fornecidos são válidos e se o grafo não está vazio
+        // verificaçao de validade dos indices e se o grafo é vazio
         if (!indexIsValid(startIndex) || !indexIsValid(targetIndex)
                 || (startIndex == targetIndex) || isEmpty()) {
             return resultList.iterator();
         }
 
-        // Definir a distância do vértice de origem como 0 e o predecessor como -1 (nenhum)
+        // define a distancia do vertice de origem como 0 e o predecessor como -1
         pathWeight[startIndex] = 0;
         predecessor[startIndex] = -1;
-        visited[startIndex] = true; // O vértice de origem já é visitado
+        visited[startIndex] = true; // O vertice de origem já é visitado
 
-        // Adiciona as distâncias dos vizinhos imediatos do vértice de origem ao heap
+        // adiciona as distancias dos vizinhos imediatos do vertice de origem à heap
         for (int i = 0; i < numVertices; i++) {
             if (!visited[i]) {
-                // Se houver uma aresta entre o vértice de origem e o vizinho
+                // se houver uma aresta entre o vertice de origem e o viziho
                 pathWeight[i] = pathWeight[startIndex] + adjMatrix[startIndex][i];
                 predecessor[i] = startIndex;
-                traversalMinHeap.addElement(pathWeight[i]); // Adiciona a distância ao heap
+                traversalMinHeap.addElement(pathWeight[i]); // add a distancia ao heap
             }
         }
 
         // enquanto houver vértices a serem processados e o destino não for visitado
         do {
-            // Remove o vértice com a menor distância (menor peso) do heap
+            // remove o vertice com a menor peso da heap
             weight = traversalMinHeap.removeMin();
 
-            traversalMinHeap.removeAllElements(); // Limpa o heap após remover o mínimo
+            traversalMinHeap.removeAllElements(); // limpa o heap após remover o mínimo
 
-            // Se não houver mais caminhos possíveis (todas as distâncias são infinitas), retorna lista vazia
+            // Se nao houver mais caminhos possíveis retorna lista vazia
             if (weight == Double.POSITIVE_INFINITY) {
                 return resultList.iterator();
             } else {
-                // Encontra o índice do vértice adjacente com a menor distância e o marca como visitado
+                // Encontra o indice do vertice adjacente com a menor distancia e o marca como visitado
                 index = getIndexOfAdjVertexWithWeightOf(visited, pathWeight, weight);
                 visited[index] = true;
             }
 
-            // Atualiza as distâncias dos vizinhos do vértice atual se um caminho mais curto for encontrado
+            // Atualiza as distancias dos vizinhos do vertice atual se um caminho mais curto for encontrado
             for (int i = 0; i < numVertices; i++) {
                 if (!visited[i]) {
-                    // Verifica se existe uma aresta entre o vértice atual e o vizinho
-                    // e se a distância atual é menor do que a registrada
+                    // Verifica se existe uma aresta entre o vertice atual e o vizinho
+                    // e se a distancia atual é menor do que a registada
                     if ((adjMatrix[index][i] < Double.POSITIVE_INFINITY)
                             && (pathWeight[index] + adjMatrix[index][i]) < pathWeight[i]) {
-                        // Atualiza a distância do vértice i
+                        // Atualiza a distância do vertice i
                         pathWeight[i] = pathWeight[index] + adjMatrix[index][i];
                         predecessor[i] = index; // Atualiza o predecessor de i
                     }
-                    // Adiciona o vértice i no heap para ser processado em etapas seguintes
+                    // Adiciona o vertice i no heap para ser tratado em etapas seguintes
                     traversalMinHeap.addElement(pathWeight[i]);
                 }
             }
-        } while (!traversalMinHeap.isEmpty() && !visited[targetIndex]); // Loop até processar todos os vértices ou chegar ao destino
+        } while (!traversalMinHeap.isEmpty() && !visited[targetIndex]);
 
         // Reconstrução do caminho: começa do destino e vai até a origem
         index = targetIndex;
@@ -294,7 +294,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
             resultList.addToRear(stack.pop()); // Adiciona o vértice ao caminho final
         }
 
-        // Retorna o iterador da lista contendo os índices do caminho mais curto
+
         return resultList.iterator();
     }
 
@@ -384,7 +384,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
-    protected void expandCapacity() {
+    public void expandCapacity() {
         T[] largerVertices = (T[]) (new Object[vertices.length * 2]);
         double[][] largerAdjMatrix
                 = new double[vertices.length * 2][vertices.length * 2];

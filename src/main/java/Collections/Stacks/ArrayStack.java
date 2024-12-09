@@ -4,13 +4,15 @@ import Collections.Exceptions.EmptyCollectionException;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A generic class that implements a stack using an array as the underlying data
  * structure. This stack follows the last-in-first-out (LIFO)
  *
  * @param <T> the type of the stored element.
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class ArrayStack<T> implements StackADT<T> {
 
@@ -147,7 +149,11 @@ public class ArrayStack<T> implements StackADT<T> {
 
 
 
-
+        /**
+        * Method that returns an iterator for the stack
+        *
+        * @return an iterator for the list
+        */
         public Iterator<T> iterator() {
             return new StackIterator();
         }

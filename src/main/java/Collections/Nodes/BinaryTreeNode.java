@@ -1,7 +1,20 @@
 package Collections.Nodes;
 
+/**
+ * A class that represents a binary tree node.
+ * @param <T> the type of the stored element.
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class BinaryTreeNode<T> {
+    /**
+     * The element stored in this node.
+     */
     protected T element;
+    /**
+     * The left and right child of this node.
+     */
     protected BinaryTreeNode<T> left, right;
 
     /**

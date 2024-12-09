@@ -5,7 +5,8 @@ package Collections.Nodes;
  *
  * @param <T> the type of the element stored in the node.
  *
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class Node<T> {
 

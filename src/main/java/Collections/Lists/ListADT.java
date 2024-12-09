@@ -8,7 +8,8 @@ import java.util.Iterator;
  * ListADT defines the interface to a general list collection.
  *
  * @param <T> the type of elements in this list
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public interface ListADT<T> {
 

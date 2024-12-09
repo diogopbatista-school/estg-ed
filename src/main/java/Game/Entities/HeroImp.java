@@ -3,6 +3,7 @@ package Game.Entities;
 
 import Collections.Stacks.ArrayStack;
 import Collections.Stacks.StackADT;
+import Game.Exceptions.HeroException;
 import Game.Exceptions.ItemException;
 import Game.Interfaces.Hero;
 import Game.Interfaces.Item;
@@ -12,6 +13,8 @@ import Game.Interfaces.Target;
 
 /**
  * Represents a hero in the game
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class HeroImp extends CharacterImp implements Hero {
 
@@ -48,7 +51,7 @@ public class HeroImp extends CharacterImp implements Hero {
     /**
      * Constructor for the HeroImp class
      */
-    public HeroImp(int attackPower, int maxSize) {
+    public HeroImp(double attackPower, int maxSize) {
         super("Tó Cruz", 100, attackPower); // Em memória ao grande Tom Cruise
         this.armor = 100;
         this.backPack = new ArrayStack<>(maxSize);
@@ -58,8 +61,8 @@ public class HeroImp extends CharacterImp implements Hero {
         this.target = null;
     }
 
-    public HeroImp(int health, int armor, int attackPower) {
-        super("Tó Cruz", health, attackPower);
+    public HeroImp(double health, double armor) {
+        super("Tó Cruz", health, 100);
         this.armor = armor;
     }
 
@@ -69,6 +72,7 @@ public class HeroImp extends CharacterImp implements Hero {
      *
      * @return the hero's first item in the backpack
      */
+    @Override
     public Item getItemFirstItem() {
         return this.backPack.peek();
     }
@@ -142,15 +146,16 @@ public class HeroImp extends CharacterImp implements Hero {
      *
      * @param item the item to add
      * @throws ItemException if the item is invalid or null
+     * @throws HeroException if the backpack is full
      */
     @Override
-    public void addToBackPack(Item item) throws ItemException {
+    public void addToBackPack(Item item) throws ItemException, HeroException {
         if (item == null) {
-            throw new IllegalArgumentException("Item must be valid");
+            throw new ItemException("Item cannot be null");
         }
         if (this.backPack.size() == this.sizeBackPack) {
             this.isBackPackFull = true;
-            throw new ItemException("Backpack is full");
+            throw new HeroException("Backpack is full");
         }
         this.backPack.push(item);
     }
@@ -250,6 +255,11 @@ public class HeroImp extends CharacterImp implements Hero {
         if (this.armor > 100) {
             this.armor = 100;
         }
+    }
+
+    @Override
+    public StackADT<Item> getBackPack() {
+        return this.backPack;
     }
 
     /**

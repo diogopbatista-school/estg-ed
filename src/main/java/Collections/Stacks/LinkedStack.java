@@ -11,7 +11,8 @@ import java.util.NoSuchElementException;
  * data structure. This stack follows the last-in-first-out (LIFO)
  *
  * @param <T> the type of the stored element.
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class LinkedStack<T> implements StackADT<T> {
 
@@ -107,7 +108,7 @@ public class LinkedStack<T> implements StackADT<T> {
      */
     @Override
     public String toString() {
-        String result = getClass().getSimpleName() + " { ";
+        String result = " { ";
         if (!isEmpty()) {
             Node<T> current = top;
             do {
@@ -117,6 +118,11 @@ public class LinkedStack<T> implements StackADT<T> {
         return result + "}";
     }
 
+    /**
+     * Method that returns an iterator for the stack
+     *
+     * @return an iterator for the stack
+     */
     @Override
     public Iterator<T> iterator() {
         return new LinkedStackIterator();

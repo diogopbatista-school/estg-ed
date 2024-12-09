@@ -1,12 +1,13 @@
 package Game.Exceptions;
 
 /**
- *
- * @author diogo
+ * Represents an exception that occurs when an invalid input is provided.
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class InvalidInputException extends Exception {
 
-    private static final String DEFAULT_MESSAGE = "Hero Exception";
+    private static final String DEFAULT_MESSAGE = "Invalid input exception";
 
     /**
      * Creates a new InvalidInputException with no message.

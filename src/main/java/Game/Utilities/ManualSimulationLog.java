@@ -9,7 +9,7 @@ import Game.Interfaces.Room;
 public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
     private Hero hero;
     private OrderedListADT<Room> path;
-    private String timestamp;
+    private final String timestamp;
 
     public ManualSimulationLog(String timestamp) {
         this.hero = null;

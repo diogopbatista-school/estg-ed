@@ -21,9 +21,13 @@ public class Print {
     }
 
     public void mainMenu() {
-        System.out.println("\nMenu:");
-        System.out.println("1. Start Game");
-        System.out.println("2. Exit");
+        System.out.println("\n+------------------+");
+        System.out.println("|       MENU       |");
+        System.out.println("+---+--------------+");
+        System.out.println("| 1 | Start Game   |");
+        System.out.println("+---+--------------+");
+        System.out.println("| 2 | Exit         |");
+        System.out.println("+---+--------------+");
     }
 
     public void viewLogs(Mission mission) {
@@ -31,12 +35,14 @@ public class Print {
 
         SortingandSearching.insertionSort(listToArray(logs));
 
-        System.out.println("Logs:");
         Iterator<ManualSimulationLog> it = logs.iterator();
+
+        System.out.println("+-----------------------------------------------+");
         while (it.hasNext()) {
             ManualSimulationLog log = it.next();
             System.out.println(log.toString());
         }
+
 
     }
 
@@ -51,8 +57,9 @@ public class Print {
     }
 
     public void availableMissions(UnorderedListADT<String> missionCodes) {
-        System.out.println("\nChoose Mission to play\n:");
-        System.out.println("\nAvailable Missions:");
+        System.out.println("+--------------------------+");
+        System.out.println("|  Choose Mission to play  |");
+        System.out.println("+--------------------------+");
         Iterator<String> iterator = missionCodes.iterator();
         int index = 1;
         while (iterator.hasNext()) {
@@ -63,40 +70,66 @@ public class Print {
     }
 
     public void playAgain() {
-        System.out.println("Do you want to play the game again?");
-        System.out.println("1. Yes");
-        System.out.println("2. No");
+        System.out.println("+------------------------------------+");
+        System.out.println("| Do you want to play the game again |");
+        System.out.println("+---+--------------------------------+");
+        System.out.println("| 1 | Yes                            |");
+        System.out.println("+---+--------------------------------+");
+        System.out.println("| 2 | No                             |");
+        System.out.println("+---+--------------------------------+");
     }
 
     public void MoveOrUseItem(Hero hero) {
         if (hero.isItemsOnBackPack()) {
-            System.out.println("1. Move to another room");
-            System.out.println("2. Use Item");
+            System.out.println("+---+----------------------+---+-----------------+ Name: "+ hero.getName());
+            System.out.println("| 1 | Move to another room | 2 | Use Item        | Health: " + hero.getHealth());
+            System.out.println("+---+----------------------+---+-----------------+ Armor: "+ hero.getArmorHealth());
+            System.out.println(itemsInBackPack(hero));
         } else {
-            System.out.println("1. Move to another room");
+            System.out.println("+---+----------------------+ Name: "+ hero.getName());
+            System.out.println("| 1 | Move to another room | Health: " + hero.getHealth());
+            System.out.println("+---+----------------------+ Armor: "+ hero.getArmorHealth());
+            System.out.println(itemsInBackPack(hero));
         }
+    }
+
+    public String itemsInBackPack(Hero hero) {
+        String items = "Items in backpack:";
+        if(!hero.isItemsOnBackPack()) {
+            return "Empty BACKPACK";
+        }
+        Iterator<Item> itemIterator = hero.getBackPack().iterator();
+        while (itemIterator.hasNext()) {
+            Item item = itemIterator.next();
+            items += item.getName() + " | ";
+        }
+        return items;
     }
 
     public void loadedMissionMenu(Mission mission,String selectedMission) {
         clearConsole();
+        System.out.println(mission.getMap().toString());
         viewLogs(mission);
         System.out.println("Mission loaded successfully! Mission: " + selectedMission);
 
-        System.out.println("Choose play mode:");
-        System.out.println("1. Manual");
-        System.out.println("2. Automatic");
+        System.out.println("+------------------+");
+        System.out.println("| Choose play mode |");
+        System.out.println("+---+--------------+");
+        System.out.println("| 1 | Manual       |");
+        System.out.println("+---+--------------+");
+        System.out.println("| 2 | Automatic    |");
+        System.out.println("+---+--------------+");
     }
 
     public void nextBestRoom(Map map, Room currentRoom, Room targetRoom) {
-        int count = 0;
         Iterator<Room> pathIterator = map.shortestPath(currentRoom, targetRoom);
         System.out.println("----------------------------------------------------------------");
         System.out.println("Shortest path from " + currentRoom.getRoomName() + " to " + targetRoom.getRoomName() + ":");
         while (pathIterator.hasNext()) {
             Room room = pathIterator.next();
-            System.out.println(room.getRoomName());
-            count++;
+            System.out.print(room.getRoomName() + " -> ");
         }
+        System.out.println("END\n");
     }
 
 
@@ -112,8 +145,8 @@ public class Print {
 
             // Display information about enemies and items in the connected room
             System.out.println("Information about the room:");
-            if (room.isIsAndOut()) {
-                System.out.println("!!!!!THIS IS AN EXIT ROOM!!!!!");
+            if (room.isInAndOutRoom()) {
+                System.out.println("-> -> -> THIS IS AN EXIT ROOM <- <- <-");
             }
             if (room.isThereAnEnemyAlive()) {
                 System.out.println("Enemies in the room:");
@@ -137,19 +170,21 @@ public class Print {
                 System.out.println("No items in the room.");
             }
 
-            System.out.println("------------------------------------------------");
+            System.out.println("+----------------------------------------------------------------+");
             index++;
         }
     }
 
     public UnorderedListADT<Room> inAndOutRooms(UnorderedListADT<Room> rooms) {
         UnorderedListADT<Room> inAndOutRooms = new LinkedUnorderedList<>(); // Linked porque eu nunca sei quantos elementos eu vou ter
-        System.out.println("In and Out Rooms:");
+        System.out.println("+------------------+");
+        System.out.println("| In and Out Rooms |");
+        System.out.println("+------------------+");
 
         Iterator<Room> roomIterator = rooms.iterator();
         while (roomIterator.hasNext()) {
             Room room = roomIterator.next();
-            if (room.getIsInAndOut()) {
+            if (room.isInAndOutRoom()) {
                 inAndOutRooms.addToRear(room);
                 System.out.println(inAndOutRooms.size() + ". " + room.getRoomName());
             }
@@ -159,7 +194,7 @@ public class Print {
 
     public void noEnemiesInRoomStartMoving() {
         System.out.println("No enemies in the room.");
-        System.out.println("------------------------------------------------");
+        System.out.println("+------------------------------------------------+");
         System.out.println("Enemy's started to move to another room.");
     }
 
@@ -178,35 +213,50 @@ public class Print {
     }
 
     public void heroTurn() {
-        System.out.println("------------------------------------------------ HERO TURN");
+        System.out.println("+-----------+");
+        System.out.println("| HERO TURN |");
+        System.out.println("+-----------+");
         System.out.println("Hero's turn:");
     }
 
     public void heroTurnToAttack() {
-        System.out.println("---------------------------------------------------- HERO TURN");
+        System.out.println("+-----------+");
+        System.out.println("| HERO TURN |");
+        System.out.println("+-----------+");
         System.out.println("Hero's turn to attack:");
     }
 
     public void enemyTurnToAttack() {
-        System.out.println("------------------------------------------------ ENEMY TURN");
-        System.out.println("Enemies' turn to attack:");
+        System.out.println("+--------------+");
+        System.out.println("| ENEMIES TURN |");
+        System.out.println("+--------------+");
+        System.out.println("Enemies turn:");
     }
 
     public void gameOverHeroDead() {
-        System.out.println("Game Over! Hero is dead.");
+        System.out.println("+-------------------------+");
+        System.out.println("| Game Over! Hero is dead |");
+        System.out.println("+-------------------------+");
     }
 
     public void heroKilledAllEnemies() {
-        System.out.println("Hero has killed all enemies");
+        System.out.println("+-----------------------------+");
+        System.out.println("| Hero has killed all enemies |");
+        System.out.println("+-----------------------------+");
     }
 
     public void gameOverHeroReachedExit() {
-        System.out.println("Game Over! Hero reached the exit without the target.");
+        System.out.println("+-----------------------------------------------------+");
+        System.out.println("| Game Over! Hero reached the exit without the target |");
+        System.out.println("+-----------------------------------------------------+");
     }
 
 
     public void gameWonHeroReachedExit(Hero hero) {
-        System.out.println("Success! Hero has reached the exit with the target. HERO: " + hero.getName() + " Health: " + hero.getHealth() + " Armor: " + hero.getArmorHealth());
+        System.out.println("+-----------------------------------------------------+ Hero: " + hero.getName());
+        System.out.println("| Success! Hero has reached the exit with the target. | Health: " + hero.getHealth());
+        System.out.println("+-----------------------------------------------------+ Armor: " + hero.getArmorHealth());
+        System.out.println(itemsInBackPack(hero));
     }
 
     public void heroChoicedUseItem() {
@@ -219,9 +269,9 @@ public class Print {
     }
 
     public void fightOverItemsToCollect(Room movedRoom) {
-        System.out.println("Fight over. Time to collect items.");
-        System.out.println("--------------------------------------");
-        System.out.println("Items in the room:");
+        System.out.println("+-----------------------------------+");
+        System.out.println("| Fight over. Time to collect items |");
+        System.out.println("+-----------------------------------+");
         Iterator<Item> itemIterator = movedRoom.getItems();
         while (itemIterator.hasNext()) {
             Item item = itemIterator.next();
@@ -230,22 +280,31 @@ public class Print {
     }
 
     public void fightOverNoItemsToCollect() {
-        System.out.println("Fight over. No items to collect and target is not in this room.");
+        System.out.println("+----------------------------------------------------------------+");
+        System.out.println("| Fight over. No items to collect and target is not in this room |");
+        System.out.println("+----------------------------------------------------------------+");
     }
 
     public void reachedTarget() {
-        System.out.println("Hero has reached the target."
-                + "Your online device has been compromised. You need to find your way out alone!\n" +
-                "Available services:\n " +
-                "- Next room's information ");
+        System.out.println("+---------------------------------------------------------------------------------+");
+        System.out.println("| Hero has reached the target.                                                    |");
+        System.out.println("|   Your online device has been compromised. You need to find your way out alone! |");
+        System.out.println("|   Available services:                                                           |");
+        System.out.println("|       - Next room's information                                                 |");
+        System.out.println("+---------------------------------------------------------------------------------+");
     }
 
-    public void enemiesInTheRoomTarget(Hero hero) {
-        System.out.println(hero.getName() + " is in the room with the target but there are enemies");
+    public void enemiesInTheRoomTarget() {
+        System.out.println("+-----------------------------------------------------------+");
+        System.out.println("| You are in the room with the target but there are enemies |");
+        System.out.println("+-----------------------------------------------------------+");
     }
 
-    public void allEnemiesRoomTargetDefeated(Hero hero) {
-        System.out.println("All enemies in the room with the target are defeated." + hero.getName() + " can now reach the target.");
+    public void allEnemiesRoomTargetDefeated() {
+        System.out.println("+------------------------------------------------------+");
+        System.out.println("| All enemies in the room with the target are defeated |");
+        System.out.println("| You can now reach the target.                        |");
+        System.out.println("+------------------------------------------------------+");
     }
 
     public void enemyHasEnteredTheHeroRoom(Enemy enemy) {

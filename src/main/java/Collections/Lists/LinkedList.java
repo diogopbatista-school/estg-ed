@@ -9,9 +9,11 @@ import java.util.Iterator;
 
 /**
  * A class that represents a linked list.
- *
  * @param <T> the type of the stored element.
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ *
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public abstract class LinkedList<T> implements ListADT<T> {
 
@@ -254,7 +256,7 @@ public abstract class LinkedList<T> implements ListADT<T> {
      */
     @Override
     public String toString() {
-        String result = getClass().getSimpleName() + " { ";
+        String result = " { ";
         if (!isEmpty()) {
             Node<T> current = head;
             while (current != null) {

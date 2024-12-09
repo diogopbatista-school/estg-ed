@@ -14,19 +14,46 @@ import Game.Utilities.ManualSimulationLog;
 
 import java.util.Iterator;
 
+/**
+ * Represents the game engine
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class GameEngine {
 
+    /**
+     * The print class
+     */
     private final Print print;
+
+    /**
+     * The menu class
+     */
     private final Menu menu;
+
+    /**
+     * The game rule class
+     */
     private final GameRule gameRule;
 
-    public GameEngine(Input input, Print print, Menu menu) {
+    /**
+     * Constructor for the game engine
+     * @param print the print
+     * @param menu the menu
+     */
+    public GameEngine( Print print, Menu menu) {
         this.print = print;
         this.menu = menu;
-        this.gameRule = new GameRule(input, print, menu);
+        this.gameRule = new GameRule(print, menu);
     }
 
-    private static Room findRoomWithTarget(UnorderedListADT<Room> rooms) {
+    /**
+     * Method that plays the game manually
+     * @param rooms the rooms
+     * @return the path
+     */
+    private Room findRoomWithTarget(UnorderedListADT<Room> rooms) {
         Iterator<Room> roomIterator = rooms.iterator();
         while (roomIterator.hasNext()) {
             Room room = roomIterator.next();
@@ -37,6 +64,16 @@ public class GameEngine {
         return null; // Return null if no room contains the target
     }
 
+    /**
+     * Method of the game engine that plays the game manually, that will allow the user to choose the start room
+     * @param map the map
+     * @param hero the hero
+     * @param path the path of the hero so we can add the rooms to the path and later export to the logs
+     * @return the room where the hero will start
+     * @throws HeroException if the hero has an error
+     * @throws EnemyException if the enemy has an error
+     * @throws RoomException if the room has an error
+     */
     private Room selectStartRoom(Map map, Hero hero, OrderedListADT<Room> path) throws HeroException, EnemyException, RoomException {
 
         UnorderedListADT<Room> allRooms = map.getRooms();
@@ -81,6 +118,17 @@ public class GameEngine {
         return selectedRoom;
     }
 
+    /**
+     * Method that plays the game manually
+     *
+     *
+     * @param missions the missions of the game so we can later add the mission to the missions
+     * @param mission the mission that we are playing
+     * @throws HeroException if the hero has an error
+     * @throws EnemyException if the enemy has an error
+     * @throws TargetException if the target has an error
+     * @throws RoomException if the room has an error
+     */
     public void playManually(Missions missions, Mission mission) throws HeroException, EnemyException, TargetException, RoomException {
         Map map = mission.getMap();
         OrderedListADT<Room> path = new LinkedOrderedList<>();
@@ -122,15 +170,7 @@ public class GameEngine {
                     }
                 }
             } else {
-                Item item = hero.useItem();
-                print.heroUsedItem(hero, item);
-                print.enemyTurn();
-                print.movedEnemies();
-                map.mapShuffle();
-                System.out.println("------------------------------------------------");
-                if (hero.getCurrentRoom().isThereAnEnemyAlive()) {
-                    gameRule.sceneryOne(map, hero, nextRoom, false);
-                }
+                gameRule.sceneryFour(map, hero , nextRoom);
             }
         }
 
@@ -141,6 +181,13 @@ public class GameEngine {
         missions.addMission(mission);
     }
 
+    /**
+     * Method that plays the game automatically
+     * @param mission the mission that we are playing
+     * @throws HeroException if the hero has an error or backpack is full
+     * @throws TargetException if the target has an error or is null
+     * @throws EnemyException if the enemy has an error or is null
+     */
     public void playAutomatically(Mission mission) throws HeroException, TargetException, EnemyException {
         Map map = mission.getMap();
         UnorderedListADT<Room> allRooms = map.getRooms();
@@ -185,6 +232,16 @@ public class GameEngine {
 
     }
 
+    /**
+     * Method that represents the actions that the hero will take in the current room
+     * @param map the map
+     * @param hero the hero
+     * @param targetRoom the target room
+     * @return true if the game is won, false otherwise
+     * @throws HeroException if the hero has an error or the backpack is full
+     * @throws EnemyException if the enemy has an error or is null
+     * @throws TargetException if the target has an error or is null
+     */
     private boolean currentRoomActions(Map map, Hero hero, Room targetRoom) throws HeroException, EnemyException, TargetException {
         Iterator<Room> pathIterator = map.shortestPath(hero.getCurrentRoom(), targetRoom);
 
@@ -209,7 +266,18 @@ public class GameEngine {
         return false;
     }
 
-    private boolean handleRoomEvents(Map map, Hero hero, Room currentRoom, Room targetRoom, boolean isExitPhase) throws HeroException, EnemyException, TargetException {
+    /**
+     * Method that handles the events of the room
+     * @param map the map
+     * @param hero the hero
+     * @param currentRoom the current room
+     * @param targetRoom the target room
+     * @param isExitPhase if the game is in the exit phase ( this is calculated when the target is reached and the hero is moving to the exit rooms)
+     * @return true if the game is won, false otherwise
+     * @throws EnemyException if the enemy has an error or is null
+     * @throws TargetException if the target has an error or is null
+     */
+    private boolean handleRoomEvents(Map map, Hero hero, Room currentRoom, Room targetRoom, boolean isExitPhase) throws EnemyException, TargetException {
         if (currentRoom.isThereAnEnemyAlive() && !currentRoom.isTargetInRoom()) {
             gameRule.sceneryOne(map, hero, currentRoom, true);
         }
@@ -230,35 +298,58 @@ public class GameEngine {
             gameRule.scenerySix(map, currentRoom, hero, true);
         }
 
-        if (currentRoom.isIsAndOut() && isExitPhase && !currentRoom.isThereAnEnemyAlive()) {
+        if (currentRoom.isInAndOutRoom() && isExitPhase && !currentRoom.isThereAnEnemyAlive()) {
             print.gameWonHeroReachedExit(hero);
             return true;
         }
         return false;
     }
 
+    /**
+     * Method that moves the hero to a room
+     * @param hero the hero
+     * @param room the room
+     * @throws HeroException if the hero has an error ( null )
+     */
     private void moveHeroToRoom(Hero hero, Room room) throws HeroException {
         if (hero.getCurrentRoom() != null) {
             hero.getCurrentRoom().removeHero();
         }
         room.addHero(hero);
-        hero.setCurrentRoom(room);
 
         print.heroMovedToRoom(room);
     }
 
+    /**
+     * Method that finds the entry rooms
+     * @param allRooms all the rooms
+     * @return the entry rooms
+     */
     private UnorderedListADT<Room> findEntryRooms(UnorderedListADT<Room> allRooms) {
         UnorderedListADT<Room> entryRooms = new LinkedUnorderedList<>();
         Iterator<Room> iterator = allRooms.iterator();
         while (iterator.hasNext()) {
             Room room = iterator.next();
-            if (room.isIsAndOut()) {
+            if (room.isInAndOutRoom()) {
                 entryRooms.addToRear(room);
             }
         }
         return entryRooms;
     }
 
+    /**
+     * Method that finds the best room based in the shortestpath weight
+     * So this method is always used everytime the hero moves from a room to another because the weight is always changing
+     * because the enemies are moving in the map , so the first path from the room he came from will or will not be the best
+     *
+     * Example: The hero already has the best path to the best exit with the lowest weight, but the enemies moved and now the weight is higher
+     * so he needs to find the best path again ( can be the same exit or another exit)
+     *
+     * @param map the map
+     * @param roomsIterator the rooms iterator
+     * @param target the target room
+     * @return the best room
+     */
     private Room findBestRoom(Map map, Iterator<Room> roomsIterator, Room target) {
         Room bestRoom = null;
         double minWeight = Double.MAX_VALUE;
@@ -274,6 +365,14 @@ public class GameEngine {
         return bestRoom;
     }
 
+    /**
+     * So this method is used in manual mode, everytime the hero moves from a room to another, the hero will choose the next room
+     * @param map the map
+     * @param hero the hero
+     * @param targetRoom the target room
+     * @return the next room
+     * @throws HeroException if the hero has an error or is null
+     */
     private Room MoveToNextRoom(Map map, Hero hero, Room targetRoom) throws HeroException {
         Room currentRoom = hero.getCurrentRoom();
         hero.setCurrentRoom(null);
@@ -301,9 +400,16 @@ public class GameEngine {
 
         return selectedRoom;
 
-
     }
 
+    /**
+     * So this method will choose the selectRoom depending on the gamer input number of the menu
+     * It was listed to in the rooms that are connected to the current room and then the gamer will choose the room he wants to go
+     *
+     * @param connectedRooms the connected rooms
+     * @param roomChoice the room choice
+     * @return the selected room
+     */
     private Room selectRoom(UnorderedListADT<Room> connectedRooms, int roomChoice) {
         Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
         Room selectedRoom = null;
@@ -313,6 +419,12 @@ public class GameEngine {
         return selectedRoom;
     }
 
+    /**
+     * So this method will get the connected rooms of the current room
+     * @param map the map
+     * @param currentRoom the current room
+     * @return the connected rooms
+     */
     private UnorderedListADT<Room> getConnectedRooms(Map map, Room currentRoom) {
 
         Iterator<Room> iterator = map.getRooms().iterator();

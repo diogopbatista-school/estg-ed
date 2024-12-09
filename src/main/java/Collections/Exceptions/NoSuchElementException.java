@@ -1,7 +1,11 @@
 package Collections.Exceptions;
 
 /**
- * NoSuchElementException is thrown when an element is not found
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ *
+ *
+ * NoSuchElementException is thrown when an element is not found in a collection.
  */
 public class NoSuchElementException extends RuntimeException {
 

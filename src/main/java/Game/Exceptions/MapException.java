@@ -1,8 +1,9 @@
 package Game.Exceptions;
 
 /**
- *
- * @author diogo
+ * * Represents an exception that occurs in the Map class.
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class MapException extends Exception {
 

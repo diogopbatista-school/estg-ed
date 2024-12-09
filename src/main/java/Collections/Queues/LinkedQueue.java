@@ -8,7 +8,8 @@ import Collections.Nodes.Node;
  * queue follows the first-in-first-out (FIFO)
  *
  * @param <T> the type of the stored element.
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class LinkedQueue<T> implements QueueADT<T> {
 
@@ -37,9 +38,8 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     /**
-     * Method to verify if the list is empty .
-     *
-     * @return - {@code true} if is empty ; {@code false} otherwise .
+     * Method to verify if the linked queue is empty.
+     * @return {@true} if the linked queue is empty, {@false} otherwise.
      */
     @Override
     public boolean isEmpty() {
@@ -91,7 +91,7 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     /**
-     * Method to remove a element of the queue following the FIFO
+     * Method to remove an element of the queue following the FIFO
      *
      * @return the removed element.
      * @throws EmptyCollectionException if the queue is empty .
@@ -116,7 +116,7 @@ public class LinkedQueue<T> implements QueueADT<T> {
      */
     @Override
     public String toString() {
-        String result = getClass().getSimpleName() + " { ";
+        String result = " { ";
         Node<T> current = front;
         if (!isEmpty()) {
             do {

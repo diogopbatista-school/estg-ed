@@ -3,12 +3,26 @@ package Collections.Trees;
 
 import Collections.Exceptions.EmptyCollectionException;
 
+/**
+ * A class that represents an array heap.
+ * @param <T> the type of the stored element.
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
 
+    /**
+     * Default constructor for an ArrayHeap.
+     */
     public ArrayHeap() {
         super();
     }
 
+    /**
+     * Constructor for an ArrayHeap with a root element.
+     * @param element the element to added to this head
+     */
     @Override
     public void addElement(T element) {
         if (size == tree.length)
@@ -20,6 +34,9 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
         }
     }
 
+    /**
+     * Method that expands the capacity of the tree.
+     */
     private void expandCapacity() {
         T[] newTree = (T[]) (new Object[tree.length * 2]);
         for (int i = 0; i < tree.length; i++) {
@@ -28,6 +45,9 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
         tree = newTree;
     }
 
+    /**
+     * Method that reorganizes the tree after adding an element.
+     */
     private void heapifyAdd() {
         T temp;
         int next = size - 1;
@@ -41,6 +61,13 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
         tree[next] = temp;
     }
 
+    /**
+     * Returns a reference to the element with the lowest value in
+     * this heap.
+     *
+     * @return a reference to the element with the lowest value
+     * in this heap
+     */
     @Override
     public T removeMin() throws EmptyCollectionException {
         if (isEmpty()) {
@@ -54,6 +81,9 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
         return minElement;
     }
 
+    /**
+     * Method that reorganizes the tree after removing an element.
+     */
     private void heapifyRemove() {
         T temp;
         int node = 0;
@@ -94,6 +124,13 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
         tree[node] = temp;
     }
 
+    /**
+     * Returns a reference to the element with the lowest value in
+     * this heap.
+     *
+     * @return a reference to the element with the lowest value
+     * in this heap
+     */
     @Override
     public T findMin() throws EmptyCollectionException {
         if (isEmpty()) {

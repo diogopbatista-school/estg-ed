@@ -7,7 +7,8 @@ import Collections.Exceptions.EmptyCollectionException;
  * This queue follows the first-in-first-out (FIFO) .
  *
  * @param <T> the type of elements held in this queue
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class CircularArrayQueue<T> implements QueueADT<T> {
 
@@ -143,7 +144,7 @@ public class CircularArrayQueue<T> implements QueueADT<T> {
      */
     @Override
     public String toString() {
-        String result = getClass().getSimpleName() + " { "; // nao entregar o getClass().getSimpleName para o trabalho
+        String result = " { ";
         if (!isEmpty()) {
             int current = this.front;
             do {

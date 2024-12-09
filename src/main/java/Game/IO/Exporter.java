@@ -1,6 +1,5 @@
 package Game.IO;
 
-import Collections.Lists.UnorderedListADT;
 import Game.Interfaces.Mission;
 import Game.Interfaces.Missions;
 import Game.Interfaces.Room;
@@ -13,38 +12,59 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
+/**
+ * Class that exports the logs of the manual simulations to a JSON file
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class Exporter {
 
-    private Missions missions;
+    /**
+     * The missions to export ( simulation logs )
+     */
+    private final Missions missions;
 
+    /**
+     * The constructor for the Exporter class
+     * @param missions The missions to export
+     */
     public Exporter(Missions missions) {
         this.missions = missions;
     }
 
+    /**
+     * Method that saves the logs to a JSON file
+     * @throws IOException if an error occurs while writing to the file
+     */
     public void save() throws IOException {
         this.saveLogs();
     }
 
+    /**
+     * Method that saves the logs to a JSON file
+     * @throws IOException if an error occurs while writing to the file
+     */
     public void saveLogs() throws IOException {
         JSONObject root = new JSONObject();
         JSONArray missionsArray = new JSONArray();
 
-        // Iterar sobre as missões
+
         Iterator<Mission> it = missions.getMissions().iterator();
         while (it.hasNext()) {
             Mission mission = it.next();
             Logs logs = mission.getLogs();
 
-            // Criar os logs manuais
+
             JSONArray manualLogs = saveManualSimulationLogs(logs);
 
-            // Verificar se a missão já existe no array
+
             JSONObject existingMission = findMissionByName(missionsArray, mission.getCode());
             if (existingMission != null) {
                 JSONArray existingLogs = (JSONArray) existingMission.get("logs");
-                existingLogs.addAll(manualLogs); // Adicionar logs à missão existente
+                existingLogs.addAll(manualLogs);
             } else {
-                // Criar uma nova entrada de missão
+
                 JSONObject missionObject = new JSONObject();
                 missionObject.put("name", mission.getCode());
                 missionObject.put("vers", mission.getVersion());
@@ -53,7 +73,7 @@ public class Exporter {
             }
         }
 
-        // Adicionar as missões ao objeto raiz
+
         root.put("missions", missionsArray);
 
         // Escrever no arquivo
@@ -62,6 +82,12 @@ public class Exporter {
         }
     }
 
+    /**
+     * Method that finds a mission by its name
+     * @param missionsArray The array of missions
+     * @param missionName The name of the mission to find
+     * @return The mission if found, null otherwise
+     */
     private JSONObject findMissionByName(JSONArray missionsArray, String missionName) {
         for (Object obj : missionsArray) {
             JSONObject mission = (JSONObject) obj;
@@ -72,6 +98,11 @@ public class Exporter {
         return null;
     }
 
+    /**
+     * Method that saves the manual simulation logs to a JSON array
+     * @param logs The logs to save
+     * @return The JSON array with the logs
+     */
     private JSONArray saveManualSimulationLogs(Logs logs) {
         JSONArray manualLogs = new JSONArray();
 
@@ -90,6 +121,11 @@ public class Exporter {
         return manualLogs;
     }
 
+    /**
+     * Method that converts a path to a JSON array
+     * @param log The log to convert
+     * @return The JSON array with the path
+     */
     private JSONArray pathToJsonArray(ManualSimulationLog log) {
         JSONArray pathArray = new JSONArray();
         Iterator<Room> it = log.getPath().iterator();
@@ -102,6 +138,11 @@ public class Exporter {
         return pathArray;
     }
 
+    /**
+     * Method that converts a hero to a JSON object
+     * @param log The log to convert
+     * @return The JSON object with the hero
+     */
     private JSONObject heroToJsonObject(ManualSimulationLog log) {
         JSONObject hero = new JSONObject();
         hero.put("health", log.getHero().getHealth());

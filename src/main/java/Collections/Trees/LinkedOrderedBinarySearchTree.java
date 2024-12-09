@@ -2,6 +2,7 @@ package Collections.Trees;
 
 import Collections.Exceptions.ElementNotFoundException;
 import Collections.Exceptions.EmptyCollectionException;
+import Collections.Exceptions.NonComparableElementException;
 import Collections.Lists.OrderedListADT;
 import Collections.Nodes.BinaryTreeNode;
 
@@ -18,31 +19,68 @@ public class LinkedOrderedBinarySearchTree<T> extends LinkedBinarySearchTree<T> 
         super(element);
     }
 
+    /**
+     * Removes and returns the first element from the tree.
+     *
+     * @return T the min element from this list
+     * @throws EmptyCollectionException if the tree is empty
+     */
     @Override
     public T removeFirst() throws EmptyCollectionException {
         return removeMin();
     }
 
+    /**
+     * Removes and returns the last element from the tree.
+     *
+     * @return T the max element from this list
+     * @throws EmptyCollectionException if the tree is empty
+     */
     @Override
     public T removeLast() throws EmptyCollectionException {
         return removeMax();
     }
 
+    /**
+     * Removes and returns the specified element.
+     *
+     * @param element the element to be removed and returned from the tree
+     * @return T the removed element
+     * @throws EmptyCollectionException if the tree is empty
+     * @throws ElementNotFoundException if the element is not in the tree
+     */
     @Override
     public T remove(T element) throws EmptyCollectionException, ElementNotFoundException {
         return removeElement(element);
     }
 
+    /**
+     * Returns a reference to the first element in this tree.
+     *
+     * @return T a reference to the first element in this tree
+     * @throws EmptyCollectionException if the tree is empty
+     */
     @Override
     public T first() throws EmptyCollectionException {
         return findMin();
     }
 
+    /**
+     * Returns a reference to the last element in this tree.
+     *
+     * @return T a reference to the last element in this tree
+     * @throws EmptyCollectionException if the tree is empty
+     */
     @Override
     public T last() throws EmptyCollectionException {
         return findMax();
     }
 
+    /**
+     * Returns an iterator for the elements in this tree.
+     *
+     * @return Iterator an iterator over the elements in this tree
+     */
     @Override
     public Iterator<T> iterator() {
         return iteratorInOrder();
@@ -64,6 +102,12 @@ public class LinkedOrderedBinarySearchTree<T> extends LinkedBinarySearchTree<T> 
         }
     }
 
+    /**
+     * Adds the specified element to this tree at the proper location according to its value.
+     *
+     * @param element the element to be added to this tree
+     * @throws NonComparableElementException if the element is not Comparable
+     */
     @Override
     public void add(T element) throws ElementNotFoundException {
         if (!(element instanceof Comparable)) {

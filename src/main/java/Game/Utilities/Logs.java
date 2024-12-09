@@ -1,30 +1,29 @@
 package Game.Utilities;
 
 import Collections.Lists.LinkedOrderedList;
-import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.OrderedListADT;
-import Collections.Lists.UnorderedListADT;
 
-import java.util.Iterator;
-
+/**
+ * Represents the logs of the game
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class Logs {
 
-    private final OrderedListADT<LogExceptions> exceptionlogs;
+    /**
+     * The logs of the manual simulation
+     */
+    private final OrderedListADT<ManualSimulationLog> manualsimulationlogs;
 
-    private OrderedListADT<ManualSimulationLog> manualsimulationlogs;
-
+    /**
+     *
+     */
     public Logs() {
-        this.exceptionlogs = new LinkedOrderedList<>();
+
         this.manualsimulationlogs = new LinkedOrderedList<>();
     }
 
-    public void addExceptionLog(LogExceptions log) {
-        this.exceptionlogs.add(log);
-    }
-
-    public OrderedListADT<LogExceptions> getExceptionLogs() {
-        return exceptionlogs;
-    }
 
     public void addManualSimulationLog(ManualSimulationLog manualsimulationlog) {
         manualsimulationlogs.add(manualsimulationlog);

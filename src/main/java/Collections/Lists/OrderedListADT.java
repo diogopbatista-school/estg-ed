@@ -6,6 +6,8 @@ import Collections.Exceptions.NonComparableElementException;
  * OrderedListADT defines the interface to an ordered list collection.
  *
  * @param <T> the type of element in this list
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public interface OrderedListADT<T> extends ListADT<T> {
 

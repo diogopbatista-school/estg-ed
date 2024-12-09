@@ -3,14 +3,12 @@ package Game.Interfaces;
 
 /**
  * Represents a character in the game
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public interface Character {
 
-    /**
-     * Setter for the isInFight attribute
-     * @param inFight the value to set
-     */
-    public void setInFight(boolean inFight);
+
 
     /**
      * Method verifies if the character is in fight

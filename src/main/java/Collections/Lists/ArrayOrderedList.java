@@ -5,7 +5,10 @@ import Collections.Exceptions.NonComparableElementException;
 /**
  * A generic class that implements an ordered list using arrays.
  * @param <T> the type of the stored element.
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ *
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class ArrayOrderedList<T> extends ArrayList<T> implements OrderedListADT<T> {
 
@@ -25,7 +28,7 @@ public class ArrayOrderedList<T> extends ArrayList<T> implements OrderedListADT<
     }
 
     /**
-     * Method that adds the specified element to this list in the proper location
+     * Method that adds the specified element to this list
      * @param element the element to be added to this list
      * @throws NonComparableElementException if the element is not comparable
      */

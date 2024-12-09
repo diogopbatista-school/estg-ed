@@ -7,7 +7,10 @@ import Collections.Exceptions.EmptyCollectionException;
 /**
  * A generic class that implements an unordered list using doubly linked lists.
  * @param <T> the type of the stored element.
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ *
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class DoublyLinkedUnorderedList<T> extends DoublyLinkedList<T> implements UnorderedListADT<T> {
 
@@ -38,6 +41,11 @@ public class DoublyLinkedUnorderedList<T> extends DoublyLinkedList<T> implements
             modCount++;
         }
 
+        /**
+        * Adds the specified element to the rear of this list.
+        *
+        * @param element the element to be added to the rear of this list
+        */
         @Override
         public void addToRear(T element) {
             DoublyNode<T> newNode = new DoublyNode<>(element);
@@ -55,6 +63,14 @@ public class DoublyLinkedUnorderedList<T> extends DoublyLinkedList<T> implements
             modCount++;
         }
 
+        /**
+        * Adds the specified element after the specified target.
+        *
+        * @param element the element to be added after the target
+        * @param target  the target is the item that the element is added after
+        * @throws ElementNotFoundException if the target is not found
+        * @throws EmptyCollectionException if the collection is empty
+        */
         @Override
         public void addAfter(T element, T target) throws ElementNotFoundException, EmptyCollectionException {
             if (isEmpty()) {

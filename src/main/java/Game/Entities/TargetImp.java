@@ -5,6 +5,9 @@ import Game.Interfaces.Target;
 
 /**
  * Represents a target in the game
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class TargetImp implements Target {
     /**

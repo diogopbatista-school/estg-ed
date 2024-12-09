@@ -1,9 +1,11 @@
 package Game.Exceptions;
 
 /**
- *
- * @author diogo
+ * Represents an exception that occurs in the Enemy class.
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
+
 public class EnemyException extends Exception {
 
     private static final String DEFAULT_MESSAGE = "Enemy Exception";

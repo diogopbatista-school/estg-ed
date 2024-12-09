@@ -23,13 +23,23 @@ import java.nio.file.Paths;
 /**
  * The Importer class is responsible for importing game data from JSON files
  * and constructing the game map with rooms, enemies, items, and connections.
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
+
 public class Importer {
 
+    /**
+     * Constants for the Importer class.
+     */
     private static final String MISSION_LOG_PATH = "MissionsLogs.json";
     private static final JSONParser PARSER = new JSONParser();
-    private JSONArray missionsLogs; // Contains logs for manual simulations
-    private JSONArray missions; // Contains mission definitions
+
+    /**
+     * Attributes for the Importer class.
+     */
+    private JSONArray missionsLogs;
+    private JSONArray missions;
     private JSONObject mission;
     private JSONObject target;
     private JSONArray enemies;
@@ -68,6 +78,11 @@ public class Importer {
         return missionsList;
     }
 
+    /**
+     * Loads the missions from the specified JSON file back to the Mission object to
+     * be added to the Missions object.
+     * @return The loaded missions.
+     */
     public Missions loadMissions() {
         Missions missionsLoaded = new MissionsImp();
         for (Object obj : missions) {
@@ -86,8 +101,7 @@ public class Importer {
      *
      * @param nameMission The mission code to import.
      * @return The imported mission object.
-     * @throws IOException    If a file cannot be read.
-     * @throws ParseException If a file cannot be parsed.
+     * @throws IOException  If a file cannot be read.
      */
     public Mission importData(String nameMission) throws IOException {
         try {
@@ -162,6 +176,11 @@ public class Importer {
         return msn;
     }
 
+    /**
+     * Constructs the game map with rooms, enemies, items, and connections.
+     * @param map The map to construct.
+     * @return The constructed map.
+     */
     private Map constructMap(Map map) {
         try {
             for (Object obj : this.rooms) {
@@ -184,13 +203,17 @@ public class Importer {
         return map;
     }
 
+    /**
+     * Adds enemies to the specified room.
+     * @param room The room to add enemies to.
+     */
     private void addEnemiesToRoom(Room room) {
         try {
             for (Object obj : this.enemies) {
                 JSONObject jsonEnemy = (JSONObject) obj;
                 String name = (String) jsonEnemy.get("nome");
-                int power = ((Long) jsonEnemy.get("poder")).intValue();
-                int health = ((Long) jsonEnemy.get("vida")).intValue();
+                double power = ((Number) jsonEnemy.get("poder")).doubleValue();
+                double health = ((Number) jsonEnemy.get("vida")).doubleValue();
                 String division = (String) jsonEnemy.get("divisao");
 
                 if (room.getRoomName().equals(division)) {
@@ -204,6 +227,10 @@ public class Importer {
         }
     }
 
+    /**
+     * Adds items to the specified room.
+     * @param room The room to add items to.
+     */
     private void addItemsToRoom(Room room) {
         try {
             for (Object obj : this.items) {
@@ -239,6 +266,10 @@ public class Importer {
         }
     }
 
+    /**
+     * Adds exits and entrances to the specified room.
+     * @param room The room to add exits and entrances to.
+     */
     private void addExitsAndEntrancesToRoom(Room room) {
         try {
             for (Object obj : this.exitsAndEntrances) {
@@ -254,6 +285,11 @@ public class Importer {
         }
     }
 
+    /**
+     * Adds connections between rooms in the map.
+     * @param map The map to add connections to.
+     * @throws RoomException If a room is invalid.
+     */
     private void addConnections(Map map) throws RoomException {
         for (Object obj : connections) {
             JSONArray connection = (JSONArray) obj;
@@ -269,6 +305,10 @@ public class Importer {
         }
     }
 
+    /**
+     * Adds the target to the specified room.
+     * @param room The room to add the target to.
+     */
     private void addTargetToRoom(Room room) {
         try {
             String division = (String) target.get("divisao");
@@ -284,6 +324,10 @@ public class Importer {
         }
     }
 
+    /**
+     * Adds manual simulation logs to the specified mission.
+     * @param mission The mission to add manual simulation logs to.
+     */
     private void addManualSimulationLog(Mission mission) {
         try {
             for (Object obj : manualSimulationLogs) {
@@ -302,8 +346,8 @@ public class Importer {
 
                 JSONObject heroObject = (JSONObject) logObject.get("hero");
                 if (heroObject != null) {
-                    int health = ((Long) heroObject.get("health")).intValue();
-                    int armorHealth = ((Long) heroObject.get("armorHealth")).intValue();
+                    double health = ((Double) heroObject.get("health"));
+                    double armorHealth = (Double) heroObject.get("armorHealth");
                     Hero hero = new HeroImp(health, armorHealth);
                     manualSimulationLog.setHero(hero);
                 }

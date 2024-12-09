@@ -21,6 +21,7 @@ public interface GraphADT<T> {
      * @param vertex the vertex to be removed from this graph
      */
     void removeVertex(T vertex);
+
     /**
      * Inserts an edge between two vertices of this graph.
      *
@@ -28,6 +29,7 @@ public interface GraphADT<T> {
      * @param vertex2 the second vertex
      */
     void addEdge(T vertex1, T vertex2);
+
     /**
      * Removes an edge between two vertices of this graph.
      *

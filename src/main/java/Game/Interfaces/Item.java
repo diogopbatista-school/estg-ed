@@ -1,7 +1,7 @@
 package Game.Interfaces;
 
 
-import Collections.Enum.ItemType;
+import Game.Enum.ItemType;
 
 /**
  * Represents an item in the game

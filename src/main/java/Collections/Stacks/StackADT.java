@@ -5,9 +5,11 @@ import Collections.Exceptions.EmptyCollectionException;
 import java.util.Iterator;
 
 /**
+ * StackADT represents a stack.
+ * @param <T> the type of elements in this stack
  *
- * @author diogo
- * @param <T>
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public interface StackADT<T> {
 
@@ -56,6 +58,11 @@ public interface StackADT<T> {
     @Override
     public String toString();
 
+    /**
+     * Method that returns an iterator for the stack
+     *
+     * @return an iterator for the list
+     */
     public Iterator<T> iterator();
 }
 

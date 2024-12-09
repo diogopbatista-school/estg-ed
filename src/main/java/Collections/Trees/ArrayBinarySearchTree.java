@@ -7,7 +7,13 @@ import Collections.Lists.ArrayUnorderedList;
 
 import java.util.Iterator;
 
-
+/**
+ * ArrayBinarySearchTree implements a binary search tree using an array.
+ *
+ * @param <T> the type of the stored element.
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class ArrayBinarySearchTree<T> extends ArrayBinaryTree<T> implements BinarySearchTreeADT<T> {
 
     /**
@@ -36,6 +42,7 @@ public class ArrayBinarySearchTree<T> extends ArrayBinaryTree<T> implements Bina
 
     /**
      * Constructor for the ArrayBinarySearchTree with an element.
+     *
      * @param element the element to add to the tree.
      */
     public ArrayBinarySearchTree(T element) {
@@ -47,8 +54,8 @@ public class ArrayBinarySearchTree<T> extends ArrayBinaryTree<T> implements Bina
     /**
      * Method to expand the capacity of the tree.
      */
-    private void expandCapacity(){
-        T[] expand = (T[])(new Object[tree.length * EXPAND_CAPACITY]);
+    private void expandCapacity() {
+        T[] expand = (T[]) (new Object[tree.length * EXPAND_CAPACITY]);
         for (int i = 0; i < tree.length; i++)
             expand[i] = tree[i];
         tree = expand;
@@ -61,46 +68,34 @@ public class ArrayBinarySearchTree<T> extends ArrayBinaryTree<T> implements Bina
      * @throws NonComparableElementException if the element is not an instance of Comparable
      */
     @Override
-    public void addElement (T element)
-    {
-        if (tree.length < maxIndex*2+3)
-            expandCapacity();
-        Comparable<T> tempelement = (Comparable<T>)element;
-        if (isEmpty())
-        {
+    public void addElement(T element) {
+        if (tree.length < maxIndex * 2 + 3) expandCapacity();
+        Comparable<T> tempelement = (Comparable<T>) element;
+        if (isEmpty()) {
             tree[0] = element;
             maxIndex = 0;
-        }
-        else{
+        } else {
             boolean added = false;
             int currentIndex = 0;
-            while (!added)
-            {
-                if (tempelement.compareTo((tree[currentIndex]) ) < 0)
-                {
+            while (!added) {
+                if (tempelement.compareTo((tree[currentIndex])) < 0) {
 /** go left */
-                    if (tree[currentIndex*2+1] == null) {
-                        tree[currentIndex*2+1] = element;
+                    if (tree[currentIndex * 2 + 1] == null) {
+                        tree[currentIndex * 2 + 1] = element;
                         added = true;
-                        if (currentIndex*2+1 > maxIndex)
-                            maxIndex = currentIndex*2+1;
-                    }
-                    else
-                        currentIndex = currentIndex*2+1;
-                }else {
+                        if (currentIndex * 2 + 1 > maxIndex) maxIndex = currentIndex * 2 + 1;
+                    } else currentIndex = currentIndex * 2 + 1;
+                } else {
 /** go right */
-                    if (tree[currentIndex*2+2] == null) {
-                        tree[currentIndex*2+2] = element;
+                    if (tree[currentIndex * 2 + 2] == null) {
+                        tree[currentIndex * 2 + 2] = element;
                         added = true;
-                        if (currentIndex*2+2 > maxIndex)
-                            maxIndex = currentIndex*2+2;
-                    }
-                    else
-                        currentIndex = currentIndex*2+2;
+                        if (currentIndex * 2 + 2 > maxIndex) maxIndex = currentIndex * 2 + 2;
+                    } else currentIndex = currentIndex * 2 + 2;
                 }
             }
         }
-        height = (int)(Math.log(maxIndex + 1) / Math.log(2)) + 1;
+        height = (int) (Math.log(maxIndex + 1) / Math.log(2)) + 1;
         size++;
     }
 
@@ -308,47 +303,44 @@ public class ArrayBinarySearchTree<T> extends ArrayBinaryTree<T> implements Bina
         T result = null;
         boolean found = false;
 
-        if (isEmpty())
-            return result;
+        if (isEmpty()) return result;
 
         for (int i = 0; (i <= maxIndex) && !found; i++) {
-            if ((tree[i] != null) && targetElement.equals(tree[i]))
-            {
+            if ((tree[i] != null) && targetElement.equals(tree[i])) {
                 found = true;
-                result = tree[i] ;
+                result = tree[i];
                 replace(i);
                 size--;
             }
         }
 
-        if (!found)
-            throw new ElementNotFoundException("Element not found in the binary tree");
+        if (!found) throw new ElementNotFoundException("Element not found in the binary tree");
 
         int temp = maxIndex;
         maxIndex = -1;
         for (int i = 0; i <= temp; i++)
-            if (tree[i] != null)
-                maxIndex = i;
+            if (tree[i] != null) maxIndex = i;
 
-        height = (int)(Math.log(maxIndex + 1) / Math.log(2)) + 1;
+        height = (int) (Math.log(maxIndex + 1) / Math.log(2)) + 1;
 
         return result;
     }
 
     /**
      * Method to all occurrences of the specified element from the tree.
+     *
      * @param targetElement the element that the list will
-     * have all instances of it removed
+     *                      have all instances of it removed
      */
-    public void removeAllOccurrences (T targetElement) throws ElementNotFoundException {
+    public void removeAllOccurrences(T targetElement) throws ElementNotFoundException {
         removeElement(targetElement);
-        while (contains(targetElement))
-            removeElement(targetElement);
+        while (contains(targetElement)) removeElement(targetElement);
 
     }
 
     /**
      * Removes the minimum element from the tree.
+     *
      * @return the minimum element that was removed
      * @throws EmptyCollectionException if the tree is empty
      */
@@ -362,6 +354,7 @@ public class ArrayBinarySearchTree<T> extends ArrayBinaryTree<T> implements Bina
 
     /**
      * Removes the maximum element from the tree.
+     *
      * @return the maximum element that was removed
      * @throws EmptyCollectionException if the tree is empty
      */
@@ -375,6 +368,7 @@ public class ArrayBinarySearchTree<T> extends ArrayBinaryTree<T> implements Bina
 
     /**
      * Returns a reference to the smallest element in the tree.
+     *
      * @return a reference to the smallest element in the tree
      * @throws EmptyCollectionException if the tree is empty
      */
@@ -394,6 +388,7 @@ public class ArrayBinarySearchTree<T> extends ArrayBinaryTree<T> implements Bina
 
     /**
      * Returns a reference to the largest element in the tree.
+     *
      * @return a reference to the largest element in the tree
      */
     @Override

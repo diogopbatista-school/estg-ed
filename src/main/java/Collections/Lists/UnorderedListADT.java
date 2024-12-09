@@ -3,6 +3,13 @@ package Collections.Lists;
 import Collections.Exceptions.ElementNotFoundException;
 import Collections.Exceptions.EmptyCollectionException;
 
+/**
+ * UnorderedListADT defines the interface to an unordered list collection.
+ * @param <T> the type of elements in this list
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public interface UnorderedListADT<T> extends ListADT<T> {
 
     /**

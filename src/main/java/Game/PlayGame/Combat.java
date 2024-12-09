@@ -9,17 +9,34 @@ import Game.Interfaces.Room;
 
 import java.util.Iterator;
 
-
+/**
+ * Class that represents the combat between the hero and the enemies
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class Combat {
 
+    /**
+     * The print class
+     */
     private final Print print;
+
+    /**
+     * The menu class
+     */
     private final Menu menu;
 
-    public Combat(Input input, Menu menu){
-        this.print = new Print();
+    public Combat(Print print,Menu menu){
+        this.print = print;
         this.menu = menu;
     }
 
+    /**
+     * Method that represents the fight between the hero and the enemies
+     * @param movedRoom the room where the hero is
+     * @param isAutomatic if the fight is automatic or not
+     */
     public void fight(Room movedRoom, boolean isAutomatic) {
         UnorderedListADT<Enemy> enemies = movedRoom.getEnemies();
         Hero hero = movedRoom.getHero();
@@ -47,6 +64,11 @@ public class Combat {
 
     }
 
+    /**
+     * Method that represents the hero turn in the fight manually
+     * @param hero the hero
+     * @param movedRoom the room where the hero is
+     */
     private void heroTurnManually(Hero hero, Room movedRoom) {
         int actionChoice;
         boolean hasItems = hero.isItemsOnBackPack();
@@ -61,7 +83,7 @@ public class Combat {
             double heroHealth = hero.getHealth();
             int maxHealth = 100; // Max health is always 100
             Item item = hero.getItemFirstItem();
-            double itemPoints = ((ItemHealer) item).getPoints();
+            double itemPoints = item.getPoints();
 
             if (heroHealth == maxHealth) {
                 actionChoice = menu.handleItemMenu();
@@ -86,10 +108,15 @@ public class Combat {
         }
     }
 
+    /**
+     * Method that represents the hero turn in the fight automatically
+     * @param hero the hero
+     * @param movedRoom the room where the hero is
+     */
     private void heroTurnAutomatically(Hero hero , Room movedRoom){
         print.heroTurn();
 
-        if (hero.getHealth() < 50 && hero.isItemsOnBackPack()) {
+        if (hero.getHealth() <= 50 && hero.isItemsOnBackPack()) {
             hero.useItem();
             System.out.println("Hero used an item. Hero health: " + hero.getHealth() + ", Hero armor: " + hero.getArmorHealth());
         } else {
@@ -97,6 +124,11 @@ public class Combat {
         }
     }
 
+    /**
+     * Method that represents the attack of the hero to the enemies
+     * @param hero the hero
+     * @param movedRoom the room where the hero is
+     */
     private void attackTheEnemies(Hero hero , Room movedRoom) {
         Iterator<Enemy> enemies = movedRoom.getEnemies().iterator();
         while (enemies.hasNext()) {
@@ -112,6 +144,11 @@ public class Combat {
         }
     }
 
+    /**
+     * Method that represents the attack of the enemies to the hero
+     * @param hero the hero
+     * @param movedRoom the room where the hero is
+     */
     private void attackTheHero(Hero hero , Room movedRoom) {
         print.heroTurnToAttack();
         Iterator<Enemy> enemies = movedRoom.getEnemies().iterator();
@@ -124,6 +161,11 @@ public class Combat {
         }
     }
 
+    /**
+     * This method is specific for the sceneryThree , an enemy entered the hero room and attacked him
+     * @param enemy The enemy that entered the room and has priority of attack
+     * @param hero The hero that is attacked
+     */
     protected void attackTheHero(Enemy enemy , Hero hero) {
         enemy.attack(hero);
         System.out.println(enemy.getName() + " attacked Hero. Hero health: " + hero.getHealth() + ", Hero armor: " + hero.getArmorHealth());

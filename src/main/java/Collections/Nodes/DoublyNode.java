@@ -4,6 +4,8 @@ package Collections.Nodes;
  * DoublyNode represents a node in a doubly linked collection.
  *
  * @param <T> the generic type of data element in this node
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class DoublyNode<T> {
 

@@ -9,13 +9,24 @@ import java.util.Scanner;
 
 public class Input {
 
+    /**
+     * The scanner to read input
+     */
     private final Scanner scanner;
 
+    /**
+     * Constructor for the input
+     */
     public Input() {
         this.scanner = new Scanner(System.in);
     }
 
-
+    /**
+     * Method to choose a mission from the available missions
+     *
+     * @param missionCodes the available missions
+     * @return the selected mission
+     */
     protected int chooseMapValidationInput(UnorderedListADT<String> missionCodes) {
         int missionChoice = -1;
         while (missionChoice < 1 || missionChoice > missionCodes.size()) {
@@ -23,16 +34,22 @@ public class Input {
                 missionChoice = scanner.nextInt();
                 if (missionChoice < 1 || missionChoice > missionCodes.size()) {
                     System.out.println("Invalid choice. Please try again.");
-                    scanner.next();
+                    scanner.nextLine(); // Consume the invalid input
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next();
+                scanner.nextLine(); // Consume the invalid input
             }
         }
         return missionChoice;
     }
 
+    /**
+     * Input method to get the next move
+     *
+     * @param hero the hero to check if there are items to use
+     * @return the next move
+     */
     protected int getValidMoveInput(Hero hero) {
         int selectNextMove = getValidNumberInput(1, 2);
 
@@ -45,14 +62,20 @@ public class Input {
         return selectNextMove;
     }
 
+    /**
+     * Method to get a valid number input
+     *
+     * @param min the minimum value
+     * @param max the maximum value
+     * @return the valid number input
+     */
     protected int getValidNumberInput(int min, int max) {
         int choice = -1;
         while (choice < min || choice > max) {
             try {
-                if(min == max) {
+                if (min == max) {
                     System.out.print("Choose a number between " + min + " and " + max + ": ");
-                }
-                else{
+                } else {
                     System.out.print("Choose a number: ");
                 }
                 choice = scanner.nextInt();
@@ -67,23 +90,40 @@ public class Input {
         return choice;
     }
 
-    protected int chooseNextRoom(UnorderedListADT<Room> connectedRooms){
+    /**
+     * Input to choose the next room to move to from the connected rooms
+     *
+     * @param connectedRooms the connected rooms
+     * @return the next room option to move to
+     */
+    protected int chooseNextRoom(UnorderedListADT<Room> connectedRooms) {
         int roomChoice = scanner.nextInt();
         while (roomChoice < 1 || roomChoice > connectedRooms.size()) {
             System.out.println("Invalid choice. Please try again.");
             System.out.print("Select a connected room by number: ");
+            scanner.nextLine(); // Consume the invalid input
             roomChoice = scanner.nextInt();
         }
         return roomChoice;
     }
 
+    /**
+     * Input to choose if the hero wants to use an item or attack an enemy
+     *
+     * @param hasItems if the hero has items
+     * @return the action choice
+     */
     protected int chooseHeroAction(boolean hasItems) {
         int actionChoice;
         do {
-            if(hasItems) {
-                System.out.print("Choose an action (1: Attack, 2: Use Item): ");
+            if (hasItems) {
+                System.out.println("+---+--------+---+----------+");
+                System.out.println("| 1 | Attack | 2 | Use Item |");
+                System.out.println("+---+--------+---+----------+");
             } else {
-                System.out.print("Choose an action (1: Attack): ");
+                System.out.println("+---+--------+");
+                System.out.println("| 1 | Attack |");
+                System.out.println("+---+--------+");
             }
             actionChoice = scanner.nextInt();
             if (actionChoice != 1 && (!hasItems || actionChoice != 2)) {
@@ -93,6 +133,12 @@ public class Input {
         return actionChoice;
     }
 
+    /**
+     * Input to get a valid number input for the creation of the hero
+     *
+     * @param prompt the prompt to display
+     * @return the valid positive number
+     */
     protected int getValidPositiveNumber(String prompt) {
         int value = -1;
         while (value <= 0) {
@@ -104,12 +150,18 @@ public class Input {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next();
+                scanner.nextLine(); // Consume the invalid input
             }
         }
         return value;
     }
 
+    /**
+     * Input to get a valid room choice
+     *
+     * @param max the maximum room choice
+     * @return the valid room choice
+     */
     public int getValidRoomChoice(int max) {
         int roomChoice = -1;
         while (roomChoice < 1 || roomChoice > max) {
@@ -121,13 +173,19 @@ public class Input {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next();
+                scanner.nextLine(); // Consume the invalid input
             }
         }
         return roomChoice;
     }
 
-    public int handleItemUsage(String message, String prompt) {
+    /**
+     * Input to handle the usage of an item
+     *
+     * @param message the message to display
+     * @return the action choice
+     */
+    public int handleItemUsage(String message) {
         int actionChoice;
         while (true) {
             System.out.println(message);
@@ -145,6 +203,12 @@ public class Input {
         return actionChoice;
     }
 
+    /**
+     * Input to confirm the room entry
+     *
+     * @param message the message to display
+     * @return true if the room entry is confirmed, false otherwise
+     */
     public boolean confirmRoomEntry(String message) {
         System.out.println(message);
         String choice = scanner.next().toLowerCase();

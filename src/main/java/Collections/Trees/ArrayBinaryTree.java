@@ -10,6 +10,9 @@ import java.util.Iterator;
 /**
  * A class that represents an array binary tree.
  * @param <T> the type of the stored element.
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
@@ -125,7 +128,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
      */
     @Override
     public String toString() {
-        String result = getClass().getSimpleName() + " { ";
+        String result = " { ";
         Iterator<T> it = iteratorInOrder();
         while (it.hasNext()) {
             result += it.next() + " ";

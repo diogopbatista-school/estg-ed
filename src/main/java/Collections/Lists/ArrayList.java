@@ -10,7 +10,8 @@ import java.util.Iterator;
  * A generic abstract class that implements a list using arrays.
  *
  * @param <T> the type of the stored element.
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
 
@@ -201,9 +202,9 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
     }
 
     /**
-     * Method that returns the size of the list
+     * Method that checks if the list is empty
      *
-     * @return the size of the list
+     * @return {@true} if the list is empty and {@false} otherwise
      */
     @Override
     public boolean isEmpty() {
@@ -227,7 +228,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      */
     @Override
     public String toString() {
-        String result = getClass().getSimpleName() + " { ";
+        String result = " { ";
         if (!isEmpty()) {
             for (int i = 0; i < size(); i++) {
                 result += list[i] + " ";

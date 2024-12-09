@@ -6,6 +6,9 @@ import Collections.Exceptions.EmptyCollectionException;
 /**
  * A class that represents a queue using two stacks.
  * @param <T> the type of the stored element.
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class StackQueue<T> implements QueueADT<T> {
 
@@ -94,7 +97,7 @@ public class StackQueue<T> implements QueueADT<T> {
      */
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " { " +
+        return " { " +
                 "stack1= " + stack1 +
                 ", stack2= " + stack2 +
                 " }";

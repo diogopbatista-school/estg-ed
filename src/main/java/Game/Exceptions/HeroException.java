@@ -2,7 +2,7 @@ package Game.Exceptions;
 
 /**
  *
- * @author diogo
+
  */
 public class HeroException extends Exception {
 

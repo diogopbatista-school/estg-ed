@@ -2,10 +2,13 @@ package Collections.Queues;
 
 import Collections.Exceptions.EmptyCollectionException;
 
+
 /**
+ * QueueADT defines the interface to a queue collection.
+ * @param <T> the type of elements in this queue
  *
- * @author diogo
- * @param <T>
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public interface QueueADT<T> {
 

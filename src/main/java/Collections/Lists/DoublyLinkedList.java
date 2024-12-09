@@ -10,7 +10,10 @@ import java.util.Iterator;
 /**
  * A generic abstract class that implements a doubly linked list.
  * @param <T> the type of the stored element.
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ *
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
 
@@ -210,7 +213,7 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
      */
     @Override
     public String toString() {
-        String result = getClass().getSimpleName() + " { ";
+        String result = " { ";
         if (!isEmpty()) {
             DoublyNode<T> current = head;
             while (current != null) {

@@ -6,6 +6,9 @@ import Game.Interfaces.Hero;
 
 /**
  * Represents a character in the game
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public abstract class CharacterImp implements Character {
 
@@ -35,21 +38,13 @@ public abstract class CharacterImp implements Character {
      * @param health the health of the character
      * @param attackPower the attack power of the character
      */
-    public CharacterImp(String name, double health, int attackPower) {
+    public CharacterImp(String name, double health, double attackPower) {
         this.name = name;
         this.health = health;
         this.attackPower = attackPower;
         this.isInFight = false;
     }
 
-    /**
-     * Setter for the isInFight attribute
-     * @param inFight the value to set
-     */
-    @Override
-    public void setInFight(boolean inFight) {
-        this.isInFight = inFight;
-    }
 
     /**
      * Getter for the isInFight attribute
@@ -62,7 +57,7 @@ public abstract class CharacterImp implements Character {
 
     /**
      * Getter for the name
-     * @return
+     * @return the name of the character
      */
     @Override
     public String getName() {

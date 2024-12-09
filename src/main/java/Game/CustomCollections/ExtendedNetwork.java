@@ -5,17 +5,32 @@ import Collections.Lists.LinkedUnorderedList;
 import Collections.Exceptions.NoSuchElementException;
 import Collections.Graphs.Network;
 import Collections.Lists.UnorderedListADT;
-import Game.Navigation.RoomImp;
 import Game.Interfaces.Room;
 import java.util.Iterator;
 
+/**
+ * A class that represents a network of rooms.
+ * @param <T> the type of the stored element.
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class ExtendedNetwork<T> extends Network<T> implements ExtendedNetworkADT<T> {
 
+    /**
+     * Constructor for an empty Extended network.
+     */
     public ExtendedNetwork() {
         super();
     }
 
-
+    /**
+     * Method
+     * @param vertex1 the starting vertex
+     * @param vertex2 the ending vertex
+     * @return
+     */
+    @Override
     public Iterator<T> iteratorShortestPath(T vertex1, T vertex2) {
         return super.iteratorShortestPath(getIndex(vertex1), getIndex(vertex2));
     }

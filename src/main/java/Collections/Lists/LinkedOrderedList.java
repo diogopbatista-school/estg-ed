@@ -5,9 +5,10 @@ import Collections.Nodes.Node;
 
 /**
  * A class that represents an ordered linked list.
- *
  * @param <T> the type of the stored element.
- * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class LinkedOrderedList<T> extends LinkedList<T> implements OrderedListADT<T>{
 

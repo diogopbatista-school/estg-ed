@@ -1,6 +1,10 @@
 package Collections.Exceptions;
 
 /**
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ *
+ *
  * UnsupportedOperationException is thrown when an operation is not supported.
  */
 public class UnsupportedOperationException extends RuntimeException {
