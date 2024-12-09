@@ -233,23 +233,25 @@ public class RoomImp implements Room {
             throw new RoomException("There are no items in the room");
         }
 
-        Iterator<Item> itemIterator = this.items.iterator();
-        while (itemIterator.hasNext()) {
-            Item currentItem = itemIterator.next();
-
-
-            if (currentItem == null) {
-                continue;
+        boolean itemRemoved;
+        do {
+            itemRemoved = false;
+            Iterator<Item> itemIterator = this.items.iterator();
+            while (itemIterator.hasNext()) {
+                Item currentItem = itemIterator.next();
+                if (currentItem instanceof ItemHealer itemHealer) {
+                    hero.addToBackPack(itemHealer);
+                    items.remove(currentItem);
+                    itemRemoved = true;
+                    break;
+                } else if (currentItem instanceof ItemArmor) {
+                    currentItem.applyEffect(hero);
+                    items.remove(currentItem);
+                    itemRemoved = true;
+                    break;
+                }
             }
-
-            if (currentItem instanceof ItemHealer itemHealer) {
-                hero.addToBackPack(itemHealer);
-                itemIterator.remove();
-            } else if (currentItem instanceof ItemArmor) {
-                currentItem.applyEffect(hero);
-                itemIterator.remove();
-            }
-        }
+        } while (itemRemoved);
 
         throw new RoomException("There are no more items in the room");
     }

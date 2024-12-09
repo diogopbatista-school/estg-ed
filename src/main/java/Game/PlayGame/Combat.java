@@ -71,11 +71,10 @@ public class Combat {
      */
     private void heroTurnManually(Hero hero, Room movedRoom) {
         int actionChoice;
-        boolean hasItems = hero.isItemsOnBackPack();
 
         print.heroTurn();
 
-        actionChoice = menu.fightOrUseItem(hasItems);
+        actionChoice = menu.fightOrUseItem(hero);
 
         while (actionChoice == 2) {
             print.heroChoicedUseItem();
@@ -150,7 +149,7 @@ public class Combat {
      * @param movedRoom the room where the hero is
      */
     private void attackTheHero(Hero hero , Room movedRoom) {
-        print.heroTurnToAttack();
+        print.enemyTurnToAttack();
         Iterator<Enemy> enemies = movedRoom.getEnemies().iterator();
         while (enemies.hasNext()) {
             Enemy enemy = enemies.next();

@@ -178,12 +178,15 @@ public class Menu {
 
     /**
      * Method that represents if the hero wants to fight or use an item
-     * @param hasItems if the hero has items
+     *
+     * @param hero The hero
      * @return the selected action
      */
-    public int fightOrUseItem(boolean hasItems) {
+    public int fightOrUseItem(Hero hero) {
         int actionChoice;
+        boolean hasItems = hero.isItemsOnBackPack();
         do {
+            print.itemsInBackPack(hero);
             actionChoice = input.chooseHeroAction(hasItems);
             if (actionChoice != 1 && (!hasItems || actionChoice != 2)) {
                 System.out.println("Invalid choice. Please try again.");

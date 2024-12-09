@@ -120,6 +120,7 @@ public class Input {
                 System.out.println("+---+--------+---+----------+");
                 System.out.println("| 1 | Attack | 2 | Use Item |");
                 System.out.println("+---+--------+---+----------+");
+
             } else {
                 System.out.println("+---+--------+");
                 System.out.println("| 1 | Attack |");

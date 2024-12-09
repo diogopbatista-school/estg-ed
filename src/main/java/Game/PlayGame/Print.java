@@ -84,26 +84,27 @@ public class Print {
             System.out.println("+---+----------------------+---+-----------------+ Name: "+ hero.getName());
             System.out.println("| 1 | Move to another room | 2 | Use Item        | Health: " + hero.getHealth());
             System.out.println("+---+----------------------+---+-----------------+ Armor: "+ hero.getArmorHealth());
-            System.out.println(itemsInBackPack(hero));
+            itemsInBackPack(hero);
         } else {
             System.out.println("+---+----------------------+ Name: "+ hero.getName());
             System.out.println("| 1 | Move to another room | Health: " + hero.getHealth());
             System.out.println("+---+----------------------+ Armor: "+ hero.getArmorHealth());
-            System.out.println(itemsInBackPack(hero));
+            itemsInBackPack(hero);
         }
     }
 
-    public String itemsInBackPack(Hero hero) {
+    public void itemsInBackPack(Hero hero) {
         String items = "Items in backpack:";
         if(!hero.isItemsOnBackPack()) {
-            return "Empty BACKPACK";
+            System.out.println("Empty BACKPACK");
+            return;
         }
         Iterator<Item> itemIterator = hero.getBackPack().iterator();
         while (itemIterator.hasNext()) {
             Item item = itemIterator.next();
-            items += item.getName() + " | ";
+            items += item.getName() + "("+ item.getPoints() + ") points | ";
         }
-        return items;
+        System.out.println(items);
     }
 
     public void loadedMissionMenu(Mission mission,String selectedMission) {
@@ -256,7 +257,7 @@ public class Print {
         System.out.println("+-----------------------------------------------------+ Hero: " + hero.getName());
         System.out.println("| Success! Hero has reached the exit with the target. | Health: " + hero.getHealth());
         System.out.println("+-----------------------------------------------------+ Armor: " + hero.getArmorHealth());
-        System.out.println(itemsInBackPack(hero));
+        itemsInBackPack(hero);
     }
 
     public void heroChoicedUseItem() {
