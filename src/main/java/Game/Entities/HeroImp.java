@@ -3,7 +3,6 @@ package Game.Entities;
 
 import Collections.Stacks.ArrayStack;
 import Collections.Stacks.StackADT;
-import Game.Enumerations.ItemType;
 import Game.Exceptions.ItemException;
 import Game.Interfaces.Hero;
 import Game.Interfaces.Item;
@@ -19,7 +18,7 @@ public class HeroImp extends CharacterImp implements Hero {
     /**
      * The hero's armor health
      */
-    private int armor;
+    private double armor;
 
     /**
      * The hero's backpack with a stack data structure ( LIFO )
@@ -59,23 +58,24 @@ public class HeroImp extends CharacterImp implements Hero {
         this.target = null;
     }
 
-    public HeroImp(int health , int armor , int attackPower) {
+    public HeroImp(int health, int armor, int attackPower) {
         super("Tó Cruz", health, attackPower);
         this.armor = armor;
     }
 
 
-
     /**
      * Getter that returns the hero's first item in the backpack
+     *
      * @return the hero's first item in the backpack
      */
-    public Item getItemFirstItem(){
+    public Item getItemFirstItem() {
         return this.backPack.peek();
     }
 
     /**
      * Setter for the hero's target
+     *
      * @param target the target to set
      */
     public void setTarget(Target target) {
@@ -84,6 +84,7 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that verifies if the hero has items on the backpack
+     *
      * @return true if the hero has items on the backpack, false otherwise
      */
     public boolean isItemsOnBackPack() {
@@ -92,6 +93,7 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that verifies if the hero is alive
+     *
      * @return true if the hero is alive, false otherwise
      */
     public boolean isAlive() {
@@ -100,6 +102,7 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that verifies if the hero has a target
+     *
      * @return true if the hero has a target, false otherwise
      */
     public boolean doesHeroHaveTarget() {
@@ -108,6 +111,7 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Setter for the hero's current room
+     *
      * @param room the room to set
      */
     public void setCurrentRoom(Room room) {
@@ -116,6 +120,7 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Getter for the hero's current room
+     *
      * @return the hero's current room
      */
     public Room getCurrentRoom() {
@@ -124,6 +129,7 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that verifies if the hero's backpack is full
+     *
      * @return true if the backpack is full, false otherwise
      */
     @Override
@@ -133,6 +139,7 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that adds a new item to the hero's backpack with the FILO principle
+     *
      * @param item the item to add
      * @throws ItemException if the item is invalid or null
      */
@@ -150,6 +157,7 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that removes an item from the hero's backpack
+     *
      * @return the item removed
      * @throws ItemException if the item is invalid or null
      */
@@ -163,21 +171,22 @@ public class HeroImp extends CharacterImp implements Hero {
     /**
      * Method that uses an item from the hero's backpack
      */
-    public void useItem() {
+    public Item useItem() {
         try {
             Item item = RemoveItem();
-            if (item.getType() == ItemType.KIT_DE_VIDA) {
-                heal(item.getPoints());
-            } else if (item.getType() == ItemType.COLETE) {
-                healArmor(item.getPoints());
+            if (item instanceof ItemHealer) {
+                item.applyEffect(this);
+                return item;
             }
         } catch (ItemException e) {
             System.out.println(e.getMessage());
         }
+        return null;
     }
 
     /**
      * Getter for the hero's name
+     *
      * @return the hero's name
      */
     @Override
@@ -187,11 +196,12 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that heals the hero's health
+     *
      * @param amount the amount of health to be healed
      * @throws IllegalArgumentException if the amount is negative
      */
     @Override
-    public void heal(int amount) throws IllegalArgumentException {
+    public void heal(double amount) throws IllegalArgumentException {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
@@ -203,20 +213,22 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that returns the hero's armor health
+     *
      * @return the hero's armor health
      */
     @Override
-    public int getArmorHealth() {
+    public double getArmorHealth() {
         return this.armor;
     }
 
     /**
      * Method that sets the hero's armor health
+     *
      * @param armorHealth the hero's armor health
      * @throws IllegalArgumentException if the armor health is negative
      */
     @Override
-    public void setArmorHealth(int armorHealth) throws IllegalArgumentException {
+    public void setArmorHealth(double armorHealth) throws IllegalArgumentException {
         if (armorHealth < 0) {
             throw new IllegalArgumentException("Armor health must be positive");
         }
@@ -225,11 +237,12 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that heals the hero's armor health
+     *
      * @param amount the amount of armor health to be healed
      * @throws IllegalArgumentException if the amount is negative
      */
     @Override
-    public void healArmor(int amount) throws IllegalArgumentException {
+    public void healArmor(double amount) throws IllegalArgumentException {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
@@ -241,20 +254,22 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Method that returns the hero's health
+     *
      * @return the hero's health
      */
     @Override
-    public int getHealth() {
+    public double getHealth() {
         return this.health;
     }
 
     /**
      * Setter for the hero's health
+     *
      * @param health the hero's health
      * @throws IllegalArgumentException if the health is negative
      */
     @Override
-    public void setHealth(int health) throws IllegalArgumentException {
+    public void setHealth(double health) throws IllegalArgumentException {
         if (health < 0) {
             throw new IllegalArgumentException("Health must be positive");
         }
@@ -264,28 +279,30 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Getter for the hero's attack power
+     *
      * @return the hero's attack power
      */
     @Override
-    public int getAttackPower() {
+    public double getAttackPower() {
         return this.attackPower;
     }
 
     /**
      * Setter for the hero's attack power
+     *
      * @param attackPower the hero's attack power
      * @throws IllegalArgumentException if the attack power is negative
      */
     @Override
-    public void setAttackPower(int attackPower) throws IllegalArgumentException {
+    public void setAttackPower(double attackPower) throws IllegalArgumentException {
         if (attackPower < 0) {
             throw new IllegalArgumentException("Attack power must be positive");
         }
         this.attackPower = attackPower;
     }
 
-    public String toString(){
-        String s = "Hero: " + this.name + " Health: " + this.health + " Armor: " + this.armor ;
+    public String toString() {
+        String s = "Hero: " + this.name + " Health: " + this.health + " Armor: " + this.armor;
         return s;
     }
 }

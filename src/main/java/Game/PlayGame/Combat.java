@@ -1,6 +1,7 @@
 package Game.PlayGame;
 
 import Collections.Lists.UnorderedListADT;
+import Game.Entities.ItemHealer;
 import Game.Interfaces.Enemy;
 import Game.Interfaces.Hero;
 import Game.Interfaces.Item;
@@ -57,10 +58,10 @@ public class Combat {
         while (actionChoice == 2) {
             print.heroChoicedUseItem();
 
-            int heroHealth = hero.getHealth();
+            double heroHealth = hero.getHealth();
             int maxHealth = 100; // Max health is always 100
             Item item = hero.getItemFirstItem();
-            int itemPoints = item.getPoints();
+            double itemPoints = ((ItemHealer) item).getPoints();
 
             if (heroHealth == maxHealth) {
                 actionChoice = menu.handleItemMenu();

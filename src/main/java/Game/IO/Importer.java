@@ -2,17 +2,13 @@ package Game.IO;
 
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
-import Game.Entities.EnemyImp;
-import Game.Entities.HeroImp;
-import Game.Entities.ItemImp;
-import Game.Entities.TargetImp;
+import Game.Entities.*;
 import Game.Exceptions.ItemException;
-import Game.Exceptions.MapException;
 import Game.Exceptions.RoomException;
 import Game.Interfaces.*;
 import Game.Navigation.MapImp;
-import Game.Navigation.MissionImp;
-import Game.Navigation.MissionsImp;
+import Game.Mission.MissionImp;
+import Game.Mission.MissionsImp;
 import Game.Navigation.RoomImp;
 import Game.Utilities.ManualSimulationLog;
 import org.json.simple.JSONArray;
@@ -20,7 +16,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -213,7 +208,7 @@ public class Importer {
         try {
             for (Object obj : this.items) {
                 JSONObject jsonItem = (JSONObject) obj;
-                int points = 0;
+                double points = 0;
 
                 String name = (String) jsonItem.get("tipo");
                 if (jsonItem.containsKey("pontos-recuperados")) {
@@ -225,8 +220,14 @@ public class Importer {
 
                 if (room.getRoomName().equals(division)) {
                     try {
-                        ItemImp item = new ItemImp(points, name);
-                        room.addItem(item);
+                        Item item;
+                        if (name.equals("kit de vida")) {
+                            item = new ItemHealer(name, points);
+                            room.addItem(item);
+                        } else if (name.equals("colete")) {
+                            item = new ItemArmor(name, points);
+                            room.addItem(item);
+                        }
                     } catch (ItemException e) {
                         System.out.println("An item with the name " + name + " was not added to the room");
                     }
@@ -262,11 +263,9 @@ public class Importer {
             Room room1 = map.getRoomByName(room1Name);
             Room room2 = map.getRoomByName(room2Name);
 
-            int weight1 = room2.getTotalEnemiesAttackPower();
-            int weight2 = room1.getTotalEnemiesAttackPower();
 
-            map.addConnection(room1, room2, weight1);
-            map.addConnection(room2, room1, weight2);
+            map.addConnection(room1, room2, room2.getTotalEnemiesAttackPower());
+            map.addConnection(room2, room1, room1.getTotalEnemiesAttackPower());
         }
     }
 

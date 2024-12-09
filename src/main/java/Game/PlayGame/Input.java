@@ -49,7 +49,12 @@ public class Input {
         int choice = -1;
         while (choice < min || choice > max) {
             try {
-                System.out.print("Choose a number between " + min + " and " + max + ": ");
+                if(min == max) {
+                    System.out.print("Choose a number between " + min + " and " + max + ": ");
+                }
+                else{
+                    System.out.print("Choose a number: ");
+                }
                 choice = scanner.nextInt();
                 if (choice < min || choice > max) {
                     System.out.println("Invalid choice. Please try again.");
@@ -75,7 +80,11 @@ public class Input {
     protected int chooseHeroAction(boolean hasItems) {
         int actionChoice;
         do {
-            System.out.print("Choose an action (1: Attack, 2: Use Item): ");
+            if(hasItems) {
+                System.out.print("Choose an action (1: Attack, 2: Use Item): ");
+            } else {
+                System.out.print("Choose an action (1: Attack): ");
+            }
             actionChoice = scanner.nextInt();
             if (actionChoice != 1 && (!hasItems || actionChoice != 2)) {
                 System.out.println("Invalid choice. Please try again.");

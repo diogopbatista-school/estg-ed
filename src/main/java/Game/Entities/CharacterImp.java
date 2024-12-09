@@ -17,12 +17,12 @@ public abstract class CharacterImp implements Character {
     /**
      * The health of the character
      */
-    protected int health;
+    protected double health;
 
     /**
      * The attack power of the character
      */
-    protected int attackPower;
+    protected double attackPower;
 
     /**
      * Boolean value indicating if the character is in fight
@@ -35,7 +35,7 @@ public abstract class CharacterImp implements Character {
      * @param health the health of the character
      * @param attackPower the attack power of the character
      */
-    public CharacterImp(String name, int health, int attackPower) {
+    public CharacterImp(String name, double health, int attackPower) {
         this.name = name;
         this.health = health;
         this.attackPower = attackPower;
@@ -74,7 +74,7 @@ public abstract class CharacterImp implements Character {
      * @return the health of the character
      */
     @Override
-    public int getHealth() {
+    public double getHealth() {
         return this.health;
     }
 
@@ -84,7 +84,7 @@ public abstract class CharacterImp implements Character {
      * @throws IllegalArgumentException if health is negative
      */
     @Override
-    public void setHealth(int health) throws IllegalArgumentException {
+    public void setHealth(double health) throws IllegalArgumentException {
         if (health < 0) {
             throw new IllegalArgumentException("Health must be positive");
         }
@@ -96,7 +96,7 @@ public abstract class CharacterImp implements Character {
      * @return the attack power of the character
      */
     @Override
-    public int getAttackPower() {
+    public double getAttackPower() {
         return this.attackPower;
     }
 
@@ -106,7 +106,7 @@ public abstract class CharacterImp implements Character {
      * @throws IllegalArgumentException if attack power is negative
      */
     @Override
-    public void setAttackPower(int attackPower) throws IllegalArgumentException {
+    public void setAttackPower(double attackPower) throws IllegalArgumentException {
         if (attackPower < 0) {
             throw new IllegalArgumentException("Attack power must be positive");
         }
@@ -124,11 +124,10 @@ public abstract class CharacterImp implements Character {
             throw new IllegalArgumentException("Character must be valid");
         }
 
-        int attackPower = this.getAttackPower();
+        double attackPower = this.getAttackPower();
 
-        if (character instanceof Hero) {
-            Hero hero = (Hero) character;
-            int armor = hero.getArmorHealth();
+        if (character instanceof Hero hero) {
+            double armor = hero.getArmorHealth();
 
             if (armor > 0) {
                 if (armor >= attackPower) {
@@ -141,7 +140,7 @@ public abstract class CharacterImp implements Character {
             }
         }
 
-        int damage = character.getHealth() - attackPower;
+        double damage = character.getHealth() - attackPower;
 
         if (damage < 0) {
             character.setHealth(0);

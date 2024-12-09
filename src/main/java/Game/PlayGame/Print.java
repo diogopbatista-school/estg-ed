@@ -24,7 +24,6 @@ public class Print {
         System.out.println("\nMenu:");
         System.out.println("1. Start Game");
         System.out.println("2. Exit");
-        System.out.print("Choose an option: ");
     }
 
     public void viewLogs(Mission mission) {
@@ -132,7 +131,7 @@ public class Print {
                 Iterator<Item> itemIterator = room.getItems();
                 while (itemIterator.hasNext()) {
                     Item item = itemIterator.next();
-                    System.out.println("- " + item.getNameItem() + " (Type: " + item.getType().toString() + ")");
+                    System.out.println("- " + item.getName() + " (Type: " + item.getType().toString() + ")");
                 }
             } else {
                 System.out.println("No items in the room.");
@@ -215,7 +214,7 @@ public class Print {
     }
 
     public void heroUsedItem(Hero hero, Item item) {
-        System.out.println("Hero grabbed an item:" + item.getNameItem() + " with " + item.getPoints());
+        System.out.println("Hero grabbed an item: " + item.getName() + " with " + item.getPoints());
         System.out.println("Hero used an item. Hero health: " + hero.getHealth() + ", Hero armor: " + hero.getArmorHealth());
     }
 
@@ -226,7 +225,7 @@ public class Print {
         Iterator<Item> itemIterator = movedRoom.getItems();
         while (itemIterator.hasNext()) {
             Item item = itemIterator.next();
-            System.out.println(item.getNameItem());
+            System.out.println(item.getName());
         }
     }
 

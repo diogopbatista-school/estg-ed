@@ -106,8 +106,9 @@ public class MapImp implements Map {
             Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
             while (connectedRoomIterator.hasNext()) {
                 Room room2 = connectedRoomIterator.next();
-                int weight1 = room1.getTotalEnemiesAttackPower();
-                int weight2 = room2.getTotalEnemiesAttackPower();
+                double weight1 = room1.getTotalEnemiesAttackPower();
+                double weight2 = room2.getTotalEnemiesAttackPower();
+
                 updateWeight(room1, room2, weight2);
                 updateWeight(room2, room1, weight1);
             }

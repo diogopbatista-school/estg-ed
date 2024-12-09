@@ -28,14 +28,14 @@ public interface Character {
      * Returns the health of the character
      * @return the health of the character
      */
-    public int getHealth();
+    public double getHealth();
 
     /**
      * Sets the health of the character
      * @param health the health of the character
      * @throws IllegalArgumentException if health is negative
      */
-    public void setHealth(int health) throws IllegalArgumentException;
+    public void setHealth(double health) throws IllegalArgumentException;
 
     /**
      * Attacks another character
@@ -48,14 +48,14 @@ public interface Character {
      * Returns the attack power of the character
      * @return the attack power of the character
      */
-    public int getAttackPower();
+    public double getAttackPower();
 
     /**
      * Sets the attack power of the character
      * @param attackPower the attack power of the character
      * @throws IllegalArgumentException if attack power is negative
      */
-    public void setAttackPower(int attackPower) throws IllegalArgumentException;
+    public void setAttackPower(double attackPower) throws IllegalArgumentException;
 
     /**
      * Method that verifies if the character is alive

@@ -20,10 +20,10 @@ public class GameEngine {
     private final Menu menu;
     private final GameRule gameRule;
 
-    public GameEngine(Input input,Print print ,Menu menu){
+    public GameEngine(Input input, Print print, Menu menu) {
         this.print = print;
         this.menu = menu;
-        this.gameRule = new GameRule(input,print,menu);
+        this.gameRule = new GameRule(input, print, menu);
     }
 
     private static Room findRoomWithTarget(UnorderedListADT<Room> rooms) {
@@ -58,14 +58,14 @@ public class GameEngine {
             }
 
             if (selectedRoom.isThereAnEnemyAlive()) {
-                roomConfirmed = menu.confirmRoomEntry(selectedRoom,hero,path);
+                roomConfirmed = menu.confirmRoomEntry(selectedRoom, hero, path);
 
-                if(roomConfirmed){
-                    gameRule.sceneryOne(map,hero,selectedRoom,false);
-                }else{
+                if (roomConfirmed) {
+                    gameRule.sceneryOne(map, hero, selectedRoom, false);
+                } else {
                     print.selectAnotherRoom();
                 }
-            }else{
+            } else {
                 roomConfirmed = true;
 
                 selectedRoom.addHero(hero);
@@ -73,7 +73,7 @@ public class GameEngine {
 
                 print.heroWillStartRoom(selectedRoom);
 
-                if(selectedRoom.hasItems()) {
+                if (selectedRoom.hasItems()) {
                     gameRule.itemsScenario(selectedRoom, hero);
                 }
             }
@@ -86,8 +86,8 @@ public class GameEngine {
         OrderedListADT<Room> path = new LinkedOrderedList<>();
         Hero hero = menu.createHero();
         Room targetRoom = findRoomWithTarget(map.getRooms());
-        Room nextRoom ;
-        nextRoom = selectStartRoom(map,hero,path);
+        Room nextRoom;
+        nextRoom = selectStartRoom(map, hero, path);
 
 
         while (hero.isAlive()) {
@@ -95,41 +95,41 @@ public class GameEngine {
             int selectNextMove = menu.MoveOrUseItemMenu(hero);
 
 
-            if(selectNextMove == 1) {
+            if (selectNextMove == 1) {
                 nextRoom = MoveToNextRoom(map, hero, targetRoom);
-                    if(nextRoom != null) {
+                if (nextRoom != null) {
 
-                        path.add(nextRoom);
+                    path.add(nextRoom);
 
-                        if (gameRule.checkEndGame(hero, nextRoom)) {
-                            break;
-                        }
-
-                        if (nextRoom.isThereAnEnemyAlive() && !nextRoom.isTargetInRoom()) {
-                            gameRule.sceneryOne(map, hero , nextRoom, false);
-                        }
-
-                        if (!nextRoom.isThereAnEnemyAlive() && !nextRoom.isTargetInRoom()) {
-                            gameRule.sceneryTwo(map, nextRoom, targetRoom, hero, false);
-                        }
-
-                        if (nextRoom.isThereAnEnemyAlive() && nextRoom.isTargetInRoom()) {
-                            gameRule.sceneryFive(map, nextRoom, hero, false);
-                        }
-
-                        if (nextRoom.isTargetInRoom() && !nextRoom.isThereAnEnemyAlive()) {
-                            gameRule.scenerySix(map, nextRoom, hero, false);
-                        }
+                    if (gameRule.checkEndGame(hero, nextRoom)) {
+                        break;
                     }
-            }else{
-                hero.useItem();
-                //print.heroUsedItem();
+
+                    if (nextRoom.isThereAnEnemyAlive() && !nextRoom.isTargetInRoom()) {
+                        gameRule.sceneryOne(map, hero, nextRoom, false);
+                    }
+
+                    if (!nextRoom.isThereAnEnemyAlive() && !nextRoom.isTargetInRoom()) {
+                        gameRule.sceneryTwo(map, nextRoom, targetRoom, hero, false);
+                    }
+
+                    if (nextRoom.isThereAnEnemyAlive() && nextRoom.isTargetInRoom()) {
+                        gameRule.sceneryFive(map, nextRoom, hero, false);
+                    }
+
+                    if (nextRoom.isTargetInRoom() && !nextRoom.isThereAnEnemyAlive()) {
+                        gameRule.scenerySix(map, nextRoom, hero, false);
+                    }
+                }
+            } else {
+                Item item = hero.useItem();
+                print.heroUsedItem(hero, item);
                 print.enemyTurn();
                 print.movedEnemies();
                 map.mapShuffle();
                 System.out.println("------------------------------------------------");
                 if (hero.getCurrentRoom().isThereAnEnemyAlive()) {
-                    gameRule.sceneryOne(map, hero , nextRoom, false);
+                    gameRule.sceneryOne(map, hero, nextRoom, false);
                 }
             }
         }
@@ -178,14 +178,14 @@ public class GameEngine {
             }
 
             boolean endGame = currentRoomActions(map, hero, bestExitRoom);
-            if(endGame){
+            if (endGame) {
                 break;
             }
         }
 
     }
 
-    private  boolean currentRoomActions(Map map, Hero hero, Room targetRoom) throws HeroException, EnemyException, TargetException {
+    private boolean currentRoomActions(Map map, Hero hero, Room targetRoom) throws HeroException, EnemyException, TargetException {
         Iterator<Room> pathIterator = map.shortestPath(hero.getCurrentRoom(), targetRoom);
 
         if (pathIterator.hasNext()) {
@@ -196,12 +196,12 @@ public class GameEngine {
 
                 // Fase 1: Até o targetRoom
                 if (!hero.doesHeroHaveTarget()) {
-                    print.nextBestRoom(map,hero.getCurrentRoom(),targetRoom);
+                    print.nextBestRoom(map, hero.getCurrentRoom(), targetRoom);
                     handleRoomEvents(map, hero, nextRoom, targetRoom, false);
                 }
                 // Fase 2: Do targetRoom até os exits
                 else {
-                    print.nextBestRoom(map,hero.getCurrentRoom(),targetRoom);
+                    print.nextBestRoom(map, hero.getCurrentRoom(), targetRoom);
                     return handleRoomEvents(map, hero, nextRoom, targetRoom, true);
                 }
             }
@@ -209,7 +209,7 @@ public class GameEngine {
         return false;
     }
 
-    private  boolean handleRoomEvents(Map map, Hero hero, Room currentRoom, Room targetRoom, boolean isExitPhase) throws HeroException, EnemyException, TargetException {
+    private boolean handleRoomEvents(Map map, Hero hero, Room currentRoom, Room targetRoom, boolean isExitPhase) throws HeroException, EnemyException, TargetException {
         if (currentRoom.isThereAnEnemyAlive() && !currentRoom.isTargetInRoom()) {
             gameRule.sceneryOne(map, hero, currentRoom, true);
         }
@@ -247,7 +247,7 @@ public class GameEngine {
         print.heroMovedToRoom(room);
     }
 
-    private  UnorderedListADT<Room> findEntryRooms(UnorderedListADT<Room> allRooms) {
+    private UnorderedListADT<Room> findEntryRooms(UnorderedListADT<Room> allRooms) {
         UnorderedListADT<Room> entryRooms = new LinkedUnorderedList<>();
         Iterator<Room> iterator = allRooms.iterator();
         while (iterator.hasNext()) {
@@ -274,7 +274,7 @@ public class GameEngine {
         return bestRoom;
     }
 
-    private Room MoveToNextRoom(Map map ,Hero hero , Room targetRoom) throws HeroException {
+    private Room MoveToNextRoom(Map map, Hero hero, Room targetRoom) throws HeroException {
         Room currentRoom = hero.getCurrentRoom();
         hero.setCurrentRoom(null);
         currentRoom.removeHero();
@@ -304,7 +304,7 @@ public class GameEngine {
 
     }
 
-    private Room selectRoom(UnorderedListADT<Room> connectedRooms, int roomChoice){
+    private Room selectRoom(UnorderedListADT<Room> connectedRooms, int roomChoice) {
         Iterator<Room> connectedRoomIterator = connectedRooms.iterator();
         Room selectedRoom = null;
         for (int i = 1; i <= roomChoice; i++) {
@@ -313,7 +313,7 @@ public class GameEngine {
         return selectedRoom;
     }
 
-    private UnorderedListADT<Room> getConnectedRooms(Map map, Room currentRoom){
+    private UnorderedListADT<Room> getConnectedRooms(Map map, Room currentRoom) {
 
         Iterator<Room> iterator = map.getRooms().iterator();
         UnorderedListADT<Room> connectedRooms = new LinkedUnorderedList<>();

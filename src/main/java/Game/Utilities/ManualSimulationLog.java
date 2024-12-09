@@ -60,9 +60,9 @@ public class ManualSimulationLog implements Comparable<ManualSimulationLog> {
 
     @Override
     public int compareTo(ManualSimulationLog other) {
-        int thisTotalHealth = this.getHero().getArmorHealth() + this.getHero().getHealth();
-        int otherTotalHealth = other.getHero().getArmorHealth() + other.getHero().getHealth();
-        return Integer.compare(otherTotalHealth, thisTotalHealth);
+        double thisTotalHealth = this.getHero().getArmorHealth() + this.getHero().getHealth();
+        double otherTotalHealth = other.getHero().getArmorHealth() + other.getHero().getHealth();
+        return Double.compare(otherTotalHealth, thisTotalHealth);
     }
 
 

@@ -1,4 +1,4 @@
-package Game.Navigation;
+package Game.Mission;
 
 import Game.Interfaces.Map;
 import Game.Interfaces.Mission;
@@ -15,7 +15,6 @@ public class MissionImp implements Mission {
     private Logs logs;
 
 
-
     public MissionImp() {
         this.code = null;
         this.version = -1;
@@ -27,16 +26,17 @@ public class MissionImp implements Mission {
         return map;
     }
 
-    public void setCode(String code){
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public void setVersion(int version){
+    public void setVersion(int version) {
         this.version = version;
     }
 
     /**
      * Adds a room to the map
+     *
      * @param map the map to add
      */
     public void addMap(Map map) {
@@ -63,15 +63,15 @@ public class MissionImp implements Mission {
         return version;
     }
 
-    public void addLogException(LogExceptions log){
+    public void addLogException(LogExceptions log) {
         this.logs.addExceptionLog(log);
     }
 
-    public void addManualSimulationLog(ManualSimulationLog manualsimulationlog){
+    public void addManualSimulationLog(ManualSimulationLog manualsimulationlog) {
         this.logs.addManualSimulationLog(manualsimulationlog);
     }
 
-    public Logs getLogs(){
+    public Logs getLogs() {
         return logs;
     }
 

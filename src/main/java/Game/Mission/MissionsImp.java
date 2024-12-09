@@ -1,4 +1,4 @@
-package Game.Navigation;
+package Game.Mission;
 
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;

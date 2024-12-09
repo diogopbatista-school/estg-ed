@@ -50,7 +50,7 @@ public interface Room extends Comparable<Room> {
      *
      * @return the total attack power of all living enemies in the room.
      */
-    public int getTotalEnemiesAttackPower();
+    public double getTotalEnemiesAttackPower();
 
     /**
      * Adds an enemy to the room
@@ -97,7 +97,7 @@ public interface Room extends Comparable<Room> {
      * @param hero the hero to add the item to ( backPack or add to armor bar)
      * @throws ItemException if the item is invalid or null
      */
-    public void removeItem(Hero hero) throws ItemException;
+    public void removeItems(Hero hero) throws ItemException;
 
     public String getRoomName();
 

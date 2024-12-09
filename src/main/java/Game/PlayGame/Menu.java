@@ -13,12 +13,9 @@ import Game.Interfaces.Hero;
 import Game.Interfaces.Mission;
 import Game.Interfaces.Missions;
 import Game.Interfaces.Room;
-import Game.Navigation.MissionsImp;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Scanner;
 
 public class Menu {
 
@@ -133,11 +130,6 @@ public class Menu {
     public int fightOrUseItem(boolean hasItems) {
         int actionChoice;
         do {
-            if (hasItems) {
-                System.out.print("Choose an action (1: Attack, 2: Use Item): ");
-            } else {
-                System.out.print("Choose an action (1: Attack): ");
-            }
             actionChoice = input.chooseHeroAction(hasItems);
             if (actionChoice != 1 && (!hasItems || actionChoice != 2)) {
                 System.out.println("Invalid choice. Please try again.");

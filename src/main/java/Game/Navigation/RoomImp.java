@@ -3,7 +3,8 @@ package Game.Navigation;
 import Collections.Lists.DoublyLinkedUnorderedList;
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
-import Game.Enumerations.ItemType;
+import Game.Entities.ItemArmor;
+import Game.Entities.ItemHealer;
 import Game.Exceptions.*;
 import Game.Interfaces.*;
 
@@ -22,7 +23,7 @@ public class RoomImp implements Room {
     public RoomImp(String roomName) {
         this.enemies = new LinkedUnorderedList<>();
         this.target = null;
-        this.items = new LinkedUnorderedList<>();
+        this.items = new DoublyLinkedUnorderedList<>();
         this.hero = null;
         this.roomName = roomName;
         this.isInAndOut = false;
@@ -138,10 +139,10 @@ public class RoomImp implements Room {
     }
 
 
-
-    public int getTotalEnemiesAttackPower(){
+    @Override
+    public double getTotalEnemiesAttackPower(){
         Iterator<Enemy> enemies = this.enemies.iterator();
-        int totalRoomPower = 0;
+        double totalRoomPower = 0;
 
         while(enemies.hasNext()){
             totalRoomPower += enemies.next().getAttackPower();
@@ -154,6 +155,7 @@ public class RoomImp implements Room {
      * Adds a target to the room
      * @param target the target to add
      */
+    @Override
     public void addTargetToRoom(Target target) throws TargetException {
         this.target = target;
     }
@@ -204,7 +206,7 @@ public class RoomImp implements Room {
     }
 
     @Override
-    public void removeItem(Hero hero) throws ItemException { // iterar todos os items da sala
+    public void removeItems(Hero hero) throws ItemException { // iterar todos os items da sala
         if(hero == null){
             throw new ItemException("Hero cannot be null");
         }
@@ -217,28 +219,19 @@ public class RoomImp implements Room {
             throw new ItemException("There are no items in the room");
         }
 
-        boolean itemRemoved;
-        do {
-            itemRemoved = false;
-            Iterator<Item> iterator = this.items.iterator();
-            while (iterator.hasNext()) {
-                Item currentItem = iterator.next();
-                if (currentItem.getType() == ItemType.KIT_DE_VIDA) { // TROCAR AQUI bug
-                    hero.addToBackPack(currentItem);
-                    this.items.remove(currentItem);
-                    itemRemoved = true;
-                    break;
-                } else if (currentItem.getType() == ItemType.COLETE) {
-                    hero.healArmor(currentItem.getPoints());
-                    this.items.remove(currentItem);
-                    itemRemoved = true;
-                    break;
-                }
+        Iterator<Item> items = this.items.iterator();
+        while(items.hasNext()){
+            Item currentItem = items.next();
+            if(currentItem instanceof ItemHealer itemHealer){
+                hero.addToBackPack(itemHealer);
+                this.items.remove(currentItem);
+            }else if(currentItem instanceof ItemArmor itemArmor){
+                currentItem.applyEffect(hero);
+                this.items.remove(currentItem);
             }
-        } while (itemRemoved);
+        }
 
-
-        throw new ItemException("There are no items in the room");
+        throw new ItemException("There are no more items in the room");
     }
 
     public Hero getHeroInRoom(){

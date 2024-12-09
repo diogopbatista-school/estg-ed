@@ -1,7 +1,6 @@
 package Game.PlayGame;
 
 
-import Collections.Lists.UnorderedListADT;
 import Game.Exceptions.EnemyException;
 import Game.Exceptions.ItemException;
 import Game.Exceptions.TargetException;
@@ -23,7 +22,7 @@ public class GameRule {
         if(!movedRoom.getEnemies().isEmpty())
             print.fightOverItemsToCollect(movedRoom);
         try{
-            movedRoom.removeItem(hero);
+            movedRoom.removeItems(hero);
         }catch (ItemException e){
             System.out.println(e.getMessage());
         }

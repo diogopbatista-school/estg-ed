@@ -61,33 +61,33 @@ public interface Hero extends Character{
     /**
      * Method uses an item from the hero's backpack
      */
-    public void useItem();
+    public Item useItem();
 
     /**
      * Heals the hero's helath by the given amount
      * @param amount the amount to heal
      * @throws IllegalArgumentException if the amount is negative
      */
-    public void heal(int amount) throws IllegalArgumentException;
+    public void heal(double amount) throws IllegalArgumentException;
 
     /**
      * Returns the armor health of the hero
      * @return the armor health of the hero
      */
-    public int getArmorHealth();
+    public double getArmorHealth();
 
     /**
      * Sets the armor health of the hero
      * @param armorHealth the armor health of the hero
      * @throws IllegalArgumentException if armor health is negative
      */
-    public void setArmorHealth(int armorHealth) throws IllegalArgumentException;
+    public void setArmorHealth(double armorHealth) throws IllegalArgumentException;
 
     /**
      * Returns the armor defense of the hero
      * @param amount the amount to heal
      * @throws IllegalArgumentException if the amount is negative
      */
-    public void healArmor(int amount) throws IllegalArgumentException;
+    public void healArmor(double amount) throws IllegalArgumentException;
 
 }
