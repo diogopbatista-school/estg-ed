@@ -6,9 +6,6 @@ import Collections.Exceptions.EmptyCollectionException;
  * SmackStackADT represents a smack stack.
  *
  * @param <T> the type of elements in this stack
- *
- * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
- * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public interface SmackStackADT<T> extends StackADT<T> {
 

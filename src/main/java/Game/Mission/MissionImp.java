@@ -54,6 +54,7 @@ public class MissionImp implements Mission {
 
     /**
      * Setter for the code
+     *
      * @param code the code
      */
     public void setCode(String code) {
@@ -62,6 +63,7 @@ public class MissionImp implements Mission {
 
     /**
      * Setter for the version
+     *
      * @param version the version
      */
     public void setVersion(int version) {
@@ -100,6 +102,7 @@ public class MissionImp implements Mission {
 
     /**
      * Adds a log from the manual simulation to the mission
+     *
      * @param manualsimulationlog the manual simulation log
      */
     public void addManualSimulationLog(ManualSimulationLog manualsimulationlog) {
@@ -108,6 +111,7 @@ public class MissionImp implements Mission {
 
     /**
      * Getter for the logs
+     *
      * @return the logs
      */
     public Logs getLogs() {

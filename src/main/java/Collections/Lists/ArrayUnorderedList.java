@@ -5,9 +5,8 @@ import Collections.Exceptions.EmptyCollectionException;
 
 /**
  * A generic class that implements an ordered list using arrays.
+ *
  * @param <T> the type of the stored element.
- *
- *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -22,6 +21,7 @@ public class ArrayUnorderedList<T> extends ArrayList<T> implements UnorderedList
 
     /**
      * Constructor for an ArrayUnorderedList with an initial capacity
+     *
      * @param initialCapacity the capacity of the array
      */
     public ArrayUnorderedList(int initialCapacity) {
@@ -30,9 +30,10 @@ public class ArrayUnorderedList<T> extends ArrayList<T> implements UnorderedList
 
     /**
      * Method that shifts all elements to the right starting from a specific index
+     *
      * @param index the index to start shifting elements
      */
-    private void shiftElementRight(int index){
+    private void shiftElementRight(int index) {
         for (int i = size(); i > index; i--) {
             list[i] = list[i - 1];
         }
@@ -40,6 +41,7 @@ public class ArrayUnorderedList<T> extends ArrayList<T> implements UnorderedList
 
     /**
      * Method that adds a specific element to the front of this list
+     *
      * @param element the element to be added to the front of this list
      */
     @Override
@@ -57,6 +59,7 @@ public class ArrayUnorderedList<T> extends ArrayList<T> implements UnorderedList
 
     /**
      * Method that adds a specific element to the rear of this list
+     *
      * @param element the element to be added to the rear of this list
      */
     @Override
@@ -80,7 +83,7 @@ public class ArrayUnorderedList<T> extends ArrayList<T> implements UnorderedList
      */
     @Override
     public void addAfter(T element, T target) throws EmptyCollectionException, ElementNotFoundException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
 

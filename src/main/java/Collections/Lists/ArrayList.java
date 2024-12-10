@@ -32,6 +32,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
 
     /**
      * Constructor for an ArrayList with a initial capacity
+     *
      * @param initialCapacity the capacity of the array
      */
     public ArrayList(int initialCapacity) {
@@ -64,9 +65,9 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      * @param target the target element
      * @return the index of the target element
      */
-    private int findIndex(T target){
+    private int findIndex(T target) {
         int index = 0;
-        while(index < this.size && !this.list[index].equals(target)){
+        while (index < this.size && !this.list[index].equals(target)) {
             index++;
         }
         return index;
@@ -78,9 +79,9 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      * @param index the index of the element to be removed
      * @return the removed element
      */
-    private T resizeArray(int index){
+    private T resizeArray(int index) {
         T removed = this.list[index];
-        for (int i = index; i < this.size - 1; i++){
+        for (int i = index; i < this.size - 1; i++) {
             this.list[i] = this.list[i + 1];
         }
         return removed;
@@ -94,7 +95,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      */
     @Override
     public T removeFirst() throws EmptyCollectionException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
 
@@ -115,7 +116,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      */
     @Override
     public T removeLast() throws EmptyCollectionException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
 
@@ -136,13 +137,13 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      */
     @Override
     public T remove(T element) throws EmptyCollectionException, ElementNotFoundException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
 
         int index = findIndex(element);
 
-        if(index == this.size){
+        if (index == this.size) {
             throw new ElementNotFoundException("Element not found");
         }
 
@@ -163,7 +164,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      */
     @Override
     public T first() throws EmptyCollectionException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
         return this.list[0];
@@ -177,7 +178,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      */
     @Override
     public T last() throws EmptyCollectionException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
         return this.list[this.size - 1];
@@ -244,7 +245,8 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      */
     @Override
     public Iterator<T> iterator() {
-        return new BasicIterator<T>() {};
+        return new BasicIterator<T>() {
+        };
     }
 
     /**
@@ -252,7 +254,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      *
      * @param <E> the type of the stored element
      */
-    private abstract class BasicIterator<E> implements Iterator<T>{
+    private abstract class BasicIterator<E> implements Iterator<T> {
 
         /**
          * The current index of the iterator
@@ -272,7 +274,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
         /**
          * Constructor for the iterator
          */
-        public BasicIterator(){
+        public BasicIterator() {
             this.current = 0;
             this.expectedModCount = modCount;
             this.okToRemove = false;
@@ -280,22 +282,24 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
 
         /**
          * Method that checks if there is a next element in the list
+         *
          * @return {@true} if there is a next element and {@false} otherwise
          */
-        public boolean hasNext(){
+        public boolean hasNext() {
             return this.current < size();
         }
 
         /**
          * Method that returns the next element in the list
+         *
          * @return the next element in the list
          */
-        public T next(){
-            if(modCount != expectedModCount){
+        public T next() {
+            if (modCount != expectedModCount) {
                 throw new ConcurrentModificationException();
             }
 
-            if(!hasNext()){
+            if (!hasNext()) {
                 throw new UnsupportedOperationException();
             }
 

@@ -34,8 +34,9 @@ public abstract class CharacterImp implements Character {
 
     /**
      * Constructor for the character
-     * @param name the name of the character
-     * @param health the health of the character
+     *
+     * @param name        the name of the character
+     * @param health      the health of the character
      * @param attackPower the attack power of the character
      */
     public CharacterImp(String name, double health, double attackPower) {
@@ -48,6 +49,7 @@ public abstract class CharacterImp implements Character {
 
     /**
      * Getter for the isInFight attribute
+     *
      * @return the value of the isInFight attribute
      */
     @Override
@@ -57,6 +59,7 @@ public abstract class CharacterImp implements Character {
 
     /**
      * Getter for the name
+     *
      * @return the name of the character
      */
     @Override
@@ -66,6 +69,7 @@ public abstract class CharacterImp implements Character {
 
     /**
      * Getter for the health
+     *
      * @return the health of the character
      */
     @Override
@@ -75,6 +79,7 @@ public abstract class CharacterImp implements Character {
 
     /**
      * Setter for the health
+     *
      * @param health the health of the character
      * @throws IllegalArgumentException if health is negative
      */
@@ -88,6 +93,7 @@ public abstract class CharacterImp implements Character {
 
     /**
      * Getter for the attack power
+     *
      * @return the attack power of the character
      */
     @Override
@@ -95,21 +101,10 @@ public abstract class CharacterImp implements Character {
         return this.attackPower;
     }
 
-    /**
-     * Setter for the attack power
-     * @param attackPower the attack power of the character
-     * @throws IllegalArgumentException if attack power is negative
-     */
-    @Override
-    public void setAttackPower(double attackPower) throws IllegalArgumentException {
-        if (attackPower < 0) {
-            throw new IllegalArgumentException("Attack power must be positive");
-        }
-        this.attackPower = attackPower;
-    }
 
     /**
      * Attacks another character .
+     *
      * @param character the character to attack
      * @throws IllegalArgumentException if the character is invalid
      */

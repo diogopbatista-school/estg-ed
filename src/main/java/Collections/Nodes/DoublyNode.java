@@ -47,9 +47,9 @@ public class DoublyNode<T> {
     /**
      * Creates a node storing the specified element, previous and next node.
      *
-     * @param element the element to be stored within the new node
+     * @param element  the element to be stored within the new node
      * @param previous the previous node
-     * @param next the next node
+     * @param next     the next node
      */
     public DoublyNode(T element, DoublyNode<T> previous, DoublyNode<T> next) {
         this.element = element;

@@ -87,21 +87,21 @@ public class GameRule {
     }
 
     /**
-     *Method that represents the second scenario of the game
+     * Method that represents the second scenario of the game
      * Scenario 2: No enemies in the room
      * - Player phase:
-     *   - Tó Cruz enters the room and finds no enemies.
+     * - Tó Cruz enters the room and finds no enemies.
      * - Enemy phase:
-     *   - All enemies in the building move randomly.
+     * - All enemies in the building move randomly.
      * - Turn end:
-     *   - The turn ends, and the next turn begins, allowing the player to choose a new action.
+     * - The turn ends, and the next turn begins, allowing the player to choose a new action.
      *
-     * @param map the map of the game
-     * @param movedRoom the room where the hero is and the scenario is played
-     * @param targetRoom the room where the hero needs to reach
-     * @param hero the hero to play the game
+     * @param map         the map of the game
+     * @param movedRoom   the room where the hero is and the scenario is played
+     * @param targetRoom  the room where the hero needs to reach
+     * @param hero        the hero to play the game
      * @param isAutomatic if the fight is automatic or not
-     * @throws EnemyException if an enemy exception occurs ( removed from the room and add in other room)
+     * @throws EnemyException  if an enemy exception occurs ( removed from the room and add in other room)
      * @throws TargetException if the target is invalid or null
      */
     protected void sceneryTwo(Map map, Room movedRoom, Room targetRoom, Hero hero, boolean isAutomatic) throws EnemyException, TargetException {
@@ -137,9 +137,10 @@ public class GameRule {
      * Method that represents the third scenario of the game
      * Scenario 3: Enemies move into Tó Cruz's room
      * - Enemy phase:
-     *   - After their movement, enemies enter the room where Tó Cruz is located.
+     * - After their movement, enemies enter the room where Tó Cruz is located.
      * - Trigger:
-     *   - Scenario 1 is activated, but enemies gain attack priority.
+     * - Scenario 1 is activated, but enemies gain attack priority.
+     *
      * @param enemy
      * @param hero
      */
@@ -152,17 +153,17 @@ public class GameRule {
 
     /**
      * Method that represents the fourth scenario of the game
-     Scenario 4: Tó Cruz uses recovery items
+     * Scenario 4: Tó Cruz uses recovery items
      * - Player phase:
-     *   - If Tó Cruz chooses to use a health kit to heal, he cannot move during this phase.
-     *   - Using health kits consumes Tó Cruz's player phase, even during combat.
+     * - If Tó Cruz chooses to use a health kit to heal, he cannot move during this phase.
+     * - Using health kits consumes Tó Cruz's player phase, even during combat.
      *
-     * @param map the map of the game
-     * @param hero the hero to play the game
+     * @param map         the map of the game
+     * @param hero        the hero to play the game
      * @param currentRoom the room where the hero is and the scenario is played
      * @throws EnemyException if an enemy exception occurs ( removed from the room and add in other room)
      */
-    protected void sceneryFour(Map map , Hero hero , Room currentRoom) throws EnemyException {
+    protected void sceneryFour(Map map, Hero hero, Room currentRoom) throws EnemyException {
         Item item = hero.useItem();
         print.heroUsedItem(hero, item);
         print.enemyTurn();
@@ -171,9 +172,9 @@ public class GameRule {
         System.out.println("------------------------------------------------");
         if (hero.getCurrentRoom().isThereAnEnemyAlive()) {
             Iterator<Enemy> enemies = currentRoom.getEnemies().iterator();
-            while(enemies.hasNext()){
+            while (enemies.hasNext()) {
                 Enemy enemy = enemies.next();
-                if(enemy.isAlive()){
+                if (enemy.isAlive()) {
                     sceneryThree(enemy, hero);
                 }
             }
@@ -185,17 +186,17 @@ public class GameRule {
      * Method that represents the fifth scenario of the game
      * Scenario 5: Tó Cruz encounters the target but there are enemies in the room
      * - Player phase:
-     *   - Tó Cruz prioritizes confrontation. He must eliminate all enemies in the room before interacting with the target (e.g., hostage rescue or valuable item).
+     * - Tó Cruz prioritizes confrontation. He must eliminate all enemies in the room before interacting with the target (e.g., hostage rescue or valuable item).
      * - Enemy phase:
-     *   - Other enemies in the building move according to their movement rules.
+     * - Other enemies in the building move according to their movement rules.
      * - Turn end:
-     *   - The next turn begins with Tó Cruz still in the room with the target after eliminating the enemies.
+     * - The next turn begins with Tó Cruz still in the room with the target after eliminating the enemies.
      *
-     * @param map the map of the game
-     * @param movedRoom the room where the hero is and the scenario is played
-     * @param hero the hero to play the game
+     * @param map         the map of the game
+     * @param movedRoom   the room where the hero is and the scenario is played
+     * @param hero        the hero to play the game
      * @param isAutomatic if the fight is automatic or not
-     * @throws EnemyException if an enemy exception occurs ( removed from the room and add in other room)
+     * @throws EnemyException  if an enemy exception occurs ( removed from the room and add in other room)
      * @throws TargetException if the target is invalid or null
      */
     protected void sceneryFive(Map map, Room movedRoom, Hero hero, boolean isAutomatic) throws EnemyException, TargetException {
@@ -213,17 +214,17 @@ public class GameRule {
      * Method that represents the sixth scenario of the game
      * Scenario 6: Tó Cruz encounters the target without enemies
      * - Player phase:
-     *   - If Tó Cruz enters the room with the target and no enemies are present, he can interact with the target
-     *     (e.g., rescue the hostage, recover the item, or disarm the weapon).
+     * - If Tó Cruz enters the room with the target and no enemies are present, he can interact with the target
+     * (e.g., rescue the hostage, recover the item, or disarm the weapon).
      * - Mission success:
-     *   - The mission is completed successfully if Tó Cruz exits the building alive.
+     * - The mission is completed successfully if Tó Cruz exits the building alive.
      *
-     * @param map the map of the game
-     * @param movedRoom the room where the hero is and the scenario is played
-     * @param hero the hero to play the game
+     * @param map         the map of the game
+     * @param movedRoom   the room where the hero is and the scenario is played
+     * @param hero        the hero to play the game
      * @param isAutomatic if the fight is automatic or not
      * @throws TargetException if the target is invalid or null
-     * @throws EnemyException if an enemy exception occurs ( removed from the room and add in other room)
+     * @throws EnemyException  if an enemy exception occurs ( removed from the room and add in other room)
      */
     protected void scenerySix(Map map, Room movedRoom, Hero hero, boolean isAutomatic) throws TargetException, EnemyException {
         if (movedRoom.getTarget() == null) {
@@ -245,7 +246,8 @@ public class GameRule {
 
     /**
      * Method that checks if the game over or won by checking if the hero reached the exit room with the target or not
-     * @param hero the hero to play the game
+     *
+     * @param hero      the hero to play the game
      * @param movedRoom the room where the hero is and the scenario is played
      * @return true if the game is over or won, false otherwise
      */

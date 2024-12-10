@@ -5,12 +5,27 @@ import Collections.Exceptions.EmptyCollectionException;
 import Collections.Exceptions.NonComparableElementException;
 import Collections.Nodes.BinaryTreeNode;
 
+/**
+ * LinkedBinarySearchTree implements a binary search tree using a linked
+ *
+ * @param <T> the type of the stored element
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T> implements BinarySearchTreeADT<T> {
 
+    /**
+     * Creates an empty binary search tree.
+     */
     public LinkedBinarySearchTree() {
         super();
     }
 
+    /**
+     * Creates a binary search with the specified element as its root.
+     *
+     * @param element the element that will be the root of the new binary
+     */
     public LinkedBinarySearchTree(T element) {
         super(element);
     }
@@ -21,9 +36,9 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T> implements Bi
      * equal elements are added to the right.
      *
      * @param element the element to be added to the binary search
-     * tree
+     *                tree
      */
-    public void addElement (T element) throws NonComparableElementException {
+    public void addElement(T element) throws NonComparableElementException {
         if (!(element instanceof Comparable)) {
             throw new NonComparableElementException("Element is not comparable");
         }
@@ -35,22 +50,17 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T> implements Bi
             BinaryTreeNode<T> current = root;
             boolean added = false;
             while (!added) {
-                if (((Comparable)element).compareTo(current.getElement()) < 0) {
+                if (((Comparable) element).compareTo(current.getElement()) < 0) {
                     if (current.getLeft() == null) {
                         current.setLeft(temp);
                         added = true;
-                    }
-                    else
+                    } else
                         current = current.getLeft();
-                }
-                else
-                {
-                    if (current.getRight() == null)
-                    {
+                } else {
+                    if (current.getRight() == null) {
                         current.setRight(temp);
                         added = true;
-                    }
-                    else
+                    } else
                         current = current.getRight();
                 }
             }
@@ -74,7 +84,7 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T> implements Bi
         } else if ((node.getLeft() == null) && (node.getRight() != null)) {
             replaced = node.getRight();
 
-        }else {
+        } else {
 
             BinaryTreeNode<T> current = node.getRight();
             BinaryTreeNode<T> parent = node;
@@ -104,11 +114,11 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T> implements Bi
      * element is not found in the binary search tree.
      *
      * @param targetElement the element being sought in the binary
-     * search tree
+     *                      search tree
      * @throws ElementNotFoundException if an element not found
-     * exception occurs
+     *                                  exception occurs
      */
-    public T removeElement (T targetElement) throws EmptyCollectionException, ElementNotFoundException {
+    public T removeElement(T targetElement) throws EmptyCollectionException, ElementNotFoundException {
         if (isEmpty()) {
             throw new EmptyCollectionException("Collection is empty");
         }
@@ -118,38 +128,38 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T> implements Bi
             removed = root.getElement();
             root = replacement(root);
             size--;
-        }else{
-            if(!(targetElement instanceof Comparable)){
+        } else {
+            if (!(targetElement instanceof Comparable)) {
                 throw new NonComparableElementException("Element is not comparable");
             }
             BinaryTreeNode<T> current, parent = root;
             boolean found = false;
-            if (((Comparable)targetElement).compareTo(root.getElement()) < 0)
+            if (((Comparable) targetElement).compareTo(root.getElement()) < 0)
                 current = root.getLeft();
             else {
                 current = root.getRight();
             }
 
-            while(current != null && !found){
-                if (targetElement.equals(current.getElement())){
+            while (current != null && !found) {
+                if (targetElement.equals(current.getElement())) {
                     found = true;
                     size--;
                     removed = current.getElement();
-                    if (current == parent.getLeft()){
+                    if (current == parent.getLeft()) {
                         parent.setLeft(replacement(current));
-                    }else{
+                    } else {
                         parent.setRight(replacement(current));
                     }
-                }else{
+                } else {
                     parent = current;
-                    if (((Comparable)targetElement).compareTo(current.getElement()) < 0){
+                    if (((Comparable) targetElement).compareTo(current.getElement()) < 0) {
                         current = current.getLeft();
-                    }else{
+                    } else {
                         current = current.getRight();
                     }
                 }
             }
-            if (!found){
+            if (!found) {
                 throw new ElementNotFoundException("Element not found");
             }
         }

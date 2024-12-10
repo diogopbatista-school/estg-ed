@@ -3,14 +3,32 @@ package Collections.Trees;
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Nodes.HeapNode;
 
+/**
+ * LinkedHeap represents a binary heap implementation using a linked
+ *
+ * @param <T> the type of the stored element.
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
+    /**
+     * The last node in the heap.
+     */
     public HeapNode<T> lastNode;
 
+    /**
+     * Default constructor for a LinkedHeap.
+     */
     public LinkedHeap() {
         super();
         lastNode = null;
     }
 
+    /**
+     * Constructor for a LinkedHeap with a root element.
+     *
+     * @param element the element to be added to the root of the tree
+     */
     public LinkedHeap(T element) {
         super(element);
         lastNode = (HeapNode<T>) root;
@@ -73,13 +91,19 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
 
         temp = next.getElement();
 
-        while ((next != root) && (((Comparable)temp).compareTo(next.getParent().getElement()) < 0)) {
+        while ((next != root) && (((Comparable) temp).compareTo(next.getParent().getElement()) < 0)) {
             next.setElement(next.getParent().getElement());
             next = next.getParent();
         }
         next.setElement(temp);
     }
 
+    /**
+     * Removes the element with the lowest value from this heap.
+     *
+     * @return the element with the lowest value from this heap
+     * @throws EmptyCollectionException if the heap is empty
+     */
     @Override
     public T removeMin() throws EmptyCollectionException {
         if (isEmpty()) {
@@ -113,7 +137,7 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
      * @return the node that will be the new last node after
      * a remove
      */
-    private HeapNode<T> getNewLastNode(){
+    private HeapNode<T> getNewLastNode() {
         HeapNode<T> result = lastNode;
         while ((result != root) && (result.getParent().getLeft() == result)) {
             result = result.getParent();
@@ -130,7 +154,7 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
     /**
      * Reorders this heap after removing the root element.
      */
-    private void heapifyRemove(){
+    private void heapifyRemove() {
         T temp;
         HeapNode<T> node = (HeapNode<T>) root;
         HeapNode<T> left = (HeapNode<T>) node.getLeft();
@@ -170,6 +194,12 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
         node.setElement(temp);
     }
 
+    /**
+     * Returns a reference to the element with the lowest value in
+     *
+     * @return a reference to the element with the lowest value
+     * @throws EmptyCollectionException if the heap is empty
+     */
     @Override
     public T findMin() throws EmptyCollectionException {
         if (isEmpty()) {
@@ -178,6 +208,9 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
         return root.getElement();
     }
 
+    /**
+     * Removes all elements from this heap.
+     */
     public void removeAllElements() {
         root = null;
         lastNode = null;

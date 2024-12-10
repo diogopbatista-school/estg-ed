@@ -8,9 +8,18 @@ import Collections.Nodes.BinaryTreeNode;
 
 import java.util.Iterator;
 
+/**
+ * LinkedOrderedBinarySearchTree represents a linked binary search tree implementation.
+ *
+ * @param <T> the type of the stored element.
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class LinkedOrderedBinarySearchTree<T> extends LinkedBinarySearchTree<T> implements OrderedListADT<T> {
 
-
+    /**
+     * Default constructor for a LinkedOrderedBinarySearchTree.
+     */
     public LinkedOrderedBinarySearchTree() {
         super();
     }

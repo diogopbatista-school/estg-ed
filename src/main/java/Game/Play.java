@@ -1,18 +1,23 @@
 package Game;
 
-import Collections.Lists.*;
+
+
+import Collections.Lists.UnorderedListADT;
 import Game.IO.Importer;
 import Game.Interfaces.*;
 import Game.PlayGame.Input;
 import Game.PlayGame.Menu;
 import Game.PlayGame.Print;
 
+/**
+ * The main class of the game
+ */
 public class Play {
     public static void main(String[] args) {
         Input input = new Input();
         Print print = new Print();
         Importer importer = new Importer();
-        UnorderedListADT<String> missionCodes = new LinkedUnorderedList<>();
+        UnorderedListADT<String> missionCodes ;
         Missions missions;
 
         try {

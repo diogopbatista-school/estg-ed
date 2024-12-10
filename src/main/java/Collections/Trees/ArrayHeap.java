@@ -5,8 +5,8 @@ import Collections.Exceptions.EmptyCollectionException;
 
 /**
  * A class that represents an array heap.
- * @param <T> the type of the stored element.
  *
+ * @param <T> the type of the stored element.
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -21,6 +21,7 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
 
     /**
      * Constructor for an ArrayHeap with a root element.
+     *
      * @param element the element to added to this head
      */
     @Override
@@ -54,7 +55,7 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
 
         temp = tree[next];
 
-        while ((next != 0) && (((Comparable)temp).compareTo(tree[(next - 1) / 2]) < 0)) {
+        while ((next != 0) && (((Comparable) temp).compareTo(tree[(next - 1) / 2]) < 0)) {
             tree[next] = tree[(next - 1) / 2];
             next = (next - 1) / 2;
         }
@@ -97,7 +98,7 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
             next = right;
         } else if (tree[right] == null) {
             next = left;
-        } else if (((Comparable)tree[left]).compareTo(tree[right]) < 0) {
+        } else if (((Comparable) tree[left]).compareTo(tree[right]) < 0) {
             next = left;
         } else {
             next = right;
@@ -116,8 +117,7 @@ public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
                 next = left;
             } else if (((Comparable) tree[left]).compareTo(tree[right]) < 0) {
                 next = left;
-            }
-            else {
+            } else {
                 next = right;
             }
         }

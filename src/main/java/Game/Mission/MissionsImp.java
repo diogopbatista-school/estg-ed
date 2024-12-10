@@ -27,6 +27,7 @@ public class MissionsImp implements Missions {
 
     /**
      * Method that adds a mission to the list of missions
+     *
      * @param mission the mission to add
      */
     public void addMission(Mission mission) {
@@ -35,6 +36,7 @@ public class MissionsImp implements Missions {
 
     /**
      * Method that removes a mission from the list of missions
+     *
      * @return the mission removed
      */
     public UnorderedListADT<Mission> getMissions() {

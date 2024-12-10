@@ -1,5 +1,8 @@
 package Collections;
 
+/**
+ * The SortingandSearching class contains several methods that implement sorting
+ */
 public class SortingandSearching {
 
     /**
@@ -172,20 +175,20 @@ public class SortingandSearching {
      * algorithm.
      *
      * @param data the array to be sorted
-     * @param min the integer representation of the minimum value
-     * @param max the integer representation of the maximum value
+     * @param min  the integer representation of the minimum value
+     * @param max  the integer representation of the maximum value
      */
     public static <T extends Comparable<? super T>> void
-    mergeSort (T[] data, int min, int max) {
+    mergeSort(T[] data, int min, int max) {
         T[] temp;
         int index1, left, right;
         /** return on list of length one */
-        if (min==max)
+        if (min == max)
             return;
         /** find the length and the midpoint of the list */
         int size = max - min + 1;
         int pivot = (min + max) / 2;
-        temp = (T[])(new Comparable[size]);
+        temp = (T[]) (new Comparable[size]);
         mergeSort(data, min, pivot); // sort left half of list
         mergeSort(data, pivot + 1, max); // sort right half of list
         /** copy sorted data into workspace */

@@ -19,42 +19,42 @@ public interface Room extends Comparable<Room> {
      *
      * @return true if there is at least one enemy alive, false otherwise
      */
-    public boolean isThereAnEnemyAlive();
+    boolean isThereAnEnemyAlive();
 
     /**
      * Method that returns the items in the room
      *
      * @return the items in the room
      */
-    public Iterator<Item> getItems();
+    Iterator<Item> getItems();
 
     /**
      * Method that verifies if there are items in the room
      *
      * @return true if there are items in the room, false otherwise
      */
-    public boolean hasItems();
+    boolean hasItems();
 
     /**
      * Method that verifies if the target is in the room
      *
      * @return true if the target is in the room, false otherwise
      */
-    public boolean isTargetInRoom();
+    boolean isTargetInRoom();
 
     /**
      * Method that verifies if the room has an exit and an entry
      *
      * @return true if the room has an exit and an entry, false otherwise
      */
-    public boolean isInAndOutRoom();
+    boolean isInAndOutRoom();
 
     /**
      * Returns a list of all enemies in the room.
      *
      * @return a LinkedUnorderedList of all enemies
      */
-    public UnorderedListADT<Enemy> getEnemies();
+    UnorderedListADT<Enemy> getEnemies();
 
 
     /**
@@ -63,12 +63,12 @@ public interface Room extends Comparable<Room> {
      * @param enemy the enemy to remove
      * @throws EnemyException if the enemy is not found in the room
      */
-    public void removeEnemy(Enemy enemy) throws EnemyException;
+    void removeEnemy(Enemy enemy) throws EnemyException;
 
     /**
      * Setter for the room's entry and exit status.
      */
-    public void setEntryAndExit();
+    void setEntryAndExit();
 
     /**
      * Calculates the total attack power of all enemies in the room that are still alive.
@@ -78,7 +78,7 @@ public interface Room extends Comparable<Room> {
      *
      * @return the total attack power of all living enemies in the room.
      */
-    public double getTotalEnemiesAttackPower();
+    double getTotalEnemiesAttackPower();
 
     /**
      * Adds an enemy to the room
@@ -86,7 +86,7 @@ public interface Room extends Comparable<Room> {
      * @param enemy the enemy to add
      * @throws EnemyException if the enemy is invalid or null
      */
-    public void addEnemy(Enemy enemy) throws EnemyException;
+    void addEnemy(Enemy enemy) throws EnemyException;
 
     /**
      * Adds a hero to the room
@@ -94,12 +94,12 @@ public interface Room extends Comparable<Room> {
      * @param hero the hero to add
      * @throws HeroException if the hero is invalid or null
      */
-    public void addHero(Hero hero) throws HeroException;
+    void addHero(Hero hero) throws HeroException;
 
     /**
      * Removes a hero from the room
      */
-    public void removeHero();
+    void removeHero();
 
     /**
      * Adds a target to the room
@@ -107,7 +107,7 @@ public interface Room extends Comparable<Room> {
      * @param target the target to add
      * @throws TargetException if the target is invalid or null
      */
-    public void addTargetToRoom(Target target) throws TargetException;
+    void addTargetToRoom(Target target) throws TargetException;
 
     /**
      * Removes a target from the room
@@ -115,7 +115,7 @@ public interface Room extends Comparable<Room> {
      * @param target the target to remove
      * @throws TargetException if the target is invalid or null
      */
-    public void removeTarget(Target target) throws TargetException;
+    void removeTarget(Target target) throws TargetException;
 
     /**
      * Adds an item to the room
@@ -123,7 +123,7 @@ public interface Room extends Comparable<Room> {
      * @param item the item to add
      * @throws ItemException if the item is invalid or null
      */
-    public void addItem(Item item) throws ItemException;
+    void addItem(Item item) throws ItemException;
 
     /**
      * Removes an item from the room
@@ -133,26 +133,26 @@ public interface Room extends Comparable<Room> {
      * @throws HeroException if the hero backpack is full
      * @throws RoomException if the room doesn't have any items
      */
-    public void removeItems(Hero hero) throws ItemException, HeroException, RoomException;
+    void removeItems(Hero hero) throws ItemException, HeroException, RoomException;
 
     /**
      * Getter for the room's name
      *
      * @return the room's name
      */
-    public String getRoomName();
+    String getRoomName();
 
     /**
      * Getter for the target in the room
      *
      * @return the target in the room
      */
-    public Target getTarget();
+    Target getTarget();
 
     /**
      * Getter for the hero in the room
      *
      * @return the hero in the room
      */
-    public Hero getHero();
+    Hero getHero();
 }

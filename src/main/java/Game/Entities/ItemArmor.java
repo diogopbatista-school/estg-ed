@@ -5,10 +5,11 @@ import Game.Interfaces.Hero;
 
 /**
  * Represents an armor item in the game
+ *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
-public class ItemArmor extends ItemImp{
+public class ItemArmor extends ItemImp {
 
     /**
      * The type of the item
@@ -17,16 +18,18 @@ public class ItemArmor extends ItemImp{
 
     /**
      * Constructor for the armor item
-     * @param name the name of the item
+     *
+     * @param name   the name of the item
      * @param points the points of the item
      */
-    public ItemArmor(String name , double points) {
+    public ItemArmor(String name, double points) {
         super(name, points);
         this.type = ItemType.ARMOR;
     }
 
     /**
      * Getter for the type of the item
+     *
      * @return the type of the item
      */
     @Override
@@ -36,6 +39,7 @@ public class ItemArmor extends ItemImp{
 
     /**
      * Getter for the name of the item
+     *
      * @return the name of the item
      */
     public String getName() {
@@ -44,6 +48,7 @@ public class ItemArmor extends ItemImp{
 
     /**
      * Applies the effect of the item to the hero
+     *
      * @param hero the hero to apply the effect to
      */
     @Override

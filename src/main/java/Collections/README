@@ -1,0 +1,27 @@
+Data structures and algorithms
+This repository contains a collection of implementations related to [Project Subject/Description]. The project was developed as part of coursework at the ESTG (Escola Superior de Tecnologia e Gestão), with guidance from professors and material provided during classes.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Acknowledgments
+Several pieces of code and concepts included in this collection were provided by professors at ESTG as part of the theoretical and practical lessons:
+
+Ricardo Santos: Theoretical lectures, including slides and suggested implementations.
+Oscar Olivera: Practical exercises and guidance during lab sessions.
+Bruno Oliveira: Practical exercises and project support.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Authorship
+The following contributors have worked on the project:
+
+Diogo Pereira Batista
+Rodrigo Fernandes Ribeiro
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Notes on Implementations
+Some implementations, including interfaces and example code, were provided in class materials (e.g., lecture slides and practical sessions).
+These specific pieces are not original works of the contributors listed above.
+Only some of the implementations are the original work of Diogo Pereira Batista and Rodrigo Fernandes Ribeiro.
+Those same implementations are the ones that arent in the slides provided by the professor Ricardo Santos.

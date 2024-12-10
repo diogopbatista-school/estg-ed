@@ -5,6 +5,7 @@ import Game.Interfaces.Hero;
 
 /**
  * Represents a healer item in the game
+ *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -47,6 +48,7 @@ public class ItemHealer extends ItemImp {
 
     /**
      * Applies the effect of the item to the hero
+     *
      * @param hero the hero to apply the effect to
      */
     @Override

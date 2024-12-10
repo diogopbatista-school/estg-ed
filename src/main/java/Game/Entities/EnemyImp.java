@@ -3,7 +3,6 @@ package Game.Entities;
 
 import Game.Interfaces.Enemy;
 import Game.Interfaces.Room;
-import Game.Navigation.RoomImp;
 
 /**
  * Represents an enemy in the game
@@ -44,7 +43,7 @@ public class EnemyImp extends CharacterImp implements Enemy {
     /**
      * Setter for the current room
      *
-     * @param currentRoom
+     * @param currentRoom The current room
      */
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;

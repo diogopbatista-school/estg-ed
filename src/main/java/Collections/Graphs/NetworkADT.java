@@ -4,8 +4,6 @@ package Collections.Graphs;
  * NetworkADT defines the interface to a network data structure.
  *
  * @param <T> the generic type of data in the network
- * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
- * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public interface NetworkADT<T> extends GraphADT<T> {
 
@@ -14,7 +12,7 @@ public interface NetworkADT<T> extends GraphADT<T> {
      *
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
-     * @param weight the weight
+     * @param weight  the weight
      */
     void addEdge(T vertex1, T vertex2, double weight);
 

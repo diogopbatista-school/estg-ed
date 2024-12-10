@@ -4,8 +4,8 @@ import Collections.Exceptions.EmptyCollectionException;
 
 /**
  * SmackStackArray represents a smack stack.
- * @param <T> the type of elements in this stack
  *
+ * @param <T> the type of elements in this stack
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -20,6 +20,7 @@ public class SmackStackArray<T> extends ArrayStack<T> implements SmackStackADT<T
 
     /**
      * Creates an empty stack using the specified capacity.
+     *
      * @param initialCapacity the initial size of the stack
      */
     public SmackStackArray(int initialCapacity) {

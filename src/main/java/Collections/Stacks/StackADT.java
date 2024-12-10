@@ -6,10 +6,8 @@ import java.util.Iterator;
 
 /**
  * StackADT represents a stack.
- * @param <T> the type of elements in this stack
  *
- * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
- * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ * @param <T> the type of elements in this stack
  */
 public interface StackADT<T> {
 
@@ -26,7 +24,7 @@ public interface StackADT<T> {
      * @return T element removed from the top of the stack
      * @throws EmptyCollectionException
      */
-    public T pop() throws EmptyCollectionException ;
+    public T pop() throws EmptyCollectionException;
 
     /**
      * Returns without removing the top element of this stack.
@@ -34,7 +32,7 @@ public interface StackADT<T> {
      * @return T element on top of the stack
      * @throws EmptyCollectionException
      */
-    public T peek() throws EmptyCollectionException ;
+    public T peek() throws EmptyCollectionException;
 
     /**
      * Returns true if this stack contains no elements.

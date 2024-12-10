@@ -1,7 +1,6 @@
 package Game.PlayGame;
 
 import Collections.Lists.UnorderedListADT;
-import Game.Entities.ItemHealer;
 import Game.Interfaces.Enemy;
 import Game.Interfaces.Hero;
 import Game.Interfaces.Item;
@@ -27,37 +26,38 @@ public class Combat {
      */
     private final Menu menu;
 
-    public Combat(Print print,Menu menu){
+    public Combat(Print print, Menu menu) {
         this.print = print;
         this.menu = menu;
     }
 
     /**
      * Method that represents the fight between the hero and the enemies
-     * @param movedRoom the room where the hero is
+     *
+     * @param movedRoom   the room where the hero is
      * @param isAutomatic if the fight is automatic or not
      */
     public void fight(Room movedRoom, boolean isAutomatic) {
         UnorderedListADT<Enemy> enemies = movedRoom.getEnemies();
         Hero hero = movedRoom.getHero();
 
-        if (enemies == null ||  !movedRoom.isThereAnEnemyAlive()) {
+        if (enemies == null || !movedRoom.isThereAnEnemyAlive()) {
             System.out.println("No Enemies in the room to fight.");
             return;
         }
 
-        if(!isAutomatic) {
+        if (!isAutomatic) {
             heroTurnManually(hero, movedRoom);
-        }else{
+        } else {
             heroTurnAutomatically(hero, movedRoom);
         }
 
         if (movedRoom.isThereAnEnemyAlive()) {
             attackTheHero(hero, movedRoom);
-            if(!hero.isAlive()){
+            if (!hero.isAlive()) {
                 print.gameOverHeroDead();
             }
-        }else{
+        } else {
             print.heroKilledAllEnemies();
         }
 
@@ -66,7 +66,8 @@ public class Combat {
 
     /**
      * Method that represents the hero turn in the fight manually
-     * @param hero the hero
+     *
+     * @param hero      the hero
      * @param movedRoom the room where the hero is
      */
     private void heroTurnManually(Hero hero, Room movedRoom) {
@@ -109,10 +110,11 @@ public class Combat {
 
     /**
      * Method that represents the hero turn in the fight automatically
-     * @param hero the hero
+     *
+     * @param hero      the hero
      * @param movedRoom the room where the hero is
      */
-    private void heroTurnAutomatically(Hero hero , Room movedRoom){
+    private void heroTurnAutomatically(Hero hero, Room movedRoom) {
         print.heroTurn();
 
         if (hero.getHealth() <= 50 && hero.isItemsOnBackPack()) {
@@ -125,10 +127,11 @@ public class Combat {
 
     /**
      * Method that represents the attack of the hero to the enemies
-     * @param hero the hero
+     *
+     * @param hero      the hero
      * @param movedRoom the room where the hero is
      */
-    private void attackTheEnemies(Hero hero , Room movedRoom) {
+    private void attackTheEnemies(Hero hero, Room movedRoom) {
         Iterator<Enemy> enemies = movedRoom.getEnemies().iterator();
         while (enemies.hasNext()) {
             Enemy enemy = enemies.next();
@@ -145,10 +148,11 @@ public class Combat {
 
     /**
      * Method that represents the attack of the enemies to the hero
-     * @param hero the hero
+     *
+     * @param hero      the hero
      * @param movedRoom the room where the hero is
      */
-    private void attackTheHero(Hero hero , Room movedRoom) {
+    private void attackTheHero(Hero hero, Room movedRoom) {
         print.enemyTurnToAttack();
         Iterator<Enemy> enemies = movedRoom.getEnemies().iterator();
         while (enemies.hasNext()) {
@@ -162,10 +166,11 @@ public class Combat {
 
     /**
      * This method is specific for the sceneryThree , an enemy entered the hero room and attacked him
+     *
      * @param enemy The enemy that entered the room and has priority of attack
-     * @param hero The hero that is attacked
+     * @param hero  The hero that is attacked
      */
-    protected void attackTheHero(Enemy enemy , Hero hero) {
+    protected void attackTheHero(Enemy enemy, Hero hero) {
         enemy.attack(hero);
         System.out.println(enemy.getName() + " attacked Hero. Hero health: " + hero.getHealth() + ", Hero armor: " + hero.getArmorHealth());
     }

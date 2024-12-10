@@ -16,6 +16,9 @@ import java.util.Random;
 
 /**
  * Represents a map of rooms
+ *
+ * @Author Diogo Pereira Batista LSIRC - 8230367
+ * @Author Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class MapImp implements Map {
 
@@ -77,7 +80,7 @@ public class MapImp implements Map {
      */
     @Override
     public UnorderedListADT<Room> getRooms() {
-        return network.getRooms();
+        return network.getVertexes();
     }
 
     /**
@@ -85,9 +88,14 @@ public class MapImp implements Map {
      * @param name the name of the room
      * @return the room with the name
      */
-    @Override
     public Room getRoomByName(String name) {
-        return network.getRoomByName(name);
+        for (int i = 0; i < network.getNumVertices(); i++) {
+            Room room = network.getVertex(i);
+            if (room.getRoomName().equals(name)) {
+                return room;
+            }
+        }
+        return null;
     }
 
     /**
@@ -116,12 +124,12 @@ public class MapImp implements Map {
 
     /**
      * Updates the weight of a connection between two rooms
-     * @param vertex1   the first room
-     * @param vertex2   the second room
+     * @param room1   the first room
+     * @param room2   the second room
      * @param newWeight the new weight of the connection
      */
-    public void updateWeight(Room vertex1, Room vertex2, double newWeight) {
-        network.updateWeight(vertex1, vertex2, vertex2.getTotalEnemiesAttackPower());
+    public void updateWeight(Room room1, Room room2, double newWeight) {
+        network.updateWeight(room1, room2, room2.getTotalEnemiesAttackPower());
     }
 
     /**

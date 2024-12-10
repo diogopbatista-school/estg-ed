@@ -4,7 +4,9 @@ import Collections.Exceptions.EmptyCollectionException;
 import Collections.Exceptions.NonComparableElementException;
 
 /**
- * BinarySearchTreeADT defines the interface to a binary search tree.
+ * BinarySearchTreeADT defines the interface to a binary search tree data structure.
+ * @param <T> the generic type of data element in this tree
+ *
  *
  */
 public interface BinarySearchTreeADT<T> extends BinaryTreeADT<T> {

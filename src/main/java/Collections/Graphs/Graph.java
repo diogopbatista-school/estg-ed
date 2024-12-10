@@ -8,11 +8,11 @@ import java.util.Iterator;
 
 
 /**
+ * Graph represents an adjacency matrix implementation of a graph.
+ *
+ * @param <T> the vertex element type
  * @Author Diogo Pereira Batista LSIRC - 8230367
  * @Author Rodrigo Fernandes Ribeiro LSIRC - 8190315
- *
- *
- * Graph represents an adjacency matrix implementation of a graph.
  */
 public class Graph<T> implements GraphADT<T> {
 
@@ -42,7 +42,7 @@ public class Graph<T> implements GraphADT<T> {
     public Graph() {
         numVertices = 0;
         this.adjMatrix = new boolean[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
-        this.vertices = (T[])(new Object[DEFAULT_CAPACITY]);
+        this.vertices = (T[]) (new Object[DEFAULT_CAPACITY]);
     }
 
     /**
@@ -80,9 +80,10 @@ public class Graph<T> implements GraphADT<T> {
 
     /**
      * Removes a vertex at the specified index from this graph
+     *
      * @param index the index of the vertex to be removed from this graph
      */
-    public void removeVertex(int index) {
+    protected void removeVertex(int index) {
         if (indexIsValid(index)) {
             numVertices--;
 
@@ -106,6 +107,7 @@ public class Graph<T> implements GraphADT<T> {
 
     /**
      * Returns true if the index is valid
+     *
      * @param index the index to be checked
      * @return {@true} if the index is valid , {@false} otherwise
      */
@@ -125,6 +127,7 @@ public class Graph<T> implements GraphADT<T> {
 
     /**
      * Inserts an edge between two vertices of this graph
+     *
      * @param index1 the first index vertex
      * @param index2 the second index vertex
      */
@@ -137,6 +140,7 @@ public class Graph<T> implements GraphADT<T> {
 
     /**
      * Returns the index value of the vertex
+     *
      * @param vertex the vertex to be checked
      * @return the index value of the vertex
      */
@@ -161,10 +165,11 @@ public class Graph<T> implements GraphADT<T> {
 
     /**
      * Removes an edge between two vertices of this graph
+     *
      * @param index1 the first index vertex
      * @param index2 the second index vertex
      */
-    public void removeEdge(int index1, int index2) {
+    protected void removeEdge(int index1, int index2) {
         if (indexIsValid(index1) && indexIsValid(index2)) {
             adjMatrix[index1][index2] = false;
             adjMatrix[index2][index1] = false;
@@ -189,7 +194,7 @@ public class Graph<T> implements GraphADT<T> {
      * @param startIndex the index to begin the search from
      * @return an iterator that performs a breadth first traversal
      */
-    public Iterator<T> iteratorBFS(int startIndex) {
+    protected Iterator<T> iteratorBFS(int startIndex) {
         Integer x;
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
@@ -240,7 +245,7 @@ public class Graph<T> implements GraphADT<T> {
      * @return an iterator that performs a depth first traversal
      */
 
-    public Iterator<T> iteratorDFS(int startIndex) {
+    protected Iterator<T> iteratorDFS(int startIndex) {
         Integer x;
         boolean found;
         LinkedStack<Integer> traversalStack = new LinkedStack<>();
@@ -283,24 +288,25 @@ public class Graph<T> implements GraphADT<T> {
      * Returns an iterator that contains the shortest path between
      * the two vertices.
      *
-     * @param startVertex the starting vertex
+     * @param startVertex  the starting vertex
      * @param targetVertex the ending vertex
      * @return an iterator that contains the shortest path between the two vertices
      */
     @Override
-    public Iterator<T>  iteratorShortestPath(T startVertex, T targetVertex) {
-        return this.iteratorShortestPath(getIndex(startVertex),getIndex(targetVertex));
+    public Iterator<T> iteratorShortestPath(T startVertex, T targetVertex) {
+        return this.iteratorShortestPath(getIndex(startVertex), getIndex(targetVertex));
     }
 
     /**
      * Returns an iterator that contains the shortest path between
-     *the two index vertices.
-     * @param startIndex the starting index vertex
+     * the two index vertices.
+     *
+     * @param startIndex  the starting index vertex
      * @param targetIndex the ending index vertex
      * @return an iterator that contains the shortest path between the two vertices
      */
-    public Iterator<T> iteratorShortestPath(int startIndex, int targetIndex) {
-        ArrayUnorderedList<T> resultList = new ArrayUnorderedList<T>();
+    protected Iterator<T> iteratorShortestPath(int startIndex, int targetIndex) {
+        ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
         if (!indexIsValid(startIndex) || !indexIsValid(targetIndex)) {
             return resultList.iterator();
         }
@@ -318,13 +324,12 @@ public class Graph<T> implements GraphADT<T> {
      * This method performs a breadth-first search (BFS) on a graph represented by an adjacency matrix
      * to find the shortest path between a given start vertex (`startIndex`) and a target vertex (`targetIndex`).
      *
-     * @param startIndex the index of the starting vertex
+     * @param startIndex  the index of the starting vertex
      * @param targetIndex the index of the target vertex
      * @return an iterator of a list containing the shortest path from `startIndex` to `targetIndex`
-     *         or an empty iterator if no valid path exists
-     *
+     * or an empty iterator if no valid path exists
      */
-    public Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) {
+    protected Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) {
         int index = startIndex;
         int[] pathLength = new int[numVertices];
         int[] predecessor = new int[numVertices];
@@ -378,7 +383,7 @@ public class Graph<T> implements GraphADT<T> {
     }
 
 
-    public void expandCapacity() {
+    private void expandCapacity() {
         T[] largerVertices = (T[]) (new Object[vertices.length * 2]);
         boolean[][] largerAdjMatrix = new boolean[vertices.length * 2][vertices.length * 2];
 
@@ -395,17 +400,19 @@ public class Graph<T> implements GraphADT<T> {
 
     /**
      * Returns the length of the shortest path between the two vertices
-     * @param startVertex the starting vertex
+     *
+     * @param startVertex  the starting vertex
      * @param targetVertex the ending vertex
      * @return the length of the shortest path between the two vertices
      */
     public int shortestPathLength(T startVertex, T targetVertex) {
-        return this.shortestPathLength(getIndex(startVertex), getIndex( targetVertex));
+        return this.shortestPathLength(getIndex(startVertex), getIndex(targetVertex));
     }
 
     /**
      * Returns the length of the shortest path between the two vertices
-     * @param startIndex the starting vertex
+     *
+     * @param startIndex  the starting vertex
      * @param targetIndex the ending vertex
      * @return the length of the shortest path between the two vertices
      */

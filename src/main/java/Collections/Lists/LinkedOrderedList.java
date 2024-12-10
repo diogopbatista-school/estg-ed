@@ -5,12 +5,12 @@ import Collections.Nodes.Node;
 
 /**
  * A class that represents an ordered linked list.
- * @param <T> the type of the stored element.
  *
+ * @param <T> the type of the stored element.
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
-public class LinkedOrderedList<T> extends LinkedList<T> implements OrderedListADT<T>{
+public class LinkedOrderedList<T> extends LinkedList<T> implements OrderedListADT<T> {
 
     /**
      * This method adds a specific element to the list
@@ -25,26 +25,26 @@ public class LinkedOrderedList<T> extends LinkedList<T> implements OrderedListAD
 
         Comparable<T> comparableElement = (Comparable<T>) element;
         Node<T> newNode = new Node<>(element);
-        if(isEmpty()){
+        if (isEmpty()) {
             this.head = newNode;
             this.tail = newNode;
-        }else{
+        } else {
             Node<T> current = head;
             Node<T> previous = null;
-            while(current != null && comparableElement.compareTo(current.getElement()) > 0){
+            while (current != null && comparableElement.compareTo(current.getElement()) > 0) {
                 previous = current;
                 current = current.getNext();
             }
 
-            if(previous == null){
+            if (previous == null) {
                 newNode.setNext(head);
                 head = newNode;
-            }else{
+            } else {
                 newNode.setNext(current);
                 previous.setNext(newNode);
             }
 
-            if(newNode.getNext() == null){
+            if (newNode.getNext() == null) {
                 tail = newNode;
             }
         }

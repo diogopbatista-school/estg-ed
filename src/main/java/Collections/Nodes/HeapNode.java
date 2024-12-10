@@ -2,8 +2,8 @@ package Collections.Nodes;
 
 /**
  * A class representing a node
- * @param <T> the type of the element stored in the node.
  *
+ * @param <T> the type of the element stored in the node.
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -15,6 +15,7 @@ public class HeapNode<T> extends BinaryTreeNode<T> {
 
     /**
      * Creates a new heap node with the specified element.
+     *
      * @param element the element that will become a part of the new heap node
      */
     public HeapNode(T element) {
@@ -24,9 +25,10 @@ public class HeapNode<T> extends BinaryTreeNode<T> {
 
     /**
      * Creates a new heap node with the specified element and children.
+     *
      * @param element the element that will become a part of the new heap node
-     * @param left the left child of the new heap node
-     * @param right the right child of the new heap node
+     * @param left    the left child of the new heap node
+     * @param right   the right child of the new heap node
      */
     public HeapNode(T element, HeapNode<T> left, HeapNode<T> right) {
         super(element, left, right);
@@ -35,8 +37,9 @@ public class HeapNode<T> extends BinaryTreeNode<T> {
 
     /**
      * Creates a new heap node with the specified element and parent.
+     *
      * @param element the element that will become a part of the new heap node
-     * @param parent the parent of the new heap node
+     * @param parent  the parent of the new heap node
      */
     public HeapNode(T element, HeapNode<T> parent) {
         super(element);
@@ -45,10 +48,11 @@ public class HeapNode<T> extends BinaryTreeNode<T> {
 
     /**
      * Creates a new heap node with the specified element, children, and parent.
+     *
      * @param element the element that will become a part of the new heap node
-     * @param left the left child of the new heap node
-     * @param right the right child of the new heap node
-     * @param parent the parent of the new heap node
+     * @param left    the left child of the new heap node
+     * @param right   the right child of the new heap node
+     * @param parent  the parent of the new heap node
      */
     public HeapNode(T element, HeapNode<T> left, HeapNode<T> right, HeapNode<T> parent) {
         super(element, left, right);
@@ -57,6 +61,7 @@ public class HeapNode<T> extends BinaryTreeNode<T> {
 
     /**
      * Returns the parent of this node.
+     *
      * @return the parent of this node
      */
     public HeapNode<T> getParent() {
@@ -65,6 +70,7 @@ public class HeapNode<T> extends BinaryTreeNode<T> {
 
     /**
      * Sets the parent of this node.
+     *
      * @param parent the parent of this node
      */
     public void setParent(HeapNode<T> parent) {

@@ -1,6 +1,6 @@
 package Game.Navigation;
 
-import Collections.Lists.DoublyLinkedUnorderedList;
+
 import Collections.Lists.LinkedUnorderedList;
 import Collections.Lists.UnorderedListADT;
 import Game.Entities.ItemArmor;
@@ -10,16 +10,49 @@ import Game.Interfaces.*;
 
 import java.util.Iterator;
 
-
+/**
+ * Represents a room in the game
+ *
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
+ */
 public class RoomImp implements Room {
 
-    private UnorderedListADT<Enemy> enemies;
+    /**
+     * The list of enemies in the room
+     */
+    private final UnorderedListADT<Enemy> enemies;
+
+    /**
+     * The hero in the room
+     */
     private Hero hero;
+
+    /**
+     * The target in the room
+     */
     private Target target;
-    private UnorderedListADT<Item> items;
+
+    /**
+     * The items in the room
+     */
+    private final UnorderedListADT<Item> items;
+
+    /**
+     * The name of the room
+     */
     private final String roomName;
+
+    /**
+     * Boolean flag indicating if the room is an entry and exit
+     */
     private Boolean isInAndOut;
 
+    /**
+     * Constructor for the room
+     *
+     * @param roomName the name of the room
+     */
     public RoomImp(String roomName) {
         this.enemies = new LinkedUnorderedList<>();
         this.target = null;
@@ -32,12 +65,13 @@ public class RoomImp implements Room {
 
     /**
      * Method that verifies if there is an enemy alive
+     *
      * @return true if there is at least one enemy alive, false otherwise
      */
-    public boolean isThereAnEnemyAlive(){
+    public boolean isThereAnEnemyAlive() {
         Iterator<Enemy> enemy = this.enemies.iterator();
-        while(enemy.hasNext()){
-            if(enemy.next().isAlive()){
+        while (enemy.hasNext()) {
+            if (enemy.next().isAlive()) {
                 return true;
             }
         }
@@ -47,6 +81,7 @@ public class RoomImp implements Room {
 
     /**
      * Method that returns the items in the room
+     *
      * @return the items in the room
      */
     @Override
@@ -56,30 +91,34 @@ public class RoomImp implements Room {
 
     /**
      * Method that verifies if the room has items
+     *
      * @return true if the room has items, false otherwise
      */
-    public boolean hasItems(){
+    public boolean hasItems() {
         return !this.items.isEmpty();
     }
 
     /**
      * Method that verifies if the room has a target
+     *
      * @return true if the room has a target, false otherwise
      */
-    public boolean isTargetInRoom(){
+    public boolean isTargetInRoom() {
         return this.target != null;
     }
 
     /**
      * Method that verifies if the room is and exit and a entry
+     *
      * @return true if the room is an exit and entry, false otherwise
      */
-    public boolean isInAndOutRoom(){
+    public boolean isInAndOutRoom() {
         return this.isInAndOut;
     }
 
     /**
      * Removes an enemy from the room
+     *
      * @param enemy the enemy to remove
      * @throws EnemyException if the enemy is not found in the room
      */
@@ -104,6 +143,7 @@ public class RoomImp implements Room {
 
     /**
      * Returns a list of all enemies in the room
+     *
      * @return an unordered list of all enemies
      */
     @Override
@@ -115,22 +155,23 @@ public class RoomImp implements Room {
     /**
      * Sets the boolean flag indicating if the room is an in and out room
      */
-    public void setEntryAndExit(){
+    public void setEntryAndExit() {
         this.isInAndOut = true;
     }
 
     /**
      * Calculates the total attack power of all enemies in the room that are still alive
+     *
      * @return the total attack power of all living enemies in the room
      */
     @Override
-    public double getTotalEnemiesAttackPower(){
+    public double getTotalEnemiesAttackPower() {
         Iterator<Enemy> enemies = this.enemies.iterator();
         double totalRoomPower = 0;
 
-        while(enemies.hasNext()){
+        while (enemies.hasNext()) {
             Enemy enemy = enemies.next();
-            if(enemy.isAlive()){
+            if (enemy.isAlive()) {
                 totalRoomPower += enemy.getAttackPower();
             }
 
@@ -140,22 +181,28 @@ public class RoomImp implements Room {
 
     /**
      * Adds a target to the room
+     *
      * @param target the target to add
+     * @throws TargetException if the target is invalid or null
      */
     @Override
     public void addTargetToRoom(Target target) throws TargetException {
+        if(target == null){
+            throw new TargetException("Target cannot be null");
+        }
         this.target = target;
     }
 
     /**
      * Adds an enemy to the room
+     *
      * @param enemy the enemy to add
      * @throws EnemyException if the enemy is invalid or null
      */
     @Override
     public void addEnemy(Enemy enemy) throws EnemyException {
 
-        if(enemy == null){
+        if (enemy == null) {
             throw new EnemyException("Enemy cannot be null");
         }
 
@@ -166,12 +213,13 @@ public class RoomImp implements Room {
 
     /**
      * Adds a hero to the room
+     *
      * @param hero the hero to add
      * @throws HeroException if the hero is invalid or null
      */
     @Override
     public void addHero(Hero hero) throws HeroException {
-        if(hero == null){
+        if (hero == null) {
             throw new HeroException("Hero cannot be null");
         }
         this.hero = hero;
@@ -182,18 +230,19 @@ public class RoomImp implements Room {
      * Removes a hero from the room
      */
     @Override
-    public void removeHero(){
+    public void removeHero() {
         this.hero = null;
     }
 
     /**
      * Method that removes a target from the room
+     *
      * @param target the target to remove
-     * @throws TargetException
+     * @throws TargetException if the target is invalid or null
      */
     @Override
     public void removeTarget(Target target) throws TargetException {
-        if(target == null){
+        if (target == null) {
             throw new TargetException("Target cannot be null");
         }
 
@@ -202,12 +251,13 @@ public class RoomImp implements Room {
 
     /**
      * Method that adds an item to the room
+     *
      * @param item the item to add to the room
      * @throws ItemException if the item is invalid or null
      */
     @Override
     public void addItem(Item item) throws ItemException {
-        if(item == null){
+        if (item == null) {
             throw new ItemException("Item cannot be null");
         }
         this.items.addToFront(item);
@@ -215,21 +265,22 @@ public class RoomImp implements Room {
 
     /**
      * Method that removes all item from the room
+     *
      * @param hero the hero to add the item to ( backPack or add to armor bar)
      * @throws ItemException if the
      * @throws HeroException if the hero is invalid or null
      */
     @Override
     public void removeItems(Hero hero) throws ItemException, HeroException, RoomException { // iterar todos os items da sala
-        if(hero == null){
+        if (hero == null) {
             throw new HeroException("Hero cannot be null");
         }
 
-        if(hero.isBackPackFull()){
+        if (hero.isBackPackFull()) {
             throw new HeroException("Hero's backpack is full");
         }
 
-        if(this.items.isEmpty()){
+        if (this.items.isEmpty()) {
             throw new RoomException("There are no items in the room");
         }
 
@@ -258,6 +309,7 @@ public class RoomImp implements Room {
 
     /**
      * Method that returns the room's name
+     *
      * @return the room's name
      */
     @Override
@@ -267,6 +319,7 @@ public class RoomImp implements Room {
 
     /**
      * Method that returns the target in the room
+     *
      * @return the target in the room
      */
     @Override
@@ -276,15 +329,17 @@ public class RoomImp implements Room {
 
     /**
      * Method that returns the hero in the room
+     *
      * @return the hero in the room
      */
     @Override
-    public Hero getHero(){
+    public Hero getHero() {
         return this.hero;
     }
 
     /**
      * Method to string that return this room name
+     *
      * @return the room name in a string format
      */
     public String toString() {

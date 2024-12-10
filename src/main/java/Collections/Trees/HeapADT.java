@@ -1,12 +1,17 @@
 package Collections.Trees;
 
+/**
+ * HeapADT defines the interface to a heap data structure.
+ *
+ * @param <T> the type of elements in this heap
+ */
 public interface HeapADT<T> extends BinaryTreeADT<T> {
     /**
      * Adds the specified object to this heap.
      *
      * @param obj the element to added to this head
      */
-    public void addElement (T obj);
+    public void addElement(T obj);
 
     /**
      * Removes element with the lowest value from this heap.

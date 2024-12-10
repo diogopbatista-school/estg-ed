@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 /**
  * The Importer class is responsible for importing game data from JSON files
  * and constructing the game map with rooms, enemies, items, and connections.
+ *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -81,6 +82,7 @@ public class Importer {
     /**
      * Loads the missions from the specified JSON file back to the Mission object to
      * be added to the Missions object.
+     *
      * @return The loaded missions.
      */
     public Missions loadMissions() {
@@ -101,7 +103,7 @@ public class Importer {
      *
      * @param nameMission The mission code to import.
      * @return The imported mission object.
-     * @throws IOException  If a file cannot be read.
+     * @throws IOException If a file cannot be read.
      */
     public Mission importData(String nameMission) throws IOException {
         try {
@@ -178,6 +180,7 @@ public class Importer {
 
     /**
      * Constructs the game map with rooms, enemies, items, and connections.
+     *
      * @param map The map to construct.
      * @return The constructed map.
      */
@@ -205,6 +208,7 @@ public class Importer {
 
     /**
      * Adds enemies to the specified room.
+     *
      * @param room The room to add enemies to.
      */
     private void addEnemiesToRoom(Room room) {
@@ -223,12 +227,12 @@ public class Importer {
             }
         } catch (Exception e) {
             System.out.println("Error adding enemies to room");
-            e.printStackTrace();
         }
     }
 
     /**
      * Adds items to the specified room.
+     *
      * @param room The room to add items to.
      */
     private void addItemsToRoom(Room room) {
@@ -262,12 +266,12 @@ public class Importer {
             }
         } catch (Exception e) {
             System.out.println("Error adding items to room");
-            e.printStackTrace();
         }
     }
 
     /**
      * Adds exits and entrances to the specified room.
+     *
      * @param room The room to add exits and entrances to.
      */
     private void addExitsAndEntrancesToRoom(Room room) {
@@ -281,12 +285,12 @@ public class Importer {
             }
         } catch (Exception e) {
             System.out.println("Error adding exits and entrances to room");
-            e.printStackTrace();
         }
     }
 
     /**
      * Adds connections between rooms in the map.
+     *
      * @param map The map to add connections to.
      * @throws RoomException If a room is invalid.
      */
@@ -307,6 +311,7 @@ public class Importer {
 
     /**
      * Adds the target to the specified room.
+     *
      * @param room The room to add the target to.
      */
     private void addTargetToRoom(Room room) {
@@ -320,12 +325,12 @@ public class Importer {
             }
         } catch (Exception e) {
             System.out.println("Error adding target to room");
-            e.printStackTrace();
         }
     }
 
     /**
      * Adds manual simulation logs to the specified mission.
+     *
      * @param mission The mission to add manual simulation logs to.
      */
     private void addManualSimulationLog(Mission mission) {
@@ -356,7 +361,6 @@ public class Importer {
             }
         } catch (Exception e) {
             System.out.println("Error adding manual simulation logs");
-            e.printStackTrace();
         }
     }
 }

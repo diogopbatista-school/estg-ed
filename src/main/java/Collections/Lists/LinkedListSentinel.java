@@ -8,7 +8,6 @@ import Collections.Nodes.Node;
  * uses a sentinel head node and maintains a reference to the tail.
  *
  * @param <T> the type of the stored element.
- *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -62,7 +61,7 @@ public class LinkedListSentinel<T> {
      * {@code false} otherwise.
      * @throws EmptyCollectionException if the list is empty .
      * @throws ElementNotFoundException if the specific element is not found in
-     * the list.
+     *                                  the list.
      */
     public boolean remove(T element) throws EmptyCollectionException, ElementNotFoundException {
 

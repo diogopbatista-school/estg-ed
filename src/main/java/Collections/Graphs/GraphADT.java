@@ -5,6 +5,7 @@ import java.util.Iterator;
 /**
  * GraphADT defines the interface to a graph data structure.
  *
+ * @param <T> the type of object that the graph will hold
  */
 public interface GraphADT<T> {
 
@@ -58,7 +59,7 @@ public interface GraphADT<T> {
      * Returns an iterator that contains the shortest path between
      * the two vertices.
      *
-     * @param startVertex the starting vertex
+     * @param startVertex  the starting vertex
      * @param targetVertex the ending vertex
      * @return an iterator that contains the shortest path between the two vertices
      */

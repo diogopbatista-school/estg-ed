@@ -9,9 +9,8 @@ import java.util.Iterator;
 
 /**
  * A generic abstract class that implements a doubly linked list.
+ *
  * @param <T> the type of the stored element.
- *
- *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -87,7 +86,7 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
         return removed;
     }
 
-    private  DoublyNode<T> findCurrentNode(T element){
+    private DoublyNode<T> findCurrentNode(T element) {
         DoublyNode<T> current = head;
         boolean found = false;
         while (current != null && !found) {
@@ -97,9 +96,9 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
                 current = current.getNext();
             }
         }
-        if(!found){
+        if (!found) {
             return null;
-        }else{
+        } else {
             return current;
         }
     }
@@ -156,6 +155,7 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
 
     /**
      * Method that gets the last element of the list
+     *
      * @return the last element of the list
      * @throws EmptyCollectionException if the list is empty
      */
@@ -169,6 +169,7 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
 
     /**
      * Method that checks if the list contains a target element
+     *
      * @param target the target that is being sought in the list
      * @return {@true} if the target element is on the list and {@false} otherwise
      * @throws EmptyCollectionException if the list is empty
@@ -191,6 +192,7 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
 
     /**
      * Method that checks if the list is empty
+     *
      * @return {@true} if the list is empty and {@false} otherwise
      */
     @Override
@@ -200,6 +202,7 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
 
     /**
      * Method that returns the size of the list
+     *
      * @return the size of the list
      */
     @Override
@@ -209,6 +212,7 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
 
     /**
      * Method that returns a string representation of the list
+     *
      * @return a string representation of the list
      */
     @Override
@@ -226,15 +230,18 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
 
     /**
      * Method that returns an iterator for the list
+     *
      * @return an iterator for the list
      */
     @Override
     public Iterator<T> iterator() {
-        return new BasicIterator<T>(){};
+        return new BasicIterator<T>() {
+        };
     }
 
     /**
      * Inner class that implements an iterator for the list
+     *
      * @param <E> the type of the stored element
      */
     private class BasicIterator<E> implements Iterator<T> {
@@ -265,6 +272,7 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
 
         /**
          * Method that checks if there is a next element
+         *
          * @return {@true} if there is a next element and {@false} otherwise
          */
         @Override
@@ -274,6 +282,7 @@ public abstract class DoublyLinkedList<T> implements ListADT<T>, Iterable<T> {
 
         /**
          * Method that returns the next element in the list
+         *
          * @return the next element in the list
          */
         @Override

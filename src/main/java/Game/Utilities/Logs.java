@@ -17,7 +17,7 @@ public class Logs {
     private final OrderedListADT<ManualSimulationLog> manualsimulationlogs;
 
     /**
-     *
+     * The constructor for the Logs class
      */
     public Logs() {
 
@@ -25,10 +25,20 @@ public class Logs {
     }
 
 
+    /**
+     * Method that adds a manual simulation log to the logs
+     *
+     * @param manualsimulationlog The manual simulation log to add
+     */
     public void addManualSimulationLog(ManualSimulationLog manualsimulationlog) {
         manualsimulationlogs.add(manualsimulationlog);
     }
 
+    /**
+     * Method that returns the manual simulation logs
+     *
+     * @return The manual simulation logs
+     */
     public OrderedListADT<ManualSimulationLog> getManualSimulationLogs() {
         return manualsimulationlogs;
     }

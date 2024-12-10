@@ -6,8 +6,8 @@ import Collections.Nodes.Node;
 
 /**
  * A generic class that implements a circular linked list.
- * @param <T> the type of the stored element.
  *
+ * @param <T> the type of the stored element.
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -21,9 +21,9 @@ public abstract class CircularLinkedList<T> implements ListADT<T> {
         this.size = 0;
     }
 
-    private Node<T> findNode(T element){
+    private Node<T> findNode(T element) {
         Node<T> current = this.front;
-        while(current != rear && !current.getElement().equals(element)){
+        while (current != rear && !current.getElement().equals(element)) {
             current = current.getNext();
         }
         return current;
@@ -35,7 +35,7 @@ public abstract class CircularLinkedList<T> implements ListADT<T> {
      * @return T the first element from this list
      * @throws EmptyCollectionException if the list is empty
      */
-    public T removeFirst() throws EmptyCollectionException{
+    public T removeFirst() throws EmptyCollectionException {
         if (isEmpty()) {
             throw new EmptyCollectionException();
         }
@@ -53,7 +53,7 @@ public abstract class CircularLinkedList<T> implements ListADT<T> {
      * @return T the last element from this list
      * @throws EmptyCollectionException if the list is empty
      */
-    public T removeLast() throws EmptyCollectionException{
+    public T removeLast() throws EmptyCollectionException {
         if (isEmpty()) {
             throw new EmptyCollectionException();
         }
@@ -103,7 +103,7 @@ public abstract class CircularLinkedList<T> implements ListADT<T> {
         previous.setNext(current.getNext());
         this.size--;
         return result;
-        }
+    }
 
     /**
      * Returns a reference to the first element in this list.
@@ -128,7 +128,7 @@ public abstract class CircularLinkedList<T> implements ListADT<T> {
      */
     @Override
     public T last() throws EmptyCollectionException {
-        if (isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException();
         }
 

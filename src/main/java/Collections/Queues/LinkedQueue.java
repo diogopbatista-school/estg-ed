@@ -39,6 +39,7 @@ public class LinkedQueue<T> implements QueueADT<T> {
 
     /**
      * Method to verify if the linked queue is empty.
+     *
      * @return {@true} if the linked queue is empty, {@false} otherwise.
      */
     @Override

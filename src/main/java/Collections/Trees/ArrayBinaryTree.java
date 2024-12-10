@@ -9,8 +9,8 @@ import java.util.Iterator;
 
 /**
  * A class that represents an array binary tree.
- * @param <T> the type of the stored element.
  *
+ * @param <T> the type of the stored element.
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -42,6 +42,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Constructor for a binary tree with a root element.
+     *
      * @param element the element to be added to the root of the tree
      */
     public ArrayBinaryTree(T element) {
@@ -52,6 +53,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns the root element of the tree.
+     *
      * @return the root element of the tree
      */
     @Override
@@ -61,6 +63,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns true if the tree is empty.
+     *
      * @return {@code true} if the tree is empty , {@code false} otherwise
      */
     @Override
@@ -70,6 +73,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns the size of the tree.
+     *
      * @return the size of the tree
      */
     @Override
@@ -79,6 +83,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns true if the tree contains the target element.
+     *
      * @param targetElement the element being sought in the tree
      * @return {@code true} if the tree contains the target element , {@code false} otherwise
      */
@@ -94,6 +99,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns the target element.
+     *
      * @param targetElement the element being sought in the tree
      * @return the target element
      * @throws EmptyCollectionException if the collection is empty
@@ -124,6 +130,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns the left child of the target element.
+     *
      * @return the left child of the target element
      */
     @Override
@@ -139,6 +146,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that iterates through the tree in order.
+     *
      * @return an iterator of the tree in order
      */
     @Override
@@ -152,7 +160,8 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Recursive method that orders the temporary list in order.
-     * @param node the current node
+     *
+     * @param node     the current node
      * @param tempList the temporary list
      */
     private void inOrder(int node, ArrayUnorderedList<T> tempList) {
@@ -165,6 +174,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that iterates through the tree in pre order.
+     *
      * @return an iterator of the tree in pre order
      */
     @Override
@@ -179,7 +189,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
     /**
      * Recursive method that orders the temporary list in pre order.
      *
-     * @param node the current node
+     * @param node     the current node
      * @param tempList the temporary list
      */
     private void preOrder(int node, ArrayUnorderedList<T> tempList) {
@@ -192,6 +202,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that iterates through the tree in post order.
+     *
      * @return an iterator of the tree in post order
      */
     @Override
@@ -206,7 +217,7 @@ public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {
     /**
      * Recursive method that orders the temporary list in post order.
      *
-     * @param node the current node
+     * @param node     the current node
      * @param tempList the temporary list
      */
     private void postOrder(int node, ArrayUnorderedList<T> tempList) {

@@ -2,8 +2,8 @@ package Collections.Nodes;
 
 /**
  * A class that represents a binary tree node.
- * @param <T> the type of the stored element.
  *
+ * @param <T> the type of the stored element.
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -32,8 +32,8 @@ public class BinaryTreeNode<T> {
      * Creates a new binary tree node with the specified element and children.
      *
      * @param element the element that will become a part of the new tree node
-     * @param left the left child of the new tree node
-     * @param right the right child of the new tree node
+     * @param left    the left child of the new tree node
+     * @param right   the right child of the new tree node
      */
     public BinaryTreeNode(T element, BinaryTreeNode<T> left, BinaryTreeNode<T> right) {
         this.element = element;

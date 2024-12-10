@@ -2,8 +2,8 @@ package Collections.Nodes;
 
 /**
  * A class representing a node in a priority queue.
- * @param <T> the type of the element stored in the node.
  *
+ * @param <T> the type of the element stored in the node.
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -31,7 +31,7 @@ public class PriorityQueueNode<T> implements Comparable<PriorityQueueNode<T>> {
     /**
      * Creates a new PriorityQueueNode with the specified data.
      *
-     * @param element the element of the new priority queue node
+     * @param element  the element of the new priority queue node
      * @param priority the integer priority of the new queue node
      */
     public PriorityQueueNode(T element, int priority) {

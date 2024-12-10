@@ -5,8 +5,8 @@ import Collections.Exceptions.*;
 
 /**
  * A class that represents an unordered linked list.
- * @param <T> the type of the stored element.
  *
+ * @param <T> the type of the stored element.
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -60,25 +60,25 @@ public class LinkedUnorderedList<T> extends LinkedList<T> implements UnorderedLi
      */
     @Override
     public void addAfter(T element, T target) throws EmptyCollectionException, ElementNotFoundException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException();
         }
 
-        if(!contains(target)){
+        if (!contains(target)) {
             throw new ElementNotFoundException("Element not found");
         }
 
         Node<T> newNode = new Node<>(element);
         Node<T> current = this.head;
 
-        while(!current.getElement().equals(target)){
+        while (!current.getElement().equals(target)) {
             current = current.getNext();
         }
 
         newNode.setNext(current.getNext());
         current.setNext(newNode);
 
-        if(newNode.getNext() == null){
+        if (newNode.getNext() == null) {
             this.tail = newNode;
         }
 

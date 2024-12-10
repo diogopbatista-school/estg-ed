@@ -21,7 +21,7 @@ public interface Map {
      * @param end   the end room
      * @return The iterator of the shortest path
      */
-    public Iterator<Room> shortestPath(Room start, Room end);
+    Iterator<Room> shortestPath(Room start, Room end);
 
     /**
      * Returns the weight of the shortest path between two rooms
@@ -30,7 +30,7 @@ public interface Map {
      * @param end   the end room
      * @return the weight of the shortest path
      */
-    public double shortestPathWeight(Room start, Room end);
+    double shortestPathWeight(Room start, Room end);
 
     /**
      * Shuffles the map
@@ -38,7 +38,7 @@ public interface Map {
      *
      * @throws EnemyException if the enemy cannot be removed
      */
-    public void mapShuffle() throws EnemyException;
+    void mapShuffle() throws EnemyException;
 
     /**
      * Updates the weight of a connection between two rooms
@@ -47,21 +47,23 @@ public interface Map {
      * @param vertex2   the second room
      * @param newWeight the new weight of the connection
      */
-    public void updateWeight(Room vertex1, Room vertex2, double newWeight);
+    void updateWeight(Room vertex1, Room vertex2, double newWeight);
 
     /**
      * verifies if two rooms are connected
+     *
      * @param room1 the first room
      * @param room2 the second room
      * @return true if the rooms are connected, false otherwise
      */
-    public boolean areConnected(Room room1, Room room2);
+    boolean areConnected(Room room1, Room room2);
 
     /**
      * Returns an iterator of the rooms
+     *
      * @return the iterator of the rooms
      */
-    public UnorderedListADT<Room> getRooms();
+    UnorderedListADT<Room> getRooms();
 
     /**
      * Adds a room to the map
@@ -69,7 +71,7 @@ public interface Map {
      * @param room the room to add
      * @throws RoomException if the room is null
      */
-    public void addRoom(Room room) throws RoomException;
+    void addRoom(Room room) throws RoomException;
 
     /**
      * Adds a connection between two rooms
@@ -80,7 +82,7 @@ public interface Map {
      * @throws RoomException            if the rooms are null
      * @throws IllegalArgumentException if the weight is negative
      */
-    public void addConnection(Room room1, Room room2, double weight) throws RoomException, IllegalArgumentException;
+    void addConnection(Room room1, Room room2, double weight) throws RoomException, IllegalArgumentException;
 
     /**
      * Returns the room by its name
@@ -88,5 +90,5 @@ public interface Map {
      * @param name the name of the room
      * @return the room with the given name
      */
-    public Room getRoomByName(String name);
+    Room getRoomByName(String name);
 }

@@ -5,9 +5,8 @@ import Collections.Nodes.DoublyNode;
 
 /**
  * A generic class that implements an ordered list using doubly linked lists.
+ *
  * @param <T> the type of the stored element.
- *
- *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */

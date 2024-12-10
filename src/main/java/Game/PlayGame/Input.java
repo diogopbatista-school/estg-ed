@@ -51,12 +51,12 @@ public class Input {
      * @return the next move
      */
     protected int getValidMoveInput(Hero hero) {
-        int selectNextMove = getValidNumberInput(1, 2);
+        int selectNextMove = getValidNumberInput(2);
 
         while (selectNextMove == 2 && !hero.isItemsOnBackPack()) {
             System.out.println("Invalid choice. You don't have any items to use.");
             System.out.println("1. Move to another room");
-            selectNextMove = getValidNumberInput(1, 1);
+            selectNextMove = getValidNumberInput(1);
         }
 
         return selectNextMove;
@@ -65,21 +65,20 @@ public class Input {
     /**
      * Method to get a valid number input
      *
-     * @param min the minimum value
      * @param max the maximum value
      * @return the valid number input
      */
-    protected int getValidNumberInput(int min, int max) {
+    protected int getValidNumberInput(int max) {
         int choice = -1;
-        while (choice < min || choice > max) {
+        while (choice < 1 || choice > max) {
             try {
-                if (min == max) {
-                    System.out.print("Choose a number between " + min + " and " + max + ": ");
+                if (1 == max) {
+                    System.out.print("Choose a number between " + 1 + " and " + max + ": ");
                 } else {
                     System.out.print("Choose a number: ");
                 }
                 choice = scanner.nextInt();
-                if (choice < min || choice > max) {
+                if (choice < 1 || choice > max) {
                     System.out.println("Invalid choice. Please try again.");
                 }
             } catch (InputMismatchException e) {
@@ -192,7 +191,7 @@ public class Input {
             System.out.println(message);
             String choice = scanner.next().toLowerCase();
             if (!choice.equals("yes")) {
-                actionChoice = getValidNumberInput(1, 2);
+                actionChoice = getValidNumberInput(2);
                 if (actionChoice == 1) {
                     break;
                 }

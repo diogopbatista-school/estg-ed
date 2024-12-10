@@ -13,6 +13,7 @@ import Game.Interfaces.Target;
 
 /**
  * Represents a hero in the game
+ *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -297,22 +298,8 @@ public class HeroImp extends CharacterImp implements Hero {
         return this.attackPower;
     }
 
-    /**
-     * Setter for the hero's attack power
-     *
-     * @param attackPower the hero's attack power
-     * @throws IllegalArgumentException if the attack power is negative
-     */
-    @Override
-    public void setAttackPower(double attackPower) throws IllegalArgumentException {
-        if (attackPower < 0) {
-            throw new IllegalArgumentException("Attack power must be positive");
-        }
-        this.attackPower = attackPower;
-    }
 
     public String toString() {
-        String s = "Hero: " + this.name + " Health: " + this.health + " Armor: " + this.armor;
-        return s;
+        return "Hero: " + this.name + " Health: " + this.health + " Armor: " + this.armor;
     }
 }

@@ -14,50 +14,58 @@ public interface Mission {
 
     /**
      * Getter for the logs
+     *
      * @return the logs
      */
-    public Logs getLogs();
+    Logs getLogs();
 
     /**
      * Getter for the map
+     *
      * @return the map
      */
-    public Map getMap();
+    Map getMap();
 
     /**
      * Setter for the code
+     *
      * @param code the code
      */
-    public void setCode(String code);
+    void setCode(String code);
 
     /**
      * Setter for the version
+     *
      * @param version the version
      */
-    public void setVersion(int version);
+    void setVersion(int version);
 
     /**
      * Adds a manual simulation log
+     *
      * @param manualsimulationlog the manual simulation log
      */
-    public void addManualSimulationLog(ManualSimulationLog manualsimulationlog);
+    void addManualSimulationLog(ManualSimulationLog manualsimulationlog);
 
     /**
      * Returns the unique code identifying the mission.
+     *
      * @return the mission code
      */
-    public String getCode();
+    String getCode();
 
     /**
      * Returns the version of the mission.
+     *
      * @return the version of the mission as an integer
      */
-    public int getVersion();
+    int getVersion();
 
     /**
      * Adds the map to the mission
+     *
      * @param map the map to add
      */
-    public void addMap(Map map);
+    void addMap(Map map);
 
 }

@@ -1,12 +1,10 @@
 package Collections.Exceptions;
 
 
-
 /**
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
- *
- *
+ * <p>
  * ConcurrentModificationException is an exception that is thrown when a collection is modified while an iterator is's in use.
  */
 public class ConcurrentModificationException extends RuntimeException {
@@ -20,12 +18,4 @@ public class ConcurrentModificationException extends RuntimeException {
         super(DEFAULT_MESSAGE);
     }
 
-    /**
-     * Creates a new ConcurrentModificationException with the specified message.
-     *
-     * @param message the message for this exception.
-     */
-    public ConcurrentModificationException(String message) {
-        super(message);
-    }
 }

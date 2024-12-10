@@ -27,6 +27,7 @@ public class Exporter {
 
     /**
      * The constructor for the Exporter class
+     *
      * @param missions The missions to export
      */
     public Exporter(Missions missions) {
@@ -35,6 +36,7 @@ public class Exporter {
 
     /**
      * Method that saves the logs to a JSON file
+     *
      * @throws IOException if an error occurs while writing to the file
      */
     public void save() throws IOException {
@@ -43,6 +45,7 @@ public class Exporter {
 
     /**
      * Method that saves the logs to a JSON file
+     *
      * @throws IOException if an error occurs while writing to the file
      */
     public void saveLogs() throws IOException {
@@ -76,7 +79,6 @@ public class Exporter {
 
         root.put("missions", missionsArray);
 
-        // Escrever no arquivo
         try (FileWriter file = new FileWriter("MissionsLogs.json")) {
             file.write(root.toJSONString());
         }
@@ -84,8 +86,9 @@ public class Exporter {
 
     /**
      * Method that finds a mission by its name
+     *
      * @param missionsArray The array of missions
-     * @param missionName The name of the mission to find
+     * @param missionName   The name of the mission to find
      * @return The mission if found, null otherwise
      */
     private JSONObject findMissionByName(JSONArray missionsArray, String missionName) {
@@ -100,6 +103,7 @@ public class Exporter {
 
     /**
      * Method that saves the manual simulation logs to a JSON array
+     *
      * @param logs The logs to save
      * @return The JSON array with the logs
      */
@@ -123,6 +127,7 @@ public class Exporter {
 
     /**
      * Method that converts a path to a JSON array
+     *
      * @param log The log to convert
      * @return The JSON array with the path
      */
@@ -140,6 +145,7 @@ public class Exporter {
 
     /**
      * Method that converts a hero to a JSON object
+     *
      * @param log The log to convert
      * @return The JSON object with the hero
      */

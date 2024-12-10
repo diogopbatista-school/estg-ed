@@ -1,8 +1,10 @@
 package Game.Exceptions;
 
 /**
+ * Represents an exception that occurs in the Hero class.
  *
-
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class HeroException extends Exception {
 

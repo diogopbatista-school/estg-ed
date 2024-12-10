@@ -18,7 +18,7 @@ public interface BinaryTreeADT<T> {
      *
      * @return a reference to the root
      */
-    public T getRoot ();
+    public T getRoot();
 
     /**
      * Returns true if this binary tree is empty and false otherwise.
@@ -42,7 +42,7 @@ public interface BinaryTreeADT<T> {
      * @param targetElement the element being sought in the tree
      * @return true if the tree contains the target element
      */
-    public boolean contains (T targetElement);
+    public boolean contains(T targetElement);
 
     /**
      * Returns a reference to the specified element if it is found in
@@ -52,7 +52,7 @@ public interface BinaryTreeADT<T> {
      * @param targetElement the element being sought in the tree
      * @return a reference to the specified element
      */
-    public T find (T targetElement) throws EmptyCollectionException, ElementNotFoundException;
+    public T find(T targetElement) throws EmptyCollectionException, ElementNotFoundException;
 
     /**
      * Returns the string representation of the binary tree.
@@ -68,6 +68,7 @@ public interface BinaryTreeADT<T> {
      * @return an iterator over the elements of this binary tree
      */
     public Iterator<T> iteratorInOrder();
+
     /**
      * Performs a preorder traversal on this binary tree by calling an
      * overloaded, recursive preorder method that starts
@@ -85,6 +86,7 @@ public interface BinaryTreeADT<T> {
      * @return an iterator over the elements of this binary tree
      */
     public Iterator<T> iteratorPostOrder();
+
     /**
      * Performs a level order traversal on the binary tree,
      * using a queue.

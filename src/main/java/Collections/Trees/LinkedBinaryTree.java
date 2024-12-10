@@ -10,7 +10,10 @@ import java.util.Iterator;
 
 /**
  * A class that represents a linked binary tree.
+ *
  * @param <T> the type of the stored element.
+ * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
+ * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
 public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
@@ -34,6 +37,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Constructor for a binary tree with a root element.
+     *
      * @param element the element to be added to the root of the tree
      */
     public LinkedBinaryTree(T element) {
@@ -43,14 +47,16 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns the root element of the tree.
+     *
      * @return the root element of the tree
      */
-    public T getRoot (){
+    public T getRoot() {
         return root.getElement();
     }
 
     /**
      * Method that returns true if the tree is empty.
+     *
      * @return true if the tree is empty
      */
     @Override
@@ -60,6 +66,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns the size of the tree.
+     *
      * @return the size of the tree
      */
     @Override
@@ -69,10 +76,11 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns true if the tree contains the target element.
+     *
      * @param targetElement the target element to be found in the tree
      * @return true if the tree contains the target element
      */
-    public boolean contains (T targetElement){
+    public boolean contains(T targetElement) {
         if (isEmpty()) {
             throw new EmptyCollectionException();
         }
@@ -86,11 +94,12 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that finds the target element in the tree.
+     *
      * @param targetElement the element to be found in the tree
      * @return the current element
      */
     @Override
-    public T find(T targetElement)  {
+    public T find(T targetElement) {
         if (isEmpty()) {
             throw new EmptyCollectionException("Binary tree is empty");
         }
@@ -106,8 +115,9 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that uses recursivity to find the target element in the tree.
+     *
      * @param targetElement the element to be found in the tree
-     * @param next the next node to be checked
+     * @param next          the next node to be checked
      * @return the binary tree node
      */
     private BinaryTreeNode<T> findAgain(T targetElement, BinaryTreeNode<T> next) {
@@ -130,6 +140,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that returns the string representation of the tree.
+     *
      * @return the string representation of the tree
      */
     @Override
@@ -143,6 +154,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that iterates in order through the tree.
+     *
      * @return an in order iterator for the tree
      */
     @Override
@@ -156,7 +168,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * A recursive method that orders the temporary list in order.
-     * @param node the current node
+     *
+     * @param node     the current node
      * @param tempList the temporary list
      */
     private void inOrder(BinaryTreeNode<T> node, LinkedUnorderedList<T> tempList) {
@@ -169,6 +182,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that iterates in pre order through the tree.
+     *
      * @return a pre order iterator for the tree
      */
     @Override
@@ -182,7 +196,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * A recursive method that orders the temporary list in pre order.
-     * @param node the current node
+     *
+     * @param node     the current node
      * @param tempList the temporary list
      */
     private void preOrder(BinaryTreeNode<T> node, LinkedUnorderedList<T> tempList) {
@@ -195,6 +210,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that iterates in post order through the tree.
+     *
      * @return a post order iterator for the tree
      */
     @Override
@@ -208,7 +224,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * A recursive method that orders the temporary list in post order.
-     * @param node the current node
+     *
+     * @param node     the current node
      * @param tempList the temporary list
      */
     private void postOrder(BinaryTreeNode<T> node, LinkedUnorderedList<T> tempList) {
@@ -221,6 +238,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Method that iterates in level order through the tree.
+     *
      * @return a level order iterator for the tree
      */
     @Override

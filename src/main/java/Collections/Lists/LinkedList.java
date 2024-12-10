@@ -9,9 +9,8 @@ import java.util.Iterator;
 
 /**
  * A class that represents a linked list.
+ *
  * @param <T> the type of the stored element.
- *
- *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -25,7 +24,7 @@ public abstract class LinkedList<T> implements ListADT<T> {
     /**
      * The tail node of the list.
      */
-    protected  Node<T> tail;
+    protected Node<T> tail;
 
     /**
      * The size of the list.
@@ -33,7 +32,7 @@ public abstract class LinkedList<T> implements ListADT<T> {
     protected int size;
 
     /**
-     *The number of modifications
+     * The number of modifications
      */
     protected int modCount;
 
@@ -53,7 +52,7 @@ public abstract class LinkedList<T> implements ListADT<T> {
      * @throws EmptyCollectionException - If the list in empty
      */
     @Override
-    public T first() throws EmptyCollectionException{
+    public T first() throws EmptyCollectionException {
         if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
@@ -68,7 +67,7 @@ public abstract class LinkedList<T> implements ListADT<T> {
      * @throws EmptyCollectionException - If the list in empty
      */
     @Override
-    public T last() throws EmptyCollectionException{
+    public T last() throws EmptyCollectionException {
         if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
@@ -82,12 +81,13 @@ public abstract class LinkedList<T> implements ListADT<T> {
      * @return - {@code true} if is empty ; {@code false} otherwise .
      */
     @Override
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.size == 0;
     }
 
     /**
      * Method to obtain the size of the list.
+     *
      * @return - The size of the list .
      */
     @Override
@@ -110,8 +110,8 @@ public abstract class LinkedList<T> implements ListADT<T> {
 
         Node<T> current = this.head;
 
-        while (current != null){
-            if(current.getElement().equals(target)){
+        while (current != null) {
+            if (current.getElement().equals(target)) {
                 return true;
             }
             current = current.getNext();
@@ -129,7 +129,7 @@ public abstract class LinkedList<T> implements ListADT<T> {
     @Override
     public T removeFirst() throws EmptyCollectionException {
 
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
 
@@ -143,20 +143,21 @@ public abstract class LinkedList<T> implements ListADT<T> {
 
     /**
      * Method to remove the last node of the list.
+     *
      * @return - The removed node .
      * @throws EmptyCollectionException - If the list is empty .
      */
     @Override
     public T removeLast() throws EmptyCollectionException {
 
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
 
         T removed = this.tail.getElement();
         Node<T> current = this.head;
 
-        while(current.getNext() != this.tail){
+        while (current.getNext() != this.tail) {
             current = current.getNext();
         }
 
@@ -177,26 +178,24 @@ public abstract class LinkedList<T> implements ListADT<T> {
      * @throws ElementNotFoundException if the element is not into the list
      */
     @Override
-    public T remove (T element) throws EmptyCollectionException, ElementNotFoundException{
-        if(isEmpty()){
+    public T remove(T element) throws EmptyCollectionException, ElementNotFoundException {
+        if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");
         }
 
-        if(!contains(element)){
+        if (!contains(element)) {
             throw new EmptyCollectionException("Element not found");
         }
 
         T removed = null;
         Node<T> current = this.head;
 
-        if(this.head.getElement().equals(element)){
-           removed = removeFirst();
-        }
-        else if(this.tail.getElement().equals(element)){
-           removed = removeLast();
-        }
-        else{
-            while(!current.getNext().getElement().equals(element)){
+        if (this.head.getElement().equals(element)) {
+            removed = removeFirst();
+        } else if (this.tail.getElement().equals(element)) {
+            removed = removeLast();
+        } else {
+            while (!current.getNext().getElement().equals(element)) {
                 current = current.getNext();
             }
 
@@ -263,8 +262,7 @@ public abstract class LinkedList<T> implements ListADT<T> {
                 result += current.getElement() + " ";
                 current = current.getNext();
             }
-        }
-        else{
+        } else {
             return "No data";
         }
         return result + "}";
@@ -272,18 +270,21 @@ public abstract class LinkedList<T> implements ListADT<T> {
 
     /**
      * Returns an iterator for the list
+     *
      * @return an iterator for the list
      */
     @Override
     public Iterator<T> iterator() {
-        return new BasicIterator<T>() {};
+        return new BasicIterator<T>() {
+        };
     }
 
     /**
      * Inner class that represents an iterator for the list
+     *
      * @param <E> the type of the stored element
      */
-    private abstract class BasicIterator<E> implements Iterator<T>{
+    private abstract class BasicIterator<E> implements Iterator<T> {
 
         /**
          * The current node
@@ -303,7 +304,7 @@ public abstract class LinkedList<T> implements ListADT<T> {
         /**
          * Constructor for the iterator
          */
-        public BasicIterator(){
+        public BasicIterator() {
             this.current = head;
             this.expectedModCount = modCount;
             this.okToRemove = false;
@@ -311,22 +312,24 @@ public abstract class LinkedList<T> implements ListADT<T> {
 
         /**
          * Method to verify if there is a next element
+         *
          * @return - {@code true} if there is a next element ; {@code false} otherwise.
          */
-        public boolean hasNext(){
+        public boolean hasNext() {
             return this.current != null;
         }
 
         /**
          * Method to get the next element
+         *
          * @return - The next element
          */
-        public T next(){
-            if(modCount != expectedModCount){
+        public T next() {
+            if (modCount != expectedModCount) {
                 throw new ConcurrentModificationException();
             }
 
-            if(!hasNext()){
+            if (!hasNext()) {
                 throw new UnsupportedOperationException();
             }
 
