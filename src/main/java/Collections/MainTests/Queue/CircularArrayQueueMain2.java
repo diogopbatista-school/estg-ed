@@ -3,7 +3,14 @@ package Collections.MainTests.Queue;
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Queues.CircularArrayQueue;
 
+/**
+ * CircularArrayQueueMain2 tests the CircularArrayQueue class.
+ */
 public class CircularArrayQueueMain2 {
+    /**
+     * Main method for testing the CircularArrayQueue class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         CircularArrayQueue<Integer> queue = new CircularArrayQueue<>();
 

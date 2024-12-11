@@ -4,7 +4,14 @@ import Collections.Graphs.Graph;
 
 import java.util.Iterator;
 
+/**
+ * GraphMain tests the Graph class.
+ */
 public class GraphMain {
+    /**
+     * Main method for testing the Graph class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         Graph<String> graph = new Graph<>();
 

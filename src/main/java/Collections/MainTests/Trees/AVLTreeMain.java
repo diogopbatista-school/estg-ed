@@ -6,7 +6,14 @@ import Collections.Exceptions.EmptyCollectionException;
 
 import java.util.Iterator;
 
+/**
+ * AVLTreeMain tests the AVLTree class.
+ */
 public class AVLTreeMain {
+    /**
+     * Main method for testing the AVLTree class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         try {
             // Cria uma árvore AVL com um elemento raiz

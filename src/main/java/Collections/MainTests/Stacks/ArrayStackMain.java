@@ -3,7 +3,14 @@ package Collections.MainTests.Stacks;
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Stacks.ArrayStack;
 
+/**
+ * ArrayStackMain tests the ArrayStack class.
+ */
 public class ArrayStackMain {
+    /**
+     * Main method for testing the ArrayStack class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         ArrayStack<Integer> stack = new ArrayStack<>();
 

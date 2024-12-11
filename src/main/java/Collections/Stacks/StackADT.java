@@ -22,7 +22,7 @@ public interface StackADT<T> {
      * Removes and returns the top element from this stack.
      *
      * @return T element removed from the top of the stack
-     * @throws EmptyCollectionException
+     * @throws EmptyCollectionException if the stack is empty
      */
     public T pop() throws EmptyCollectionException;
 
@@ -30,7 +30,7 @@ public interface StackADT<T> {
      * Returns without removing the top element of this stack.
      *
      * @return T element on top of the stack
-     * @throws EmptyCollectionException
+     * @throws EmptyCollectionException if the stack is empty
      */
     public T peek() throws EmptyCollectionException;
 

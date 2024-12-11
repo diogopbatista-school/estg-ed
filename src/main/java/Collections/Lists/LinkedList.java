@@ -225,12 +225,6 @@ public abstract class LinkedList<T> implements ListADT<T> {
         return array;
     }
 
-    public void clear() {
-        head = null;
-        tail = null;
-        size = 0;
-    }
-
     /**
      * Method that replaces an element in the list with another element
      * @param existingElement the element to be replaced

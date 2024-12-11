@@ -3,7 +3,14 @@ package Collections.MainTests.Stacks;
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Stacks.StackQueue;
 
+/**
+ * StackQueueMain tests the StackQueue class.
+ */
 public class StackQueueMain {
+    /**
+     * Main method for testing the StackQueue class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         StackQueue<Integer> queue = new StackQueue<>();
 

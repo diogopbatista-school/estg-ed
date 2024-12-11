@@ -9,7 +9,14 @@ import Collections.Exceptions.NonComparableElementException;
 
 import java.util.Iterator;
 
+/**
+ * ArrayBinarySearchTreeMain tests the ArrayBinarySearchTree class.
+ */
 public class ArrayBinarySearchTreeMain {
+    /**
+     * Main method for testing the ArrayBinarySearchTree class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         try {
             // Cria uma árvore de busca binária com um elemento raiz

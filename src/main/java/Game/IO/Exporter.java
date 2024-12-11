@@ -37,7 +37,7 @@ public class Exporter {
 
     /**
      * Method that saves the logs to a JSON file
-     *
+     * @param fileName The name of the file to save the logs ( with the .json extension ) and comes from the user input
      * @throws IOException if an error occurs while writing to the file
      */
     public void save(String fileName) throws IOException {

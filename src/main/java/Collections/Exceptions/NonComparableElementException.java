@@ -3,8 +3,7 @@ package Collections.Exceptions;
 /**
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
- * <p>
- * <p>
+ *
  * NonComparableElementException is thrown when an element is not comparable
  */
 public class NonComparableElementException extends RuntimeException {

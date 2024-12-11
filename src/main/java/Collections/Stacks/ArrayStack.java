@@ -37,7 +37,8 @@ public class ArrayStack<T> implements StackADT<T> {
     protected int top;
 
     /**
-     * Constructor for an empty stack with the default capacity.
+     * Constructor for an empty stack with a given capacity.
+     * @param initialCapacity the initial capacity of the stack.
      */
     public ArrayStack(int initialCapacity) {
         this.stack = (T[]) (new Object[initialCapacity]);

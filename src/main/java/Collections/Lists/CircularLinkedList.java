@@ -16,6 +16,9 @@ public abstract class CircularLinkedList<T> implements ListADT<T> {
     private Node<T> rear;
     private int size;
 
+    /**
+     * Creates an empty list.
+     */
     public CircularLinkedList() {
         this.front = null;
         this.size = 0;

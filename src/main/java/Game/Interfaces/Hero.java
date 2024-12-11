@@ -72,7 +72,8 @@ public interface Hero extends Character {
     void addToBackPack(Item item) throws ItemException, HeroException;
 
     /**
-     * Method uses an item from the hero's backpack
+     * Method to use an item from the hero's backpack
+     * @return the item used
      */
     Item useItem();
 
@@ -107,5 +108,9 @@ public interface Hero extends Character {
      */
     void healArmor(double amount) throws IllegalArgumentException;
 
+    /**
+     * Method that gets the hero's backpack in items
+     * @return the hero's backpack in items as a stack of items
+     */
     StackADT<Item> getBackPack();
 }

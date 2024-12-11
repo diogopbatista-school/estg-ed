@@ -507,6 +507,10 @@ public class Graph<T> implements GraphADT<T> {
         return result;
     }
 
+    /**
+     * Returns an array of the vertices in the graph
+     * @return an array of the vertices in the graph
+     */
     public T[] getVertices() {
         Object[] vertices = new Object[numVertices];
         Object vertex;

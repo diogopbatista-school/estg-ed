@@ -7,6 +7,7 @@ import Collections.Exceptions.EmptyCollectionException;
  * A class that represents a queue using two stacks.
  *
  * @param <T> the type of the stored element.
+ *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
  */
@@ -54,7 +55,7 @@ public class StackQueue<T> implements QueueADT<T> {
      * Method that removes and returns the element at the front of the queue.
      *
      * @return the element at the front of the queue
-     * @throws EmptyCollectionException
+     * @throws EmptyCollectionException if the queue is empty
      */
     @Override
     public T dequeue() throws EmptyCollectionException {
@@ -87,7 +88,7 @@ public class StackQueue<T> implements QueueADT<T> {
     /**
      * Method that returns the size of the queue
      *
-     * @return
+     * @return the size of the queue
      */
     @Override
     public int size() {

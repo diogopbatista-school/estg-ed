@@ -3,7 +3,14 @@ package Collections.MainTests.Trees;
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Trees.ArrayHeap;
 
+/**
+ * ArrayHeapMain tests the ArrayHeap class.
+ */
 public class ArrayHeapMain {
+    /**
+     * Main method for testing the ArrayHeap class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         ArrayHeap<Integer> heap = new ArrayHeap<>();
 

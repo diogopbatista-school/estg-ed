@@ -51,6 +51,8 @@ public class HeroImp extends CharacterImp implements Hero {
 
     /**
      * Constructor for the HeroImp class
+     * @param attackPower the hero's attack power
+     * @param maxSize the maximum size of the backpack
      */
     public HeroImp(double attackPower, int maxSize) {
         super("Tó Cruz", 100, attackPower); // Em memória ao grande Tom Cruise
@@ -62,6 +64,11 @@ public class HeroImp extends CharacterImp implements Hero {
         this.target = null;
     }
 
+    /**
+     * Constructor for the HeroImp class with health and armor for the logs of the game
+     * @param health the hero's health
+     * @param armor the hero's armor
+     */
     public HeroImp(double health, double armor) {
         super("Tó Cruz", health, 100);
         this.armor = armor;

@@ -2,11 +2,10 @@ package Collections.Exceptions;
 
 
 /**
+ * EmptyCollectionException is an exception that is thrown when a collection is empty.
+ *
  * @Author ESTG Diogo Pereira Batista LSIRC - 8230367
  * @Author ESTG Rodrigo Fernandes Ribeiro LSIRC - 8190315
- * <p>
- * <p>
- * EmptyCollectionException is an exception that is thrown when a collection is empty.
  */
 public class EmptyCollectionException extends RuntimeException {
 

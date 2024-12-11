@@ -7,6 +7,9 @@ import Game.Interfaces.Room;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Class to handle the input of the game
+ */
 public class Input {
 
     /**

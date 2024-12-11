@@ -5,7 +5,14 @@ import Collections.Queues.CircularArrayQueue;
 import Collections.Queues.LinkedQueue;
 import Collections.Queues.QueueADT;
 
+/**
+ * FP4MAIN tests the encrypt method.
+ */
 public class FP4MAIN {
+    /**
+     * Main method for testing the encrypt method.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
 
         QueueADT<Integer> keyQueue = new LinkedQueue<>();
@@ -25,6 +32,15 @@ public class FP4MAIN {
 
     }
 
+    /**
+     * Method to encrypt a message using a key
+     * @param message the message to be encrypted
+     * @param key the key to encrypt the message
+     * @param keyQueue the queue to store the key
+     * @param result the queue to store the result
+     * @return the encrypted message
+     * @throws EmptyCollectionException if the collection is empty
+     */
     public static String encrypt(String message, int[] key, QueueADT<Integer> keyQueue, QueueADT<Character> result) throws EmptyCollectionException {
 
         int keySize = key.length;

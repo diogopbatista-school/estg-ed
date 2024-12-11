@@ -162,6 +162,10 @@ public class Importer {
         this.fileNameForLogs = "";
     }
 
+    /**
+     * Gets the file name for the logs.
+     * @return The file name for the logs.
+     */
     public String getFileNameForLogs() {
         return fileNameForLogs;
     }
@@ -234,6 +238,12 @@ public class Importer {
     }
 
 
+    /**
+     * Imports a new map from the specified JSON file and constructs the game map.
+     * @param nameMission The name of the mission to import.
+     * @return The constructed mission.
+     * @throws ParseException If the file cannot be parsed.
+     */
     public Mission importFiles(String nameMission) throws ParseException {
         Mission msn = null;
         Map map = new MapImp();

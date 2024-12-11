@@ -56,6 +56,7 @@ public interface Character {
 
     /**
      * Method that verifies if the character is alive
+     * @return true if the character is alive, false otherwise
      */
     boolean isAlive();
 

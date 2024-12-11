@@ -26,6 +26,11 @@ public class Combat {
      */
     private final Menu menu;
 
+    /**
+     * Constructor for the Combat class
+     * @param print the print class
+     * @param menu the menu class
+     */
     public Combat(Print print, Menu menu) {
         this.print = print;
         this.menu = menu;

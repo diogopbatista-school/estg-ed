@@ -7,7 +7,14 @@ import Collections.Lists.UnorderedListADT;
 
 import java.util.Iterator;
 
+/**
+ * DoublyLinkedUnorderedListMain tests the DoublyLinkedUnorderedList class.
+ */
 public class DoublyLinkedUnorderedListMain {
+    /**
+     * Main method for testing the DoublyLinkedUnorderedList class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         UnorderedListADT<Integer> list = new DoublyLinkedUnorderedList<>();
 

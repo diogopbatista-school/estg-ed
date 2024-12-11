@@ -5,6 +5,11 @@ package Collections;
  */
 public class SortingandSearching {
 
+    /**
+     * No need for a constructor since this class is static
+     */
+    public SortingandSearching() {
+    }
 
     /**
      * Searches the specified array of objects using a

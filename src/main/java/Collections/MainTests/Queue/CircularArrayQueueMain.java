@@ -4,11 +4,21 @@ import Collections.Exceptions.EmptyCollectionException;
 import Collections.Queues.*;
 
 /**
+ * CircularArrayQueueMain tests the CircularArrayQueue class.
  *
  * @author ESTG LSIRC 8230367 - Diogo Pereira Batista
+ * @Author ESTG LSIRC 8190315 - Rodrigo Fernandes Ribeiro
  */
 public class CircularArrayQueueMain {
 
+    /**
+     * Encrypts a message using the Caesar cipher.
+     *
+     * @param message the message to be encrypted
+     * @param key     the key to encrypt the message
+     * @return the encrypted message
+     * @throws EmptyCollectionException if the collection is empty
+     */
     public static String encrypt(String message, int[] key) throws EmptyCollectionException {
 
         int keySize = key.length;
@@ -38,6 +48,12 @@ public class CircularArrayQueueMain {
         return result.toString();
     }
 
+    /**
+     * Main method for testing the encrypt method.
+     *
+     * @param args command line arguments (not used)
+     * @throws EmptyCollectionException if the collection is empty
+     */
     public static void main(String[] args) throws EmptyCollectionException {
         String message = "knowledge is power";
         int[] key = {3, 1, 7, 4, 2};  // Exemplo de chave

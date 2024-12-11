@@ -5,7 +5,9 @@ import Collections.Stacks.ArrayStack;
 import Collections.Stacks.LinkedStack;
 import Collections.Stacks.StackADT;
 
-
+/**
+ * PostFixCalculator tests the PostFixCalculator class.
+ */
 public class PostFixCalculator {
     /**
      * Main method
@@ -28,6 +30,13 @@ public class PostFixCalculator {
 
     }
 
+    /**
+     * Method that calculates the result of a postfix expression
+     * @param string the postfix expression
+     * @param stack the stack to use
+     * @return the result of the expression
+     * @throws EmptyCollectionException
+     */
     public static int calculate(String string, StackADT<Integer> stack) throws EmptyCollectionException {
 
         String[] tokens = string.split(" ");

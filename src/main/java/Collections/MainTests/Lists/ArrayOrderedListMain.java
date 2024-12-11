@@ -8,7 +8,14 @@ import Collections.Lists.OrderedListADT;
 
 import java.util.Iterator;
 
+/**
+ * ArrayOrderedListMain tests the ArrayOrderedList class.
+ */
 public class ArrayOrderedListMain {
+    /**
+     * Main method for testing the ArrayOrderedList class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         OrderedListADT<Integer> list = new ArrayOrderedList<>();
 

@@ -7,7 +7,14 @@ import Collections.Lists.UnorderedListADT;
 
 import java.util.Iterator;
 
+/**
+ * ArrayUnorderedListMain tests the ArrayUnorderedList class.
+ */
 public class ArrayUnorderedListMain {
+    /**
+     * Main method for testing the ArrayUnorderedList class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         UnorderedListADT<Integer> list = new ArrayUnorderedList<>();
 

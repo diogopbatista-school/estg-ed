@@ -8,7 +8,14 @@ import Collections.Lists.OrderedListADT;
 
 import java.util.Iterator;
 
+/**
+ * DoublyLinkedOrderedListMain tests the DoublyLinkedOrderedList class.
+ */
 public class DoublyLinkedOrderedListMain {
+    /**
+     * Main method for testing the DoublyLinkedOrderedList class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         OrderedListADT<Integer> list = new DoublyLinkedOrderedList<>();
 
