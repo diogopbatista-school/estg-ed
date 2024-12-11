@@ -4,7 +4,14 @@ import Collections.Graphs.Network;
 
 import java.util.Iterator;
 
+/**
+ * Main class for testing the network
+ */
 public class Main {
+    /**
+     * Main method
+     * @param args arguments
+     */
     public static void main(String[] args) {
         Network<String> network = new Network<>();
 

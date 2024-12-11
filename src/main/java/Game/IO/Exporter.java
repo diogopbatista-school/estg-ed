@@ -25,6 +25,7 @@ public class Exporter {
      */
     private final Missions missions;
 
+
     /**
      * The constructor for the Exporter class
      *
@@ -39,16 +40,17 @@ public class Exporter {
      *
      * @throws IOException if an error occurs while writing to the file
      */
-    public void save() throws IOException {
-        this.saveLogs();
+    public void save(String fileName) throws IOException {
+        this.saveLogs(fileName);
     }
 
     /**
      * Method that saves the logs to a JSON file
-     *
+     * @param FileName The name of the file to save the logs ( with the .json extension ) and comes from the user input
+     * in the main menu . If the default mission was loaded it will be DefaultMissionLogs.json
      * @throws IOException if an error occurs while writing to the file
      */
-    public void saveLogs() throws IOException {
+    public void saveLogs(String FileName) throws IOException {
         JSONObject root = new JSONObject();
         JSONArray missionsArray = new JSONArray();
 
@@ -79,7 +81,7 @@ public class Exporter {
 
         root.put("missions", missionsArray);
 
-        try (FileWriter file = new FileWriter("MissionsLogs.json")) {
+        try (FileWriter file = new FileWriter(FileName)) {
             file.write(root.toJSONString());
         }
     }

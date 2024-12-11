@@ -5,6 +5,8 @@ import Collections.Lists.UnorderedListADT;
 import Game.Interfaces.Mission;
 import Game.Interfaces.Missions;
 
+import java.util.Iterator;
+
 /**
  * This class represents all the simulations of the missions played
  *
@@ -41,6 +43,23 @@ public class MissionsImp implements Missions {
      */
     public UnorderedListADT<Mission> getMissions() {
         return missions;
+    }
+
+    /**
+     * Method that returns a mission by its code
+     *
+     * @param missionName the name of the mission
+     * @return the mission
+     */
+    public Mission getMissionByCode(String missionName) {
+        Iterator<Mission> it = missions.iterator();
+        while (it.hasNext()) {
+            Mission mission = it.next();
+            if (mission.getCode().equals(missionName)) {
+                return mission;
+            }
+        }
+        return null;
     }
 
 }

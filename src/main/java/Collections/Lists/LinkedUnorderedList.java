@@ -13,6 +13,13 @@ import Collections.Exceptions.*;
 public class LinkedUnorderedList<T> extends LinkedList<T> implements UnorderedListADT<T> {
 
     /**
+     * Default constructor
+     */
+    public LinkedUnorderedList() {
+        super();
+    }
+
+    /**
      * Method that adds an element to the front of the list
      *
      * @param element the element to be added to the front of this list

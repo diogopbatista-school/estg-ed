@@ -1,7 +1,5 @@
 package Game.IO;
 
-import Collections.Lists.LinkedUnorderedList;
-import Collections.Lists.UnorderedListADT;
 import Game.Entities.*;
 import Game.Exceptions.ItemException;
 import Game.Exceptions.RoomException;
@@ -19,6 +17,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 /**
  * The Importer class is responsible for importing game data from JSON files
@@ -30,10 +29,45 @@ import java.nio.file.Paths;
 
 public class Importer {
 
-    /**
-     * Constants for the Importer class.
-     */
-    private static final String MISSION_LOG_PATH = "MissionsLogs.json";
+    // JSON data for the missions , in case the file that the player wants to load does not exist
+    // ITS like a default file for the missions;
+    private static final String MISSIONS_JSON_DEFAULT ="{\n" +
+            "  \"cod-missao\": \"infiltração no bunker\",\n" +
+            "  \"versao\": 1,\n" +
+            "  \"edificio\": [\n" +
+            "    \"Entrada Lateral\", \"Posto Avançado\", \"Escada de Serviço\", \"Sala de Comunicações\",\n" +
+            "    \"Depósito de Armamentos\", \"Laboratório de Pesquisa\", \"Escada Principal\", \"Sala de Comando\"\n" +
+            "  ],\n" +
+            "  \"ligacoes\": [\n" +
+            "    [\"Entrada Lateral\", \"Posto Avançado\"],\n" +
+            "    [\"Posto Avançado\", \"Escada de Serviço\"],\n" +
+            "    [\"Escada de Serviço\", \"Sala de Comunicações\"],\n" +
+            "    [\"Sala de Comunicações\", \"Depósito de Armamentos\"],\n" +
+            "    [\"Depósito de Armamentos\", \"Laboratório de Pesquisa\"],\n" +
+            "    [\"Laboratório de Pesquisa\", \"Escada Principal\"],\n" +
+            "    [\"Escada Principal\", \"Sala de Comando\"]\n" +
+            "  ],\n" +
+            "  \"inimigos\": [\n" +
+            "    { \"nome\": \"guarda de elite\", \"poder\": 30, \"vida\": 120, \"divisao\": \"Posto Avançado\" },\n" +
+            "    { \"nome\": \"cientista hostil\", \"poder\": 25, \"vida\": 80, \"divisao\": \"Laboratório de Pesquisa\" },\n" +
+            "    { \"nome\": \"comandante\", \"poder\": 40, \"vida\": 150, \"divisao\": \"Sala de Comando\" },\n" +
+            "    { \"nome\": \"sniper\", \"poder\": 20, \"vida\": 100, \"divisao\": \"Escada de Serviço\" },\n" +
+            "    { \"nome\": \"soldado pesado\", \"poder\": 35, \"vida\": 200, \"divisao\": \"Depósito de Armamentos\" },\n" +
+            "    { \"nome\": \"técnico hostil\", \"poder\": 15, \"vida\": 60, \"divisao\": \"Sala de Comunicações\" }\n" +
+            "  ],\n" +
+            "  \"entradas-saidas\": [\"Entrada Lateral\", \"Sala de Comando\"],\n" +
+            "  \"alvo\": { \"divisao\": \"Sala de Comando\", \"tipo\": \"extrair informações\" },\n" +
+            "  \"itens\": [\n" +
+            "    { \"divisao\": \"Sala de Comunicações\", \"pontos-recuperados\": 10, \"tipo\": \"kit de vida\" },\n" +
+            "    { \"divisao\": \"Laboratório de Pesquisa\", \"pontos-extra\": 20, \"tipo\": \"colete\" },\n" +
+            "    { \"divisao\": \"Sala de Comando\", \"pontos-recuperados\": 25, \"tipo\": \"kit de vida\" },\n" +
+            "    { \"divisao\": \"Escada de Serviço\", \"pontos-extra\": 15, \"tipo\": \"granada\" },\n" +
+            "    { \"divisao\": \"Depósito de Armamentos\", \"pontos-recuperados\": 20, \"tipo\": \"kit de vida\" },\n" +
+            "    { \"divisao\": \"Posto Avançado\", \"pontos-extra\": 30, \"tipo\": \"armadura leve\" }\n" +
+            "  ]\n" +
+            "}";
+
+
     private static final JSONParser PARSER = new JSONParser();
 
     /**
@@ -48,12 +82,18 @@ public class Importer {
     private JSONArray connections;
     private JSONArray items;
     private JSONArray exitsAndEntrances;
-    private JSONArray manualSimulationLogs;
+
+    private String fileNameForLogs;
 
     /**
      * Default constructor for the Importer class.
      */
     public Importer() {
+        this.fileNameForLogs = "";
+    }
+
+    public String getFileNameForLogs() {
+        return fileNameForLogs;
     }
 
     /**
@@ -64,85 +104,68 @@ public class Importer {
      * @throws IOException    If the file cannot be read.
      * @throws ParseException If the file cannot be parsed.
      */
-    public UnorderedListADT<String> loadMissions(String filePath) throws IOException, ParseException {
-        UnorderedListADT<String> missionsList = new LinkedUnorderedList<>();
-        JSONObject missionsJSON = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(filePath))));
-        JSONObject missionsLogsJson = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(MISSION_LOG_PATH))));
-        missionsLogs = (JSONArray) missionsLogsJson.get("missions");
-        missions = (JSONArray) missionsJSON.get("missoes");
+    public Missions loadMissions(String filePath) throws IOException, ParseException {
+
+        String PATH = filePath + ".json";
+        String LOG_JSON = filePath + "Logs.json";
+        this.fileNameForLogs = LOG_JSON;
+
+        if (!Files.exists(Paths.get(PATH)) || Files.size(Paths.get(PATH)) == 0) {
+            String name = "DefaultMission";
+            String json = ".json";
+            PATH = name + json;
+
+            LOG_JSON = name + "Logs" + json;
+
+            Files.write(Paths.get(PATH), MISSIONS_JSON_DEFAULT.getBytes(), StandardOpenOption.CREATE);
+            System.out.println("Warning: File not found or empty, loading default missions");
+            this.fileNameForLogs = LOG_JSON;
+        }
+
+
+        JSONObject missionsJSON = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(PATH))));
+
+
+        if (Files.exists(Paths.get(LOG_JSON)) && Files.size(Paths.get(LOG_JSON)) > 0) {
+            JSONObject missionsLogsJson = (JSONObject) PARSER.parse(new String(Files.readAllBytes(Paths.get(LOG_JSON))));
+            missionsLogs = (JSONArray) missionsLogsJson.get("missions");
+        } else {
+            missionsLogs = new JSONArray();
+        }
+
+        this.missions = (JSONArray) missionsJSON.get("missoes");
+        Missions newMissions = new MissionsImp();
 
         for (Object obj : missions) {
             JSONObject mission = (JSONObject) obj;
-            missionsList.addToRear((String) mission.get("cod-missao"));
+            String codMission = (String) mission.get("cod-missao");
+            int versMission = ((Long) mission.get("versao")).intValue();
+            Mission newMission = new MissionImp(codMission, versMission);
+            importFiles(newMission, mission);
+            newMissions.addMission(newMission);
         }
 
-        return missionsList;
+        addLogsToMissions(newMissions);
+        return newMissions;
     }
 
-    /**
-     * Loads the missions from the specified JSON file back to the Mission object to
-     * be added to the Missions object.
-     *
-     * @return The loaded missions.
-     */
-    public Missions loadMissions() {
-        Missions missionsLoaded = new MissionsImp();
-        for (Object obj : missions) {
-            JSONObject mission = (JSONObject) obj;
-            Mission msn = new MissionImp();
-            msn.setCode((String) mission.get("cod-missao"));
-            msn.setVersion(((Long) mission.get("versao")).intValue());
-            missionsLoaded.addMission(msn);
-        }
-        return missionsLoaded;
 
+    private void importFiles(Mission msn, JSONObject mission) {
+        Map map = new MapImp();
+
+        this.rooms = (JSONArray) mission.get("edificio");
+        this.enemies = (JSONArray) mission.get("inimigos");
+        this.connections = (JSONArray) mission.get("ligacoes");
+        this.items = (JSONArray) mission.get("itens");
+        this.exitsAndEntrances = (JSONArray) mission.get("entradas-saidas");
+        this.target = (JSONObject) mission.get("alvo");
+
+        msn.addMap(this.constructMap(map));
     }
 
-    /**
-     * Imports the game data from the JSON files and constructs the mission object.
-     *
-     * @param nameMission The mission code to import.
-     * @return The imported mission object.
-     * @throws IOException If a file cannot be read.
-     */
-    public Mission importData(String nameMission) throws IOException {
-        try {
-            Mission msn = new MissionImp();
-            return importFiles(msn, nameMission);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    /**
-     * Filters logs for the specified mission from the logs JSON.
-     *
-     * @param missionCode The mission code.
-     * @return A JSONArray of logs filtered by mission.
-     */
-    private JSONArray getLogsForMission(String missionCode) {
-        JSONArray filteredLogs = new JSONArray();
-        for (Object obj : missionsLogs) {
-            JSONObject logMission = (JSONObject) obj;
-            String logMissionName = (String) logMission.get("name");
-            if (logMissionName != null && logMissionName.equals(missionCode)) {
-                JSONArray logs = (JSONArray) logMission.get("logs");
-                filteredLogs.addAll(logs);
-            }
-        }
-        return filteredLogs;
-    }
-
-    /**
-     * Reads the JSON files and parses their content to populate the mission object.
-     *
-     * @param msn         The mission object to populate.
-     * @param nameMission The mission code to load.
-     * @return The populated mission object.
-     * @throws ParseException If a JSON file cannot be parsed.
-     */
-    private Mission importFiles(Mission msn, String nameMission) throws ParseException {
-
+    public Mission importFiles(String nameMission) throws ParseException {
+        Mission msn = null;
         Map map = new MapImp();
 
         for (Object obj : missions) {
@@ -150,6 +173,7 @@ public class Importer {
             if (nameMission.equals(mission.get("cod-missao"))) {
                 String codMission = (String) mission.get("cod-missao");
                 int versMission = ((Long) mission.get("versao")).intValue();
+                msn = new MissionImp(codMission, versMission);
                 this.mission = mission;
                 this.rooms = (JSONArray) mission.get("edificio");
                 this.enemies = (JSONArray) mission.get("inimigos");
@@ -170,11 +194,6 @@ public class Importer {
         }
 
         msn.addMap(this.constructMap(map));
-
-        // Load simulation logs for this mission
-        this.manualSimulationLogs = getLogsForMission(nameMission);
-        addManualSimulationLog(msn);
-
         return msn;
     }
 
@@ -328,36 +347,40 @@ public class Importer {
         }
     }
 
-    /**
-     * Adds manual simulation logs to the specified mission.
-     *
-     * @param mission The mission to add manual simulation logs to.
-     */
-    private void addManualSimulationLog(Mission mission) {
+
+    private void addLogsToMissions(Missions missions) {
         try {
-            for (Object obj : manualSimulationLogs) {
-                JSONObject logObject = (JSONObject) obj;
-
-                String timestamp = (String) logObject.get("timestamp");
-                ManualSimulationLog manualSimulationLog = new ManualSimulationLog(timestamp);
-
-                JSONArray pathArray = (JSONArray) logObject.get("path");
-                for (Object pathElement : pathArray) {
-                    String roomName = (String) pathElement;
-                    Room room = mission.getMap().getRoomByName(roomName);
-
-                    manualSimulationLog.addRoom(room);
+            for (Object missionObj : missionsLogs) {
+                JSONObject missionJson = (JSONObject) missionObj;
+                String missionName = (String) missionJson.get("name");
+                Mission mission = missions.getMissionByCode(missionName);
+                if (mission == null) {
+                    continue;
                 }
 
-                JSONObject heroObject = (JSONObject) logObject.get("hero");
-                if (heroObject != null) {
-                    double health = ((Double) heroObject.get("health"));
-                    double armorHealth = (Double) heroObject.get("armorHealth");
-                    Hero hero = new HeroImp(health, armorHealth);
-                    manualSimulationLog.setHero(hero);
-                }
+                JSONArray logsArray = (JSONArray) missionJson.get("logs");
+                for (Object logObj : logsArray) {
+                    JSONObject logJson = (JSONObject) logObj;
+                    String timestamp = (String) logJson.get("timestamp");
+                    ManualSimulationLog manualSimulationLog = new ManualSimulationLog(timestamp);
 
-                mission.addManualSimulationLog(manualSimulationLog);
+                    JSONArray pathArray = (JSONArray) logJson.get("path");
+                    for (Object pathElement : pathArray) {
+                        String roomName = (String) pathElement;
+                        Room room = mission.getMap().getRoomByName(roomName);
+                        manualSimulationLog.addRoom(room);
+                    }
+
+                    JSONObject heroJson = (JSONObject) logJson.get("hero");
+                    if (heroJson != null) {
+                        double health = ((Double) heroJson.get("health"));
+                        double armorHealth = (Double) heroJson.get("armorHealth");
+                        Hero hero = new HeroImp(health, armorHealth);
+                        manualSimulationLog.setHero(hero);
+                    }
+
+                    mission.addManualSimulationLog(manualSimulationLog);
+                }
             }
         } catch (Exception e) {
             System.out.println("Error adding manual simulation logs");

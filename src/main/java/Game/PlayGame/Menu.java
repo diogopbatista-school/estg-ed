@@ -13,6 +13,7 @@ import Game.Interfaces.Hero;
 import Game.Interfaces.Mission;
 import Game.Interfaces.Missions;
 import Game.Interfaces.Room;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -42,6 +43,12 @@ public class Menu {
      */
     private final Missions missions;
 
+    /**
+     * Constructor of the class
+     * @param missions the missions class to store the simulations of the game
+     * @param input the input class
+     * @param print the print class
+     */
     public Menu(Missions missions, Input input, Print print) {
         this.input = input;
         this.print = print;
@@ -63,7 +70,7 @@ public class Menu {
         int choice = input.getValidNumberInput(2);
 
         if (choice == 1) {
-            startGameMenu(missions, missionCodes, importer, exporter);
+            startGameMenu(missions, missionCodes, importer,exporter);
         } else {
             System.out.println("Exiting Game");
             System.exit(0);
@@ -79,7 +86,8 @@ public class Menu {
      *
      * @param missions     the missions class to store the simulations of the game
      * @param missionCodes the available missions
-     * @param importer     the importer to load the missions
+     * @param importer     the importer to load the mission map . Everytime we want to play again the same mission i
+     *                     have to import the map again from the file to reinitialize the enemies , etc
      * @param exporter     the exporter to save the missions
      */
     public void startGameMenu(Missions missions, UnorderedListADT<String> missionCodes, Importer importer, Exporter exporter) {
@@ -91,19 +99,24 @@ public class Menu {
             Mission mission;
 
             try {
-                mission = importer.importData(selectedMission);
+                mission = importer.importFiles(selectedMission);
 
-                print.loadedMissionMenu(mission, selectedMission);
+                print.loadedMissionMenu(missions, mission, selectedMission);
 
                 int playModeChoise = input.getValidNumberInput(2);
 
                 if (playModeChoise == 1) {
                     gameEngine.playManually(missions, mission);
+                    try {
+                        exporter.save(importer.getFileNameForLogs());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 } else if (playModeChoise == 2) {
                     gameEngine.playAutomatically(mission);
                 }
 
-            } catch (IOException | HeroException | EnemyException | TargetException | RoomException e) {
+            } catch (HeroException | EnemyException | TargetException | RoomException | ParseException e) {
                 throw new RuntimeException(e);
             }
 
@@ -112,11 +125,7 @@ public class Menu {
             playAgain = (playAgainChoice == 1);
         }
 
-        try {
-            exporter.save();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
         System.out.println("Exiting. Goodbye!");
         System.exit(0);
 

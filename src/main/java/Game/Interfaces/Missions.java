@@ -24,4 +24,11 @@ public interface Missions {
      * @return the list of missions
      */
     UnorderedListADT<Mission> getMissions();
+
+    /**
+     * Returns a mission by its code
+     * @param missionName the name of the mission
+     * @return the mission
+     */
+    Mission getMissionByCode(String missionName);
 }

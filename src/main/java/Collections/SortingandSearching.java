@@ -5,6 +5,7 @@ package Collections;
  */
 public class SortingandSearching {
 
+
     /**
      * Searches the specified array of objects using a
      * linear search algorithm.
@@ -13,6 +14,7 @@ public class SortingandSearching {
      * @param min    the integer representation of the min value
      * @param max    the integer representation of the max value
      * @param target the element being searched for
+     * @param <T>    the type of objects in the array
      * @return true if the desired element is found
      */
     public static <T extends Comparable<? super T>> boolean linearSearch(T[] data, int min, int max, T target) {
@@ -35,6 +37,7 @@ public class SortingandSearching {
      * @param min    the integer representation of the minimum value
      * @param max    the integer representation of the maximum value
      * @param target the element being searched for
+     * @param <T>    the type of objects in the array
      * @return true if the desired element is found
      */
     public static <T extends Comparable<? super T>> boolean binarySearch(T[] data, int min, int max, T target) {
@@ -55,6 +58,7 @@ public class SortingandSearching {
      * sort algorithm.
      *
      * @param data the array to be sorted
+     * @param <T>  the type of objects in the array
      */
     public static <T extends Comparable<? super T>> void selectionSort(T[] data) {
         int min;
@@ -76,6 +80,7 @@ public class SortingandSearching {
      * sort algorithm.
      *
      * @param data the array to be sorted
+     * @param <T>  the type of objects in the array
      */
     public static <T extends Comparable<? super T>> void insertionSort(T[] data) {
         for (int index = 1; index < data.length; index++) {
@@ -96,6 +101,7 @@ public class SortingandSearching {
      * algorithm.
      *
      * @param data the array to be sorted
+     * @param <T>  the type of objects in the array
      */
     public static <T extends Comparable<? super T>> void bubbleSort(T[] data) {
         int position, scan;
@@ -119,6 +125,7 @@ public class SortingandSearching {
      * @param data the array to be sorted
      * @param min  the integer representation of the minimum value
      * @param max  the integer representation of the maximum value
+     * @param <T>  the type of objects in the array
      */
     public static <T extends Comparable<? super T>> void quickSort(T[] data, int min, int max) {
         int indexofpartition;
@@ -138,6 +145,7 @@ public class SortingandSearching {
      * @param data the array to be sorted
      * @param min  the integer representation of the minimum value
      * @param max  the integer representation of the maximum value
+     * @param <T>  the type of objects in the array
      */
     private static <T extends Comparable<? super T>> int findPartition(T[] data, int min, int max) {
         int left, right;
@@ -177,6 +185,7 @@ public class SortingandSearching {
      * @param data the array to be sorted
      * @param min  the integer representation of the minimum value
      * @param max  the integer representation of the maximum value
+     * @param <T>  the type of objects in the array
      */
     public static <T extends Comparable<? super T>> void
     mergeSort(T[] data, int min, int max) {

@@ -178,9 +178,10 @@ public class GameEngine {
 
         ManualSimulationLog manualSimulationLog = new ManualSimulationLog(hero, path);
 
-        mission.addManualSimulationLog(manualSimulationLog);
+        Mission aux = missions.getMissionByCode(mission.getCode());
 
-        missions.addMission(mission);
+        aux.addManualSimulationLog(manualSimulationLog);
+
     }
 
     /**
@@ -214,9 +215,11 @@ public class GameEngine {
         System.out.println("Best entry point: " + bestEntryRoom.getRoomName());
         moveHeroToRoom(hero, bestEntryRoom);
 
+
         while (!hero.doesHeroHaveTarget() && hero.isAlive()) {
             currentRoomActions(map, hero, targetRoom);
         }
+
 
         while (hero.doesHeroHaveTarget() && hero.isAlive()) {
             Iterator<Room> exitRoomsIterator = entryExitRooms.iterator();
@@ -255,14 +258,12 @@ public class GameEngine {
                 Room nextRoom = pathIterator.next();
                 moveHeroToRoom(hero, nextRoom);
 
-                // Fase 1: Até o targetRoom
+
                 if (!hero.doesHeroHaveTarget()) {
-                    print.nextBestRoom(map, hero.getCurrentRoom(), targetRoom);
+                    print.nextBestRoom(map, hero.getCurrentRoom(), targetRoom, "TARGET ROOM");
                     handleRoomEvents(map, hero, nextRoom, targetRoom, false);
-                }
-                // Fase 2: Do targetRoom até os exits
-                else {
-                    print.nextBestRoom(map, hero.getCurrentRoom(), targetRoom);
+                } else {
+                    print.nextBestRoom(map, hero.getCurrentRoom(), targetRoom, "TARGET ROOM");
                     return handleRoomEvents(map, hero, nextRoom, targetRoom, true);
                 }
             }
@@ -351,19 +352,20 @@ public class GameEngine {
      * <p>
      * Example: The hero already has the best path to the best exit with the lowest weight, but the enemies moved and now the weight is higher
      * so he needs to find the best path again ( can be the same exit or another exit)
+     * Example: From hero to the nearest item room
      *
      * @param map           the map
      * @param roomsIterator the rooms iterator
-     * @param target        the target room
+     * @param currentRoom   the current room
      * @return the best room
      */
-    private Room findBestRoom(Map map, Iterator<Room> roomsIterator, Room target) {
+    private Room findBestRoom(Map map, Iterator<Room> roomsIterator, Room currentRoom) {
         Room bestRoom = null;
         double minWeight = Double.MAX_VALUE;
 
         while (roomsIterator.hasNext()) {
             Room room = roomsIterator.next();
-            double weight = map.shortestPathWeight(room, target);
+            double weight = map.shortestPathWeight(room, currentRoom);
             if (weight < minWeight) {
                 minWeight = weight;
                 bestRoom = room;
@@ -385,6 +387,7 @@ public class GameEngine {
         Room currentRoom = hero.getCurrentRoom();
         hero.setCurrentRoom(null);
         currentRoom.removeHero();
+        Room nearestRoomItem = findBestRoom(map, roomsWithItems(map), currentRoom);
 
 
         UnorderedListADT<Room> connectedRooms = getConnectedRooms(map, currentRoom);
@@ -395,7 +398,11 @@ public class GameEngine {
         }
 
         if (!hero.doesHeroHaveTarget()) {
-            print.nextBestRoom(map, currentRoom, targetRoom);
+
+            print.nextBestRoom(map, currentRoom, targetRoom, "TARGET ROOM");
+
+
+            print.nextBestRoom(map, currentRoom, nearestRoomItem, "NEAREST ITEM ROOM");
         }
 
         print.nextRoomsAndInfos(connectedRooms);
@@ -408,6 +415,25 @@ public class GameEngine {
 
         return selectedRoom;
 
+    }
+
+    /**
+     * This method is used to know which rooms have items
+     *
+     * @param map the map
+     * @return the rooms with items
+     */
+    private Iterator<Room> roomsWithItems(Map map) {
+        UnorderedListADT<Room> allRooms = map.getRooms();
+        UnorderedListADT<Room> roomsWithItems = new LinkedUnorderedList<>();
+        Iterator<Room> iterator = allRooms.iterator();
+        while (iterator.hasNext()) {
+            Room room = iterator.next();
+            if (room.hasItems()) {
+                roomsWithItems.addToRear(room);
+            }
+        }
+        return roomsWithItems.iterator();
     }
 
     /**

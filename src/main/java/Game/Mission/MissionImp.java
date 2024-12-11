@@ -35,10 +35,13 @@ public class MissionImp implements Mission {
 
     /**
      * Constructor for the mission
+     *
+     * @param code    the code
+     * @param version the version
      */
-    public MissionImp() {
-        this.code = null;
-        this.version = -1;
+    public MissionImp(String code, int version) {
+        this.code = code;
+        this.version = version;
         this.map = null;
         this.logs = new Logs();
     }

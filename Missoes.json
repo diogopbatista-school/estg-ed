@@ -137,9 +137,9 @@
       ],
       "inimigos": [
         {"nome": "badguy1", "poder": 5, "vida": 120,"divisao": "Heliporto"},
-        {"nome": "badguy2", "poder": 15, "vida": 70,"divisao": "Heliporto"},
-        {"nome": "badguy3", "poder": 25, "vida": 10,"divisao": "Heliporto"},
-        {"nome": "badguy4", "poder": 15, "vida": 30,"divisao": "Heliporto"},
+        {"nome": "badguy2", "poder": 15, "vida": 70,"divisao": "Garagem"},
+        {"nome": "badguy3", "poder": 25, "vida": 10,"divisao": "Porteiro"},
+        {"nome": "badguy4", "poder": 15, "vida": 30,"divisao": "Hall"},
         {"nome": "badguy5", "poder": 15, "vida": 150,"divisao": "Heliporto"}
       ],
       "entradas-saidas": ["Escada de Emergência", "Garagem", "Heliporto", "Porteiro"],

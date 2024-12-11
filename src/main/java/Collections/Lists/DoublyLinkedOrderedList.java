@@ -13,6 +13,13 @@ import Collections.Nodes.DoublyNode;
 public class DoublyLinkedOrderedList<T> extends DoublyLinkedList<T> implements OrderedListADT<T> {
 
     /**
+     * Default constructor for a DoublyLinkedOrderedList
+     */
+    public DoublyLinkedOrderedList() {
+        super();
+    }
+
+    /**
      * Method that add a specific element to this list in the proper location
      *
      * @param element the element to be added to this list

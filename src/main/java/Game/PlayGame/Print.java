@@ -18,6 +18,9 @@ import java.util.Iterator;
  */
 public class Print {
 
+    /**
+     * Constructor for the Print class
+     */
     public Print() {
     }
 
@@ -43,9 +46,9 @@ public class Print {
     /**
      * Method that represents the view logs of the mission in the console
      *
-     * @param mission the mission to view the logs
      */
-    protected void viewLogs(Mission mission) {
+    protected void viewLogs(Missions missions, String missionName) {
+        Mission mission = missions.getMissionByCode(missionName);
         OrderedListADT<ManualSimulationLog> logs = mission.getLogs().getManualSimulationLogs();
 
         SortingandSearching.insertionSort(listToArray(logs));
@@ -151,10 +154,10 @@ public class Print {
      * @param mission         the mission to load
      * @param selectedMission the selected mission
      */
-    protected void loadedMissionMenu(Mission mission, String selectedMission) {
+    protected void loadedMissionMenu(Missions missions,Mission mission, String selectedMission) {
         clearConsole();
         System.out.println(mission.getMap().toString());
-        viewLogs(mission);
+        viewLogs(missions, selectedMission);
         System.out.println("Mission loaded successfully! Mission: " + selectedMission);
 
         System.out.println("+------------------+");
@@ -173,10 +176,10 @@ public class Print {
      * @param currentRoom the current room
      * @param targetRoom  the target room
      */
-    protected void nextBestRoom(Map map, Room currentRoom, Room targetRoom) {
+    protected void nextBestRoom(Map map, Room currentRoom, Room targetRoom, String Prompt) {
         Iterator<Room> pathIterator = map.shortestPath(currentRoom, targetRoom);
         System.out.println("----------------------------------------------------------------");
-        System.out.println("Shortest path from " + currentRoom.getRoomName() + " to " + targetRoom.getRoomName() + ":");
+        System.out.println(Prompt + " | Shortest path from " + currentRoom.getRoomName() + " to " + targetRoom.getRoomName() + ":");
         while (pathIterator.hasNext()) {
             Room room = pathIterator.next();
             System.out.print(room.getRoomName() + " -> ");

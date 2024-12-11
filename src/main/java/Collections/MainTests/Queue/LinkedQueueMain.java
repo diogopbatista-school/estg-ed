@@ -3,7 +3,14 @@ package Collections.MainTests.Queue;
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Queues.LinkedQueue;
 
+/**
+ * LinkedQueueMain tests the LinkedQueue class.
+ */
 public class LinkedQueueMain {
+    /**
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         LinkedQueue<Integer> queue = new LinkedQueue<>();
 

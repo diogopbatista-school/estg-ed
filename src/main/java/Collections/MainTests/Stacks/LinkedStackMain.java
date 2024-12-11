@@ -3,7 +3,14 @@ package Collections.MainTests.Stacks;
 import Collections.Exceptions.EmptyCollectionException;
 import Collections.Stacks.LinkedStack;
 
+/**
+ * LinkedStackMain tests the LinkedStack class.
+ */
 public class LinkedStackMain {
+    /**
+     * Main method for testing the LinkedStack class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         LinkedStack<Integer> stack = new LinkedStack<>();
 

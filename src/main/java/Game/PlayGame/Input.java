@@ -22,6 +22,14 @@ public class Input {
     }
 
     /**
+     * Method to read a string
+     * @return the string read
+     */
+    public String readString() {
+        return scanner.nextLine();
+    }
+
+    /**
      * Method to choose a mission from the available missions
      *
      * @param missionCodes the available missions

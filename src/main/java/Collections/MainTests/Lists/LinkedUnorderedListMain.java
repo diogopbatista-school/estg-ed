@@ -7,7 +7,14 @@ import Collections.Lists.UnorderedListADT;
 
 import java.util.Iterator;
 
+/**
+ * Main class for testing the LinkedUnorderedList class
+ */
 public class LinkedUnorderedListMain {
+    /**
+     * Main method
+     * @param args arguments
+     */
     public static void main(String[] args) {
         UnorderedListADT<Integer> list = new LinkedUnorderedList<>();
 

@@ -12,6 +12,10 @@ import Collections.Nodes.Node;
  */
 public class LinkedOrderedList<T> extends LinkedList<T> implements OrderedListADT<T> {
 
+    public LinkedOrderedList() {
+        super();
+    }
+
     /**
      * This method adds a specific element to the list
      *
