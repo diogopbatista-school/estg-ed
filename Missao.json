@@ -1,39 +1,141 @@
 {
-  "cod-missao": "emboscada ao quartel",
-  "versao": 1,
-  "edificio": [
-    "Portão Norte", "Guarita Principal", "Pátio Interno", "Escada de Emergência",
-    "Sala de Equipamentos", "Centro de Vigilância", "Escada Central", "Alojamento dos Soldados",
-    "Depósito de Suprimentos", "Laboratório Militar", "Sala de Planejamento"
-  ],
-  "ligacoes": [
-    ["Portão Norte", "Guarita Principal"],
-    ["Guarita Principal", "Pátio Interno"],
-    ["Pátio Interno", "Escada de Emergência"],
-    ["Escada de Emergência", "Sala de Equipamentos"],
-    ["Sala de Equipamentos", "Centro de Vigilância"],
-    ["Centro de Vigilância", "Escada Central"],
-    ["Escada Central", "Alojamento dos Soldados"],
-    ["Alojamento dos Soldados", "Depósito de Suprimentos"],
-    ["Depósito de Suprimentos", "Laboratório Militar"],
-    ["Laboratório Militar", "Sala de Planejamento"]
-  ],
-  "inimigos": [
-    { "nome": "soldado comum", "poder": 15, "vida": 80, "divisao": "Pátio Interno" },
-    { "nome": "guarda pesado", "poder": 25, "vida": 150, "divisao": "Guarita Principal" },
-    { "nome": "técnico armado", "poder": 20, "vida": 100, "divisao": "Centro de Vigilância" },
-    { "nome": "comandante de operações", "poder": 50, "vida": 200, "divisao": "Sala de Planejamento" },
-    { "nome": "cientista hostil", "poder": 30, "vida": 120, "divisao": "Laboratório Militar" },
-    { "nome": "espião", "poder": 35, "vida": 130, "divisao": "Alojamento dos Soldados" }
-  ],
-  "entradas-saidas": ["Portão Norte", "Sala de Planejamento"],
-  "alvo": { "divisao": "Laboratório Militar", "tipo": "recuperar artefato" },
-  "itens": [
-    { "divisao": "Guarita Principal", "pontos-recuperados": 10, "tipo": "kit de vida" },
-    { "divisao": "Pátio Interno", "pontos-extra": 15, "tipo": "granada" },
-    { "divisao": "Centro de Vigilância", "pontos-recuperados": 20, "tipo": "kit de vida" },
-    { "divisao": "Depósito de Suprimentos", "pontos-extra": 25, "tipo": "armadura pesada" },
-    { "divisao": "Laboratório Militar", "pontos-recuperados": 30, "tipo": "kit de vida" },
-    { "divisao": "Sala de Planejamento", "pontos-extra": 40, "tipo": "colete balístico" }
+  "missoes": [
+    {
+      "cod-missao": "emboscada ao quartel",
+      "versao": 1,
+      "edificio": [
+        "Portão Norte",
+        "Guarita Principal",
+        "Pátio Interno",
+        "Escada de Emergência",
+        "Sala de Equipamentos",
+        "Centro de Vigilância",
+        "Escada Central",
+        "Alojamento dos Soldados",
+        "Depósito de Suprimentos",
+        "Laboratório Militar",
+        "Sala de Planejamento"
+      ],
+      "ligacoes": [
+        [
+          "Portão Norte",
+          "Guarita Principal"
+        ],
+        [
+          "Guarita Principal",
+          "Pátio Interno"
+        ],
+        [
+          "Pátio Interno",
+          "Escada de Emergência"
+        ],
+        [
+          "Escada de Emergência",
+          "Sala de Equipamentos"
+        ],
+        [
+          "Sala de Equipamentos",
+          "Centro de Vigilância"
+        ],
+        [
+          "Centro de Vigilância",
+          "Escada Central"
+        ],
+        [
+          "Escada Central",
+          "Alojamento dos Soldados"
+        ],
+        [
+          "Alojamento dos Soldados",
+          "Depósito de Suprimentos"
+        ],
+        [
+          "Depósito de Suprimentos",
+          "Laboratório Militar"
+        ],
+        [
+          "Laboratório Militar",
+          "Sala de Planejamento"
+        ]
+      ],
+      "inimigos": [
+        {
+          "nome": "soldado comum",
+          "poder": 15,
+          "vida": 80,
+          "divisao": "Pátio Interno"
+        },
+        {
+          "nome": "guarda pesado",
+          "poder": 25,
+          "vida": 150,
+          "divisao": "Guarita Principal"
+        },
+        {
+          "nome": "técnico armado",
+          "poder": 20,
+          "vida": 100,
+          "divisao": "Centro de Vigilância"
+        },
+        {
+          "nome": "comandante de operações",
+          "poder": 50,
+          "vida": 200,
+          "divisao": "Sala de Planejamento"
+        },
+        {
+          "nome": "cientista hostil",
+          "poder": 30,
+          "vida": 120,
+          "divisao": "Laboratório Militar"
+        },
+        {
+          "nome": "espião",
+          "poder": 35,
+          "vida": 130,
+          "divisao": "Alojamento dos Soldados"
+        }
+      ],
+      "entradas-saidas": [
+        "Portão Norte",
+        "Sala de Planejamento"
+      ],
+      "alvo": {
+        "divisao": "Laboratório Militar",
+        "tipo": "recuperar artefato"
+      },
+      "itens": [
+        {
+          "divisao": "Guarita Principal",
+          "pontos-recuperados": 10,
+          "tipo": "kit de vida"
+        },
+        {
+          "divisao": "Pátio Interno",
+          "pontos-extra": 15,
+          "tipo": "granada"
+        },
+        {
+          "divisao": "Centro de Vigilância",
+          "pontos-recuperados": 20,
+          "tipo": "kit de vida"
+        },
+        {
+          "divisao": "Depósito de Suprimentos",
+          "pontos-extra": 25,
+          "tipo": "armadura pesada"
+        },
+        {
+          "divisao": "Laboratório Militar",
+          "pontos-recuperados": 30,
+          "tipo": "kit de vida"
+        },
+        {
+          "divisao": "Sala de Planejamento",
+          "pontos-extra": 40,
+          "tipo": "colete balístico"
+        }
+      ]
+    }
   ]
 }

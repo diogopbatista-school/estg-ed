@@ -8,8 +8,8 @@ import Collections.Queues.LinkedQueue;
  */
 public class LinkedQueueMain {
     /**
-     * 
-     * @param args
+     * Main method for testing the LinkedQueue class.
+     * @param args command line arguments (not used)
      */
     public static void main(String[] args) {
         LinkedQueue<Integer> queue = new LinkedQueue<>();

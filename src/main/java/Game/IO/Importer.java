@@ -32,40 +32,110 @@ public class Importer {
     // JSON data for the missions , in case the file that the player wants to load does not exist
     // ITS like a default file for the missions;
     private static final String MISSIONS_JSON_DEFAULT ="{\n" +
-            "  \"cod-missao\": \"infiltração no bunker\",\n" +
-            "  \"versao\": 1,\n" +
-            "  \"edificio\": [\n" +
-            "    \"Entrada Lateral\", \"Posto Avançado\", \"Escada de Serviço\", \"Sala de Comunicações\",\n" +
-            "    \"Depósito de Armamentos\", \"Laboratório de Pesquisa\", \"Escada Principal\", \"Sala de Comando\"\n" +
-            "  ],\n" +
-            "  \"ligacoes\": [\n" +
-            "    [\"Entrada Lateral\", \"Posto Avançado\"],\n" +
-            "    [\"Posto Avançado\", \"Escada de Serviço\"],\n" +
-            "    [\"Escada de Serviço\", \"Sala de Comunicações\"],\n" +
-            "    [\"Sala de Comunicações\", \"Depósito de Armamentos\"],\n" +
-            "    [\"Depósito de Armamentos\", \"Laboratório de Pesquisa\"],\n" +
-            "    [\"Laboratório de Pesquisa\", \"Escada Principal\"],\n" +
-            "    [\"Escada Principal\", \"Sala de Comando\"]\n" +
-            "  ],\n" +
-            "  \"inimigos\": [\n" +
-            "    { \"nome\": \"guarda de elite\", \"poder\": 30, \"vida\": 120, \"divisao\": \"Posto Avançado\" },\n" +
-            "    { \"nome\": \"cientista hostil\", \"poder\": 25, \"vida\": 80, \"divisao\": \"Laboratório de Pesquisa\" },\n" +
-            "    { \"nome\": \"comandante\", \"poder\": 40, \"vida\": 150, \"divisao\": \"Sala de Comando\" },\n" +
-            "    { \"nome\": \"sniper\", \"poder\": 20, \"vida\": 100, \"divisao\": \"Escada de Serviço\" },\n" +
-            "    { \"nome\": \"soldado pesado\", \"poder\": 35, \"vida\": 200, \"divisao\": \"Depósito de Armamentos\" },\n" +
-            "    { \"nome\": \"técnico hostil\", \"poder\": 15, \"vida\": 60, \"divisao\": \"Sala de Comunicações\" }\n" +
-            "  ],\n" +
-            "  \"entradas-saidas\": [\"Entrada Lateral\", \"Sala de Comando\"],\n" +
-            "  \"alvo\": { \"divisao\": \"Sala de Comando\", \"tipo\": \"extrair informações\" },\n" +
-            "  \"itens\": [\n" +
-            "    { \"divisao\": \"Sala de Comunicações\", \"pontos-recuperados\": 10, \"tipo\": \"kit de vida\" },\n" +
-            "    { \"divisao\": \"Laboratório de Pesquisa\", \"pontos-extra\": 20, \"tipo\": \"colete\" },\n" +
-            "    { \"divisao\": \"Sala de Comando\", \"pontos-recuperados\": 25, \"tipo\": \"kit de vida\" },\n" +
-            "    { \"divisao\": \"Escada de Serviço\", \"pontos-extra\": 15, \"tipo\": \"granada\" },\n" +
-            "    { \"divisao\": \"Depósito de Armamentos\", \"pontos-recuperados\": 20, \"tipo\": \"kit de vida\" },\n" +
-            "    { \"divisao\": \"Posto Avançado\", \"pontos-extra\": 30, \"tipo\": \"armadura leve\" }\n" +
+            "  \"missoes\": [\n" +
+            "    {\n" +
+            "      \"cod-missao\": \"infiltração no bunker\",\n" +
+            "      \"versao\": 1,\n" +
+            "      \"edificio\": [\n" +
+            "        \"Entrada Lateral\",\n" +
+            "        \"Posto Avançado\",\n" +
+            "        \"Escada de Serviço\",\n" +
+            "        \"Sala de Comunicações\",\n" +
+            "        \"Depósito de Armamentos\",\n" +
+            "        \"Laboratório de Pesquisa\",\n" +
+            "        \"Escada Principal\",\n" +
+            "        \"Sala de Comando\"\n" +
+            "      ],\n" +
+            "      \"ligacoes\": [\n" +
+            "        [\"Entrada Lateral\", \"Posto Avançado\"],\n" +
+            "        [\"Posto Avançado\", \"Escada de Serviço\"],\n" +
+            "        [\"Escada de Serviço\", \"Sala de Comunicações\"],\n" +
+            "        [\"Sala de Comunicações\", \"Depósito de Armamentos\"],\n" +
+            "        [\"Depósito de Armamentos\", \"Laboratório de Pesquisa\"],\n" +
+            "        [\"Laboratório de Pesquisa\", \"Escada Principal\"],\n" +
+            "        [\"Escada Principal\", \"Sala de Comando\"]\n" +
+            "      ],\n" +
+            "      \"inimigos\": [\n" +
+            "        {\n" +
+            "          \"nome\": \"guarda de elite\",\n" +
+            "          \"poder\": 30,\n" +
+            "          \"vida\": 120,\n" +
+            "          \"divisao\": \"Posto Avançado\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"nome\": \"cientista hostil\",\n" +
+            "          \"poder\": 25,\n" +
+            "          \"vida\": 80,\n" +
+            "          \"divisao\": \"Laboratório de Pesquisa\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"nome\": \"comandante\",\n" +
+            "          \"poder\": 40,\n" +
+            "          \"vida\": 150,\n" +
+            "          \"divisao\": \"Sala de Comando\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"nome\": \"sniper\",\n" +
+            "          \"poder\": 20,\n" +
+            "          \"vida\": 100,\n" +
+            "          \"divisao\": \"Escada de Serviço\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"nome\": \"soldado pesado\",\n" +
+            "          \"poder\": 35,\n" +
+            "          \"vida\": 200,\n" +
+            "          \"divisao\": \"Depósito de Armamentos\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"nome\": \"técnico hostil\",\n" +
+            "          \"poder\": 15,\n" +
+            "          \"vida\": 60,\n" +
+            "          \"divisao\": \"Sala de Comunicações\"\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"entradas-saidas\": [\n" +
+            "        \"Entrada Lateral\",\n" +
+            "        \"Sala de Comando\"\n" +
+            "      ],\n" +
+            "      \"alvo\": {\n" +
+            "        \"divisao\": \"Sala de Comando\",\n" +
+            "        \"tipo\": \"extrair informações\"\n" +
+            "      },\n" +
+            "      \"itens\": [\n" +
+            "        {\n" +
+            "          \"divisao\": \"Sala de Comunicações\",\n" +
+            "          \"pontos-recuperados\": 10,\n" +
+            "          \"tipo\": \"kit de vida\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"divisao\": \"Laboratório de Pesquisa\",\n" +
+            "          \"pontos-extra\": 20,\n" +
+            "          \"tipo\": \"colete\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"divisao\": \"Sala de Comando\",\n" +
+            "          \"pontos-recuperados\": 25,\n" +
+            "          \"tipo\": \"kit de vida\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"divisao\": \"Escada de Serviço\",\n" +
+            "          \"pontos-extra\": 15,\n" +
+            "          \"tipo\": \"granada\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"divisao\": \"Depósito de Armamentos\",\n" +
+            "          \"pontos-recuperados\": 20,\n" +
+            "          \"tipo\": \"kit de vida\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"divisao\": \"Posto Avançado\",\n" +
+            "          \"pontos-extra\": 30,\n" +
+            "          \"tipo\": \"armadura leve\"\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    }\n" +
             "  ]\n" +
-            "}";
+            "}\n";
 
 
     private static final JSONParser PARSER = new JSONParser();

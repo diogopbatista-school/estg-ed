@@ -231,6 +231,13 @@ public abstract class LinkedList<T> implements ListADT<T> {
         size = 0;
     }
 
+    /**
+     * Method that replaces an element in the list with another element
+     * @param existingElement the element to be replaced
+     * @param newElement the element to replace the existing element
+     * @throws EmptyCollectionException if the list is empty
+     * @throws ElementNotFoundException if the element to be replaced is not found
+     */
     public void replace(T existingElement, T newElement) throws EmptyCollectionException, ElementNotFoundException {
         if (isEmpty()) {
             throw new EmptyCollectionException("List is empty");

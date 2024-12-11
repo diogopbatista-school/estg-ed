@@ -1,0 +1,35 @@
+{
+  "cod-missao": "infiltração no bunker",
+  "versao": 1,
+  "edificio": [
+    "Entrada Lateral", "Posto Avançado", "Escada de Serviço", "Sala de Comunicações",
+    "Depósito de Armamentos", "Laboratório de Pesquisa", "Escada Principal", "Sala de Comando"
+  ],
+  "ligacoes": [
+    ["Entrada Lateral", "Posto Avançado"],
+    ["Posto Avançado", "Escada de Serviço"],
+    ["Escada de Serviço", "Sala de Comunicações"],
+    ["Sala de Comunicações", "Depósito de Armamentos"],
+    ["Depósito de Armamentos", "Laboratório de Pesquisa"],
+    ["Laboratório de Pesquisa", "Escada Principal"],
+    ["Escada Principal", "Sala de Comando"]
+  ],
+  "inimigos": [
+    { "nome": "guarda de elite", "poder": 30, "vida": 120, "divisao": "Posto Avançado" },
+    { "nome": "cientista hostil", "poder": 25, "vida": 80, "divisao": "Laboratório de Pesquisa" },
+    { "nome": "comandante", "poder": 40, "vida": 150, "divisao": "Sala de Comando" },
+    { "nome": "sniper", "poder": 20, "vida": 100, "divisao": "Escada de Serviço" },
+    { "nome": "soldado pesado", "poder": 35, "vida": 200, "divisao": "Depósito de Armamentos" },
+    { "nome": "técnico hostil", "poder": 15, "vida": 60, "divisao": "Sala de Comunicações" }
+  ],
+  "entradas-saidas": ["Entrada Lateral", "Sala de Comando"],
+  "alvo": { "divisao": "Sala de Comando", "tipo": "extrair informações" },
+  "itens": [
+    { "divisao": "Sala de Comunicações", "pontos-recuperados": 10, "tipo": "kit de vida" },
+    { "divisao": "Laboratório de Pesquisa", "pontos-extra": 20, "tipo": "colete" },
+    { "divisao": "Sala de Comando", "pontos-recuperados": 25, "tipo": "kit de vida" },
+    { "divisao": "Escada de Serviço", "pontos-extra": 15, "tipo": "granada" },
+    { "divisao": "Depósito de Armamentos", "pontos-recuperados": 20, "tipo": "kit de vida" },
+    { "divisao": "Posto Avançado", "pontos-extra": 30, "tipo": "armadura leve" }
+  ]
+}

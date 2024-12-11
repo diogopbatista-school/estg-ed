@@ -4,7 +4,14 @@ import Collections.Trees.LinkedOrderedBinarySearchTree;
 import Collections.Exceptions.ElementNotFoundException;
 import Collections.Exceptions.EmptyCollectionException;
 
+/**
+ * LinkedOrderedBinarySearchTreeMain tests the LinkedOrderedBinarySearchTree class.
+ */
 public class LinkedOrderedBinarySearchTreeMain {
+    /**
+     * Main method for testing the LinkedOrderedBinarySearchTree class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         try {
             // Cria uma árvore de busca binária ordenada com um elemento raiz

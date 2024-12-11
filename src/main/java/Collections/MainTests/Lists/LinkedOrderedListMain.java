@@ -5,7 +5,14 @@ import Collections.Lists.LinkedOrderedList;
 
 import java.util.Iterator;
 
+/**
+ * LinkedOrderedListMain tests the LinkedOrderedList class.
+ */
 public class LinkedOrderedListMain {
+    /**
+     * Main method for testing the LinkedOrderedList class.
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         LinkedOrderedList<Integer> list = new LinkedOrderedList<>();
 

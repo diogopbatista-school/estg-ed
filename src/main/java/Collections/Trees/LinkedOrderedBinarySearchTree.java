@@ -24,6 +24,10 @@ public class LinkedOrderedBinarySearchTree<T> extends LinkedBinarySearchTree<T> 
         super();
     }
 
+    /**
+     * Creates a binary search tree with the specified element as its root.
+     * @param element the element that will be the root of the new binary search tree
+     */
     public LinkedOrderedBinarySearchTree(T element) {
         super(element);
     }
